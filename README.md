@@ -4,4 +4,4 @@ ECE 49595O Senior Design Project
 ## Running the backend:
 
 ## Running the extension:
-Follow the instructions in [extension/README.md]()
+Follow the instructions in [extension/README.md](extension/README.md)
