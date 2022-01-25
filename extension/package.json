@@ -33,11 +33,8 @@
     }
   },
   "lint-staged": {
-    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write",
-      "npm run lint",
-      "git add"
-    ]
+    "*.{json,js,jsx,ts,tsx,css,scss,md}": "prettier --config .prettierrc --write",
+    "*.{ts,tsx,js,jsx,json}": "eslint --cache --max-warnings 0"
   },
 	"eslintConfig": {
 		"extends": [
