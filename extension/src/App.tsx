@@ -12,8 +12,6 @@ function App() {
 		if (link.includes("mlb.com")) {
 			const result = link.match(/\/g([0-9]+)\//);
 			setGameID(result ? result[1] : fail);
-			console.log(gameID);
-			// regex = \/g([0-9]+)\/
 		}
 	}
 
@@ -40,8 +38,8 @@ function App() {
 						detect_game(url);
 					}
 				)}
-				{url}
-				{gameID}
+				<div> URL: {url} </div>
+				<div> Game ID: {gameID}</div>
 			</header>
 		</div>
 	);
