@@ -1,8 +1,20 @@
-import React from "react";
+/*global chrome*/
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
+	const [url, setUrl] = useState("");
+	const [gameID, setGameID] = useState("");
+
+	function detect_game(link: string) {
+		const fail = "";
+		if (link.includes("mlb.com")) {
+			const result = link.match(/\/g([0-9]+)\//);
+			setGameID(result ? result[1] : fail);
+		}
+	}
+
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -18,6 +30,16 @@ function App() {
 				>
 					Learn React
 				</a>
+
+				{chrome.tabs.query(
+					{ active: true, lastFocusedWindow: true },
+					(tabs) => {
+						setUrl(tabs[0].url || "");
+						detect_game(url);
+					}
+				)}
+				<div> URL: {url} </div>
+				<div> Game ID: {gameID}</div>
 			</header>
 		</div>
 	);
