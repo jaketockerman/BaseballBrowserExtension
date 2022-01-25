@@ -5,6 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Deploying Extension
 
 ### Developers:
+
 If this is your first time installing the extension run `npm ci` to install the dependencies for the project.
 
 run `npm start` to create a live version in the browser
@@ -45,6 +46,18 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run lint`
+
+Runs ESLint on all files with the extensions `.js, .jsx, .ts, and .tsx`. This will alert you about any lint violations.
+
+### `npm run lint-fix`
+
+Runs ESLint on all files with the extensions `.js, .jsx, .ts, and .tsx`. This will attempt to automatically fix any lint violations.
+
+### `npm run format`
+
+Runs prettier code formatter.
 
 ## Learn More
 
