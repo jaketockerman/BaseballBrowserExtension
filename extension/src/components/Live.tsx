@@ -1,5 +1,5 @@
 /*global chrome*/
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./Live.css";
 
@@ -15,6 +15,19 @@ function Live() {
 		}
 	}
 
+	useEffect(() => {
+		try {
+			chrome.tabs.query(
+				{ active: true, lastFocusedWindow: true },
+				(tabs) => {
+					setUrl(tabs[0].url || "");
+					detect_game(url);
+				}
+			);
+		} catch (e) {
+			console.log("unable to detect url due to error " + e);
+		}
+	});
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -31,13 +44,6 @@ function Live() {
 					This is the live page
 				</a>
 
-				{chrome.tabs.query(
-					{ active: true, lastFocusedWindow: true },
-					(tabs) => {
-						setUrl(tabs[0].url || "");
-						detect_game(url);
-					}
-				)}
 				<div> URL: {url} </div>
 				<div> Game ID: {gameID}</div>
 			</header>
