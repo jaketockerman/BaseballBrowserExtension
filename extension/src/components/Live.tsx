@@ -1,5 +1,9 @@
 /*global chrome*/
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> a68ea6f (add initial react-router setup)
 import logo from "./logo.svg";
 import "./Live.css";
 
