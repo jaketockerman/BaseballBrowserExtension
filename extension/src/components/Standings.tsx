@@ -36,34 +36,38 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 			});
 	}, [year]);
 
-	function display_division(division: Array<Team>) {
+	function display_division(division: Array<Team>, divisionID: number) {
 		return (
-			<table>
-				<tr>
-					<td>Team</td>
-					<td>W</td>
-					<td>L</td>
-					<td>PCT</td>
-					<td>GB</td>
-				</tr>
-				{division.map((team: Team) => {
-					return (
-						<tr key={team.Tm}>
-							<td>{team.Tm}</td>
-							<td>{team.W}</td>
-							<td>{team.L}</td>
-							<td>{team["W-L%"]}</td>
-							<td>{team.GB}</td>
-						</tr>
-					);
-				})}
+			<table key={divisionID}>
+				<thead>
+					<tr>
+						<td>Team</td>
+						<td>W</td>
+						<td>L</td>
+						<td>PCT</td>
+						<td>GB</td>
+					</tr>
+				</thead>
+				<tbody>
+					{division.map((team: Team) => {
+						return (
+							<tr key={team.Tm}>
+								<td>{team.Tm}</td>
+								<td>{team.W}</td>
+								<td>{team.L}</td>
+								<td>{team["W-L%"]}</td>
+								<td>{team.GB}</td>
+							</tr>
+						);
+					})}
+				</tbody>
 			</table>
 		);
 	}
 
 	function display_standings(divisions: Array<Array<Team>>) {
-		return divisions.map((division: Array<Team>) => {
-			return display_division(division);
+		return divisions.map((division: Array<Team>, index) => {
+			return display_division(division, index);
 		});
 	}
 
