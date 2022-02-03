@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { /*Container*/ Nav /*Navbar Dropdown*/ } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
+import home from "../images/home.svg";
+import flag from "../images/flag.svg";
 
 class Navigation extends React.Component {
 	static get propTypes() {
@@ -28,7 +30,7 @@ class Navigation extends React.Component {
 					className="tabCenter"
 					style={myStyle}
 				>
-					Live
+					<img src={home} className="home-logo" alt="logo" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
@@ -36,7 +38,7 @@ class Navigation extends React.Component {
 					className="tab"
 					style={myStyle}
 				>
-					Standings
+					<img src={flag} className="flag-logo" alt="logo" />
 				</Nav.Link>
 			</nav>
 		);
