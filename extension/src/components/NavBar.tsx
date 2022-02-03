@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { /*Container*/ Nav /* Navbar , Dropdown*/ } from "react-bootstrap";
+import { /*Container*/ Nav /*Navbar Dropdown*/ } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 
@@ -12,37 +12,30 @@ class Navigation extends React.Component {
 	}
 
 	render() {
+		const myStyle = {
+			backgroundColor: "#002774",
+			borderColor: "#FFFFFF",
+			color: "#CED9DF",
+		};
 		return (
-			<div className="topnav">
-				<div className="topnav-centered">
-					<Nav.Link as={Link} to="/" className="active">
+			<nav role="navigation">
+				<ul className="container">
+					<Nav.Link as={Link} to="/" className="tab" style={myStyle}>
+						Filler
+					</Nav.Link>
+					<Nav.Link as={Link} to="/" className="tab" style={myStyle}>
 						Live
 					</Nav.Link>
-				</div>
-
-				<Nav.Link as={Link} to="/">
-					Filler
-				</Nav.Link>
-
-				<div className="topnav-right">
-					<Nav.Link as={Link} to="/Standings">
+					<Nav.Link
+						as={Link}
+						to="/Standings"
+						className="tab"
+						style={myStyle}
+					>
 						Standings
 					</Nav.Link>
-				</div>
-			</div>
-			// <Navbar bg="dark" variant="dark">
-			// 	<Container>
-			// 		<Nav.Link as={Link} to="/" style={myStyle}>
-			//                Filler
-			// 		</Nav.Link>
-			// 		<Nav.Link as={Link} to="/" style={myStyle}>
-			// 				Live
-			// 		</Nav.Link>
-			// 		<Nav.Link as={Link} to="/Standings" style={myStyle}>
-			// 				Standings
-			// 		</Nav.Link>
-			// 	</Container>
-			// </Navbar>
+				</ul>
+			</nav>
 		);
 	}
 }
