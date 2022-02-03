@@ -1,18 +1,25 @@
-.container {
+.navigation {
 	display: flex;
 	color: #002774;
-	width: 100vw;
-}
-
-.barhover {
-	position: relative;
-	background-color: #002774;
+	flex-direction: row;
+	margin: auto;
+	max-height: 5vh;
 }
 
 .tab {
-	flex-grow: 1;
+	flex: 1 1 0;
 	flex-basis: auto;
 	margin: auto;
-	border: solid #002774 1px;
+	text-align: center;
+	width: 0;
+}
+
+.tabCenter {
+	flex: 1 1 0;
+	width: 0;
+	flex-basis: auto;
+	margin: auto;
+	/* border-left: 1px solid; */
+	border-right: 1px solid;
 	text-align: center;
 }

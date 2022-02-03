@@ -18,23 +18,26 @@ class Navigation extends React.Component {
 			color: "#CED9DF",
 		};
 		return (
-			<nav role="navigation">
-				<ul className="container">
-					<Nav.Link as={Link} to="/" className="tab" style={myStyle}>
-						Filler
-					</Nav.Link>
-					<Nav.Link as={Link} to="/" className="tab" style={myStyle}>
-						Live
-					</Nav.Link>
-					<Nav.Link
-						as={Link}
-						to="/Standings"
-						className="tab"
-						style={myStyle}
-					>
-						Standings
-					</Nav.Link>
-				</ul>
+			<nav className="navigation">
+				{/* <Nav.Link as={Link} to="/" className="tab" style={myStyle}>
+					Filler
+				</Nav.Link> */}
+				<Nav.Link
+					as={Link}
+					to="/"
+					className="tabCenter"
+					style={myStyle}
+				>
+					Live
+				</Nav.Link>
+				<Nav.Link
+					as={Link}
+					to="/Standings"
+					className="tab"
+					style={myStyle}
+				>
+					Standings
+				</Nav.Link>
 			</nav>
 		);
 	}
