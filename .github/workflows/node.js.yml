@@ -32,3 +32,10 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 #     - run: npm test
+    - name: Upload extension
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        # Artifact name
+        name: extension
+        # A file, directory or wildcard pattern that describes what to upload
+        path: build/
