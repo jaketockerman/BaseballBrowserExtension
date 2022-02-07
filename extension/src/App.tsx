@@ -1,46 +1,20 @@
-/*global chrome*/
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Live from "./components/Live";
 import "./App.css";
+import Standings from "./components/Standings";
+import Navigation from "./components/NavBar";
 
 function App() {
-	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("");
-
-	function detect_game(link: string) {
-		const fail = "";
-		if (link.includes("mlb.com")) {
-			const result = link.match(/\/g([0-9]+)\//);
-			setGameID(result ? result[1] : fail);
-		}
-	}
-
 	return (
 		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-
-				{chrome.tabs.query(
-					{ active: true, lastFocusedWindow: true },
-					(tabs) => {
-						setUrl(tabs[0].url || "");
-						detect_game(url);
-					}
-				)}
-				<div> URL: {url} </div>
-				<div> Game ID: {gameID}</div>
-			</header>
+			<div className="Content">
+				<Routes>
+					<Route path="/" element={<Live />} />
+					<Route path="/standings" element={<Standings />} />
+				</Routes>
+			</div>
+			<Navigation />
 		</div>
 	);
 }

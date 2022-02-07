@@ -1,0 +1,26 @@
+.navigation {
+	display: flex;
+	color: #002774;
+	flex-direction: row;
+	margin: auto;
+	min-height: 5%;
+	width: 100%;
+}
+
+.tab {
+	flex: 1;
+	flex-basis: auto;
+	margin: auto;
+	text-align: center;
+	width: 0;
+}
+
+.tabCenter {
+	flex: 1;
+	width: 0;
+	flex-basis: auto;
+	margin: auto;
+	/* border-left: 1px solid; */
+	border-right: 1px solid;
+	text-align: center;
+}
