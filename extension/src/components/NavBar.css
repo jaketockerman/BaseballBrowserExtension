@@ -3,11 +3,12 @@
 	color: #002774;
 	flex-direction: row;
 	margin: auto;
-	max-height: 5vh;
+	min-height: 5%;
+	width: 100%;
 }
 
 .tab {
-	flex: 1 1 0;
+	flex: 1;
 	flex-basis: auto;
 	margin: auto;
 	text-align: center;
@@ -15,7 +16,7 @@
 }
 
 .tabCenter {
-	flex: 1 1 0;
+	flex: 1;
 	width: 0;
 	flex-basis: auto;
 	margin: auto;

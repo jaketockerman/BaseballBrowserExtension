@@ -7,11 +7,13 @@ import Navigation from "./components/NavBar";
 
 function App() {
 	return (
-		<div>
-			<Routes>
-				<Route path="/" element={<Live />} />
-				<Route path="/standings" element={<Standings />} />
-			</Routes>
+		<div className="App">
+			<div className="Content">
+				<Routes>
+					<Route path="/" element={<Live />} />
+					<Route path="/standings" element={<Standings />} />
+				</Routes>
+			</div>
 			<Navigation />
 		</div>
 	);
