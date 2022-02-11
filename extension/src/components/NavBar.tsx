@@ -30,7 +30,7 @@ class Navigation extends React.Component {
 					className="tabCenter"
 					style={myStyle}
 				>
-					<img src={home} className="home-logo" alt="logo" />
+					<img src={home} className="home-logo" alt="live" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
@@ -38,7 +38,7 @@ class Navigation extends React.Component {
 					className="tab"
 					style={myStyle}
 				>
-					<img src={flag} className="flag-logo" alt="logo" />
+					<img src={flag} className="flag-logo" alt="standings" />
 				</Nav.Link>
 			</nav>
 		);
