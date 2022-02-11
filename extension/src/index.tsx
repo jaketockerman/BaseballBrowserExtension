@@ -13,11 +13,11 @@ ReactDOM.render(
 			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 			crossOrigin="anonymous"
 		/>
-		<body>
+		<div className="window">
 			<Router>
 				<App />
 			</Router>
-		</body>
+		</div>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
