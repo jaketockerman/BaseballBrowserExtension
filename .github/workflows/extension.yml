@@ -32,6 +32,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm run test
+      env:
+        CI: true
     - name: Upload extension
       uses: actions/upload-artifact@v2.3.1
       with:
