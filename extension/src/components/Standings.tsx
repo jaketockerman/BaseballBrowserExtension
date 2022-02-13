@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes, { InferProps } from "prop-types";
 import "./Standings.css";
 import axios from "axios";
+import { ServersType } from "../Types";
 
 Standings.propTypes = {
-	servers: PropTypes.shape({
-		pybaseball: PropTypes.string.isRequired,
-	}).isRequired,
+	servers: PropTypes.object.isRequired as never as ServersType,
 };
 
 interface Standings_Response {
