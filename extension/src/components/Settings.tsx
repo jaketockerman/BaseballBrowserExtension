@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes, { InferProps } from "prop-types";
-import "./Standings.css";
 import { ServersType } from "../Types";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 Settings.propTypes = {
@@ -27,22 +26,29 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<Form onSubmit={handleSubmit(submit)}>
-			<Form.Group className="mb-3" controlId="pybaseball">
-				<Form.Label>pybaseball server:</Form.Label>
-				<Form.Control
-					type="text"
-					defaultValue={props.servers.pybaseball}
-					{...register("servers.pybaseball", {
-						required: true,
-						pattern: /\/$/i,
-					})}
-				/>
-			</Form.Group>
-			<Button variant="primary" type="submit">
-				Submit
-			</Button>
-		</Form>
+		<div className="Settings">
+			<Form onSubmit={handleSubmit(submit)}>
+				<Form.Group as={Row} className="mb-3" controlId="pybaseball">
+					<Form.Label column xs="auto">
+						pybaseball server:
+					</Form.Label>
+					<Col xs="auto">
+						<Form.Control
+							type="text"
+							defaultValue={props.servers.pybaseball}
+							{...register("servers.pybaseball", {
+								required: true,
+								pattern: /\/$/i,
+							})}
+						/>
+					</Col>
+				</Form.Group>
+
+				<Button variant="primary" type="submit">
+					Submit
+				</Button>
+			</Form>
+		</div>
 	);
 }
 

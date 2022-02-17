@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./NavBar.css";
 import home from "../images/home.svg";
 import flag from "../images/flag.svg";
+import gear from "../images/gear.svg";
 
 class Navigation extends React.Component {
 	render() {
@@ -28,7 +29,7 @@ class Navigation extends React.Component {
 				<Nav.Link
 					as={Link}
 					to="/Standings"
-					className="tab"
+					className="tabCenter"
 					style={myStyle}
 				>
 					<img src={flag} className="flag-logo" alt="standings" />
@@ -39,7 +40,7 @@ class Navigation extends React.Component {
 					className="tab"
 					style={myStyle}
 				>
-					Settings
+					<img src={gear} className="gear-logo" alt="settings" />
 				</Nav.Link>
 			</nav>
 		);

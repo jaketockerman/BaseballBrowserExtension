@@ -33,7 +33,6 @@ function App() {
 						}
 					/>
 				</Routes>
-				{servers.pybaseball}
 			</div>
 			<Navigation />
 		</div>
