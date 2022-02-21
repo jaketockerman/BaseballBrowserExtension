@@ -43,6 +43,21 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 						/>
 					</Col>
 				</Form.Group>
+				<Form.Group as={Row} className="mb-3" controlId="mlbstats">
+					<Form.Label column xs="auto">
+						mlbstats server:
+					</Form.Label>
+					<Col xs="auto">
+						<Form.Control
+							type="text"
+							defaultValue={props.servers.mlbstats}
+							{...register("servers.mlbstats", {
+								required: true,
+								pattern: /\/$/i,
+							})}
+						/>
+					</Col>
+				</Form.Group>
 
 				<Button variant="primary" type="submit">
 					Submit
