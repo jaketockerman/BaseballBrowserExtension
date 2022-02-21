@@ -9,53 +9,65 @@ Standings.propTypes = {
 };
 
 interface Standings_Response {
-	result: Array<Array<Team>>;
+	result: Array<Divison>;
+}
+
+interface Divison {
+	div_name: string;
+	teams: Array<Team>;
 }
 
 interface Team {
-	GB: string;
-	L: string;
-	Tm: string;
-	W: string;
-	"W-L%": string;
+	div_rank: string;
+	elim_num: string;
+	gb: string;
+	l: number;
+	league_rank: string;
+	name: string;
+	sport_rank: string;
+	team_id: number;
+	w: number;
+	wc_elim_num: string;
+	wc_gb: string;
+	wc_rank: string;
 }
 
 function Standings(props: InferProps<typeof Standings.propTypes>) {
-	const [standings, setStandings] = useState<Array<Array<Team>>>();
+	const [standings, setStandings] = useState<Standings_Response["result"]>();
 	const [year] = useState(2021);
 
 	useEffect(() => {
 		axios
 			.get<Standings_Response>(
-				props.servers.pybaseball + "standings/" + year.toString()
+				props.servers.mlbstats + "standings/" + year.toString()
 			)
 			.then((response) => {
-				setStandings(response.data.result);
-				// console.log(standings);
+				setStandings(Object.values(response.data.result));
+				console.log(standings);
 			});
 	}, [year]);
 
-	function display_division(division: Array<Team>, divisionID: number) {
+	function display_division(division: Divison) {
 		return (
-			<table key={divisionID}>
+			<table key={division.div_name}>
 				<thead>
 					<tr>
 						<td>Team</td>
 						<td>W</td>
 						<td>L</td>
-						<td>PCT</td>
+						{/* <td>PCT</td> */}
 						<td>GB</td>
 					</tr>
 				</thead>
 				<tbody>
-					{division.map((team: Team) => {
+					{division.teams.map((team: Team) => {
 						return (
-							<tr key={team.Tm}>
-								<td>{team.Tm}</td>
-								<td>{team.W}</td>
-								<td>{team.L}</td>
-								<td>{team["W-L%"]}</td>
-								<td>{team.GB}</td>
+							<tr key={team.team_id}>
+								<td>{team.name}</td>
+								<td>{team.w}</td>
+								<td>{team.l}</td>
+								{/* <td>{team["W-L%"]}</td> */}
+								<td>{team.gb}</td>
 							</tr>
 						);
 					})}
@@ -64,9 +76,9 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 		);
 	}
 
-	function display_standings(divisions: Array<Array<Team>>) {
-		return divisions.map((division: Array<Team>, index) => {
-			return display_division(division, index);
+	function display_standings(divisions: Array<Divison>) {
+		return divisions.map((division: Divison) => {
+			return display_division(division);
 		});
 	}
 
