@@ -10,6 +10,7 @@ import { ServersType } from "./Types";
 function App() {
 	const servers_default: ServersType = {
 		pybaseball: "http://127.0.0.1:5000/",
+		mlbstats: "http://127.0.0.1:5000/",
 	};
 
 	const [servers, setServers] = useState<ServersType>(servers_default);
