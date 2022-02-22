@@ -26,13 +26,20 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<div className="Settings">
-			<Form onSubmit={handleSubmit(submit)}>
-				<Form.Group as={Row} className="mb-3" controlId="pybaseball">
-					<Form.Label column xs="auto">
+		<div className="tw-px-5 py-3 ml-10 mr-5">
+			<Form
+				className="tw-px-5 py-3 ml-10 mr-5"
+				onSubmit={handleSubmit(submit)}
+			>
+				<Form.Group
+					className="tw-px-5 py-3 ml-10 mr-5"
+					as={Row}
+					controlId="pybaseball"
+				>
+					<Form.Label column xs="auto" lg={true}>
 						pybaseball server:
 					</Form.Label>
-					<Col xs="auto">
+					<Col xs="auto" lg={true}>
 						<Form.Control
 							type="text"
 							defaultValue={props.servers.pybaseball}
@@ -43,11 +50,15 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 						/>
 					</Col>
 				</Form.Group>
-				<Form.Group as={Row} className="mb-3" controlId="mlbstats">
-					<Form.Label column xs="auto">
+				<Form.Group
+					className="tw-px-5 py-3 ml-10 mr-5"
+					as={Row}
+					controlId="mlbstats"
+				>
+					<Form.Label column xs="auto" lg={true}>
 						mlbstats server:
 					</Form.Label>
-					<Col xs="auto">
+					<Col xs="auto" lg={true}>
 						<Form.Control
 							type="text"
 							defaultValue={props.servers.mlbstats}
@@ -58,11 +69,10 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 						/>
 					</Col>
 				</Form.Group>
-
-				<Button variant="primary" type="submit">
-					Submit
-				</Button>
 			</Form>
+			<Button variant="primary" type="submit">
+				Submit
+			</Button>
 		</div>
 	);
 }

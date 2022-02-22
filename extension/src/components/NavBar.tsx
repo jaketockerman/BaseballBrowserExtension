@@ -15,9 +15,6 @@ class Navigation extends React.Component {
 		};
 		return (
 			<nav className="navigation">
-				{/* <Nav.Link as={Link} to="/Settings" className="tab" style={myStyle}>
-					Settings
-				</Nav.Link> */}
 				<Nav.Link
 					as={Link}
 					to="/"
