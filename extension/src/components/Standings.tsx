@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes, { InferProps } from "prop-types";
 import "./Standings.css";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ServersType } from "../Types";
 
 Standings.propTypes = {
@@ -9,10 +9,16 @@ Standings.propTypes = {
 };
 
 interface Standings_Response {
-	result: Array<Divison>;
+	result: Array<Division>;
 }
 
-interface Divison {
+interface Standings_Type {
+	divisions: Array<Division>;
+	valid: boolean;
+	error?: string;
+}
+
+interface Division {
 	div_name: string;
 	teams: Array<Team>;
 }
@@ -33,21 +39,31 @@ interface Team {
 }
 
 function Standings(props: InferProps<typeof Standings.propTypes>) {
-	const [standings, setStandings] = useState<Standings_Response["result"]>();
+	const [standings, setStandings] = useState<Standings_Type>();
 	const [year] = useState(2021);
 
 	useEffect(() => {
 		axios
-			.get<Standings_Response>(
-				props.servers.mlbstats + "standings/" + year.toString()
-			)
+			.get<Standings_Response>(props.servers.mlbstats + "standings/")
 			.then((response) => {
-				setStandings(Object.values(response.data.result));
-				console.log(standings);
+				setStandings({
+					divisions: Object.values(response.data.result),
+					valid: true,
+				});
+			})
+			.catch((error: AxiosError<{ additionalInfo: string }>) => {
+				if (error.response?.status != 200) {
+					setStandings({
+						divisions: [],
+						valid: false,
+						error: error.message,
+					});
+				}
+				console.log(error.message);
 			});
 	}, [year]);
 
-	function display_division(division: Divison) {
+	function display_division(division: Division) {
 		return (
 			<table key={division.div_name}>
 				<thead>
@@ -76,10 +92,14 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 		);
 	}
 
-	function display_standings(divisions: Array<Divison>) {
-		return divisions.map((division: Divison) => {
-			return display_division(division);
-		});
+	function display_standings(standings: Standings_Type) {
+		if (standings.valid) {
+			return standings.divisions.map((division: Division) => {
+				return display_division(division);
+			});
+		} else {
+			return "unable to connect to mlbstats server: " + standings.error;
+		}
 	}
 
 	return (
@@ -87,7 +107,7 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 			{standings != undefined ? (
 				display_standings(standings)
 			) : (
-				<React.Fragment />
+				<React.Fragment> Loading... </React.Fragment>
 			)}
 		</div>
 	);
