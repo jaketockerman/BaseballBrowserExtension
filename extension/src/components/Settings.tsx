@@ -26,53 +26,56 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<div className="tw-px-5 py-3 ml-10 mr-5">
-			<Form
-				className="tw-px-5 py-3 ml-10 mr-5"
-				onSubmit={handleSubmit(submit)}
-			>
-				<Form.Group
-					className="tw-px-5 py-3 ml-10 mr-5"
-					as={Row}
-					controlId="pybaseball"
-				>
-					<Form.Label column xs="auto" lg={true}>
-						pybaseball server:
-					</Form.Label>
-					<Col xs="auto" lg={true}>
-						<Form.Control
-							type="text"
-							defaultValue={props.servers.pybaseball}
-							{...register("servers.pybaseball", {
-								required: true,
-								pattern: /\/$/i,
-							})}
-						/>
-					</Col>
-				</Form.Group>
-				<Form.Group
-					className="tw-px-5 py-3 ml-10 mr-5"
-					as={Row}
-					controlId="mlbstats"
-				>
-					<Form.Label column xs="auto" lg={true}>
-						mlbstats server:
-					</Form.Label>
-					<Col xs="auto" lg={true}>
-						<Form.Control
-							type="text"
-							defaultValue={props.servers.mlbstats}
-							{...register("servers.mlbstats", {
-								required: true,
-								pattern: /\/$/i,
-							})}
-						/>
-					</Col>
-				</Form.Group>
+		<div className="tw-flex tw-flex-col tw-flex tw-flex-wrap tw-py-3">
+			<Form className="" onSubmit={handleSubmit(submit)}>
+				<div>
+					<Form.Group className="" as={Row} controlId="pybaseball">
+						<div className="tw-grid tw-justify-items-stretch">
+							<Form.Label column xs="auto" lg={true}>
+								pybaseball server:
+							</Form.Label>
+						</div>
+						<div className="tw-grid tw-justify-items-center">
+							<Col xs="auto" lg={true}>
+								<Form.Control
+									type="text"
+									defaultValue={props.servers.pybaseball}
+									{...register("servers.pybaseball", {
+										required: true,
+										pattern: /\/$/i,
+									})}
+								/>
+							</Col>
+						</div>
+					</Form.Group>
+				</div>
+				<div>
+					<Form.Group className="" as={Row} controlId="mlbstats">
+						<div className="tw-grid tw-justify-items-stretch">
+							<Form.Label column xs="auto" lg={true}>
+								mlbstats server:
+							</Form.Label>
+						</div>
+						<div className="tw-grid tw-justify-items-center">
+							<Col xs="auto" lg={true}>
+								<Form.Control
+									type="text"
+									defaultValue={props.servers.mlbstats}
+									{...register("servers.mlbstats", {
+										required: true,
+										pattern: /\/$/i,
+									})}
+								/>
+							</Col>
+						</div>
+					</Form.Group>
+				</div>
 			</Form>
-			<Button variant="primary" type="submit">
-				Submit
-			</Button>
+			<div className="tw-flex-none tw-py-3">
+				<Button variant="primary" type="submit">
+					Submit
+				</Button>
+			</div>
 		</div>
 	);
 }
