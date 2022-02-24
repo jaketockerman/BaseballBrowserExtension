@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, json
 import statsapi
 import os
 from datetime import datetime
@@ -18,7 +18,9 @@ def get_standings(year=None):
     else:
         my_year = year
 
-    return statsapi.standings(season=my_year)
+    response = json.jsonify({"result" : statsapi.standings_data(season=my_year), "year" : my_year})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/teams/<gameID>', methods=['GET'])
@@ -26,7 +28,9 @@ def get_standings(year=None):
 def get_teams(gameID):
     dict_ret_boxscore_data = statsapi.boxscore_data(gamePk=gameID)  
     
-    return dict_ret_boxscore_data["teamInfo"]
+    response = json.jsonify({"result" : dict_ret_boxscore_data["teamInfo"], "gameID" : gameID})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # @app.route('/currentBatter/<gameID>', methods=['GET'])
 
@@ -49,13 +53,17 @@ def get_rawData(gameID):
 
 def get_gameData(gameID):
     gameData = get_rawData(gameID)['gameData']
-    return gameData
+    response = json.jsonify({"result" : gameData, "gameID" : gameID})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
     
 @app.route('/liveData/<gameID>', methods=['GET'])
 
 def get_liveData(gameID):
     liveData = get_rawData(gameID)['liveData']
-    return liveData
+    response = json.jsonify({"result" : liveData, "gameID" : gameID})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     app.run()
