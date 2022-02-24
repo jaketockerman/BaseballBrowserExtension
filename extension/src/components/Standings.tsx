@@ -3,6 +3,7 @@ import PropTypes, { InferProps } from "prop-types";
 import "./Standings.css";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../Types";
+import { Table } from "react-bootstrap";
 
 Standings.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -64,31 +65,42 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 	}, [year]);
 
 	function display_division(division: Division) {
+		const header_style = {
+			color: "#eceef1",
+			backgroundColor: "#041e42",
+			borderColor: "#041e42",
+		};
+		const row_style = {
+			backgroundColor: "#eceef1",
+			borderColor: "#e4e4e4",
+		};
 		return (
-			<table key={division.div_name}>
+			<Table bordered size="sm" key={division.div_name}>
 				<thead>
-					<tr>
-						<td>Team</td>
-						<td>W</td>
-						<td>L</td>
-						{/* <td>PCT</td> */}
-						<td>GB</td>
+					<tr style={header_style}>
+						<th>{division.div_name}</th>
+						<th>W</th>
+						<th>L</th>
+						<th>PCT</th>
+						<th>GB</th>
 					</tr>
 				</thead>
 				<tbody>
 					{division.teams.map((team: Team) => {
 						return (
-							<tr key={team.team_id}>
+							<tr style={row_style} key={team.team_id}>
 								<td>{team.name}</td>
 								<td>{team.w}</td>
 								<td>{team.l}</td>
-								{/* <td>{team["W-L%"]}</td> */}
+								<td>
+									{(team.w / (team.w + team.l)).toFixed(3)}
+								</td>
 								<td>{team.gb}</td>
 							</tr>
 						);
 					})}
 				</tbody>
-			</table>
+			</Table>
 		);
 	}
 
