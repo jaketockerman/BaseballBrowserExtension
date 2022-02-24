@@ -5,9 +5,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-def get_game_data(game_id):
-    return statsapi.schedule(game_id=game_id)
-
 
 @app.route('/standings/', methods=['GET'])
 @app.route('/standings/<year>', methods=['GET'])
@@ -27,8 +24,38 @@ def get_standings(year=None):
 @app.route('/teams/<gameID>', methods=['GET'])
 
 def get_teams(gameID):
-    dict_ret_boxscore_data = statsapi.boxscore_data(gamePk=gameID)    
+    dict_ret_boxscore_data = statsapi.boxscore_data(gamePk=gameID)  
+    
     return dict_ret_boxscore_data["teamInfo"]
+
+# @app.route('/currentBatter/<gameID>', methods=['GET'])
+
+# def get_current_batter(gameID):
+#     game_link = "https://statsapi.mlb.com/api/v1.1/game/" + gameID + "/feed/live"
+#     return statsapi.get(game_link, params={"fields" : "liveData:plays:matchup:batter"})
+
+
+# @app.route('/currentPitcher/<gameID>', methods=['GET'])
+
+# def get_current_pitcher(gameID):
+#     game_link = "https://statsapi.mlb.com/api/v1.1/game/" + gameID + "/feed/live"
+#     return statsapi.get(game_link, params={"gamePk" : gameID})
+
+def get_rawData(gameID):
+    ret_data = statsapi.get("game", {"gamePk": gameID})
+    return ret_data
+
+@app.route('/gameData/<gameID>', methods=['GET'])
+
+def get_gameData(gameID):
+    gameData = get_rawData(gameID)['gameData']
+    return gameData
+    
+@app.route('/liveData/<gameID>', methods=['GET'])
+
+def get_liveData(gameID):
+    liveData = get_rawData(gameID)['liveData']
+    return liveData
 
 if __name__ == '__main__':
     app.run()
