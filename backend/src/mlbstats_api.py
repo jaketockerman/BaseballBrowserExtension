@@ -5,8 +5,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# def get_game_date(game_id):
-#     return statsapi.schedule(game_id=game_id)
+def get_game_data(game_id):
+    return statsapi.schedule(game_id=game_id)
 
 
 @app.route('/standings/', methods=['GET'])
@@ -24,10 +24,11 @@ def get_standings(year=None):
     return statsapi.standings(season=my_year)
 
 
-# @app.route('/schedule/<team>', methods=['GET'])
+@app.route('/teams/<gameID>', methods=['GET'])
 
-# def get_schedule(team=None):
-    
+def get_teams(gameID):
+    dict_ret_boxscore_data = statsapi.boxscore_data(gamePk=gameID)    
+    return dict_ret_boxscore_data["teamInfo"]
 
 if __name__ == '__main__':
     app.run()
