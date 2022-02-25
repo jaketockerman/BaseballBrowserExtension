@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes, { InferProps } from "prop-types";
 import { ServersType } from "../Types";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 Settings.propTypes = {
@@ -26,17 +26,17 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<div className="tw-flex tw-flex-col tw-flex tw-flex-wrap tw-py-3">
+		<div className="tw-flex tw-flex-col tw-py-3">
 			<Form onSubmit={handleSubmit(submit)}>
-				<div>
+				<Container fluid>
 					<Form.Group as={Row} controlId="pybaseball">
-						<div className="tw-grid tw-justify-items-stretch">
-							<Form.Label column xs="auto" lg={true}>
+						<div className="tw-grid tw-justify-items-stretch tw-px-0">
+							<Form.Label column lg={true}>
 								pybaseball server:
 							</Form.Label>
 						</div>
 						<div className="tw-grid tw-justify-items-center">
-							<Col xs="auto" lg={true}>
+							<Col lg={true}>
 								<Form.Control
 									type="text"
 									defaultValue={props.servers.pybaseball}
@@ -48,16 +48,14 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							</Col>
 						</div>
 					</Form.Group>
-				</div>
-				<div>
 					<Form.Group as={Row} controlId="mlbstats">
 						<div className="tw-grid tw-justify-items-stretch">
-							<Form.Label column xs="auto" lg={true}>
+							<Form.Label column lg={true}>
 								mlbstats server:
 							</Form.Label>
 						</div>
 						<div className="tw-grid tw-justify-items-center">
-							<Col xs="auto" lg={true}>
+							<Col lg={true}>
 								<Form.Control
 									type="text"
 									defaultValue={props.servers.mlbstats}
@@ -69,13 +67,13 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							</Col>
 						</div>
 					</Form.Group>
-				</div>
+					<div className="tw-flex-none tw-py-3">
+						<Button variant="primary" type="submit">
+							Submit
+						</Button>
+					</div>
+				</Container>
 			</Form>
-			<div className="tw-flex-none tw-py-3">
-				<Button variant="primary" type="submit">
-					Submit
-				</Button>
-			</div>
 		</div>
 	);
 }
