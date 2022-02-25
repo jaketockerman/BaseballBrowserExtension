@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes, { InferProps } from "prop-types";
-import "./Standings.css";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../Types";
 import { Table } from "react-bootstrap";
@@ -41,14 +40,19 @@ interface Team {
 
 function Standings(props: InferProps<typeof Standings.propTypes>) {
 	const [standings, setStandings] = useState<Standings_Type>();
-	const [year] = useState(2021);
-
-	useEffect(() => {
+	if (standings === undefined) {
 		axios
 			.get<Standings_Response>(props.servers.mlbstats + "standings/")
 			.then((response) => {
 				setStandings({
-					divisions: Object.values(response.data.result),
+					divisions: [
+						response.data.result["201"],
+						response.data.result["202"],
+						response.data.result["200"],
+						response.data.result["204"],
+						response.data.result["205"],
+						response.data.result["203"],
+					],
 					valid: true,
 				});
 			})
@@ -60,47 +64,44 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 						error: error.message,
 					});
 				}
-				console.log(error.message);
 			});
-	}, [year]);
+	}
 
 	function display_division(division: Division) {
-		const header_style = {
-			color: "#eceef1",
-			backgroundColor: "#041e42",
-			borderColor: "#041e42",
-		};
-		const row_style = {
-			backgroundColor: "#eceef1",
-			borderColor: "#e4e4e4",
-		};
 		return (
-			<Table bordered size="sm" key={division.div_name}>
-				<thead>
-					<tr style={header_style}>
-						<th>{division.div_name}</th>
-						<th>W</th>
-						<th>L</th>
-						<th>PCT</th>
-						<th>GB</th>
-					</tr>
-				</thead>
-				<tbody>
-					{division.teams.map((team: Team) => {
-						return (
-							<tr style={row_style} key={team.team_id}>
-								<td>{team.name}</td>
-								<td>{team.w}</td>
-								<td>{team.l}</td>
-								<td>
-									{(team.w / (team.w + team.l)).toFixed(3)}
-								</td>
-								<td>{team.gb}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</Table>
+			<div className="tw-px-5 tw-pt-3 tw-w-full">
+				<Table bordered size="sm" key={division.div_name}>
+					<thead>
+						<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42]">
+							<th>{division.div_name}</th>
+							<th>W</th>
+							<th>L</th>
+							<th>PCT</th>
+							<th>GB</th>
+						</tr>
+					</thead>
+					<tbody>
+						{division.teams.map((team: Team) => {
+							return (
+								<tr
+									className="tw-bg-[#eceef1] tw-border-[#e4e4e4]"
+									key={team.team_id}
+								>
+									<td>{team.name}</td>
+									<td>{team.w}</td>
+									<td>{team.l}</td>
+									<td>
+										{(team.w / (team.w + team.l)).toFixed(
+											3
+										)}
+									</td>
+									<td>{team.gb}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</Table>
+			</div>
 		);
 	}
 
@@ -115,7 +116,7 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 	}
 
 	return (
-		<div className="Standings">
+		<div className="tw-bg-app-dark tw-min-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
 			{standings != undefined ? (
 				display_standings(standings)
 			) : (
