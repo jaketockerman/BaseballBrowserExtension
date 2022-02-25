@@ -27,9 +27,9 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 
 	return (
 		<div className="tw-flex tw-flex-col tw-flex tw-flex-wrap tw-py-3">
-			<Form className="" onSubmit={handleSubmit(submit)}>
+			<Form onSubmit={handleSubmit(submit)}>
 				<div>
-					<Form.Group className="" as={Row} controlId="pybaseball">
+					<Form.Group as={Row} controlId="pybaseball">
 						<div className="tw-grid tw-justify-items-stretch">
 							<Form.Label column xs="auto" lg={true}>
 								pybaseball server:
@@ -50,7 +50,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 					</Form.Group>
 				</div>
 				<div>
-					<Form.Group className="" as={Row} controlId="mlbstats">
+					<Form.Group as={Row} controlId="mlbstats">
 						<div className="tw-grid tw-justify-items-stretch">
 							<Form.Label column xs="auto" lg={true}>
 								mlbstats server:
