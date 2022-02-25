@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes, { InferProps } from "prop-types";
 import { ServersType } from "../Types";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 Settings.propTypes = {
@@ -26,42 +26,53 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<div className="Settings">
+		<div className="tw-flex tw-flex-col tw-py-3">
 			<Form onSubmit={handleSubmit(submit)}>
-				<Form.Group as={Row} className="mb-3" controlId="pybaseball">
-					<Form.Label column xs="auto">
-						pybaseball server:
-					</Form.Label>
-					<Col xs="auto">
-						<Form.Control
-							type="text"
-							defaultValue={props.servers.pybaseball}
-							{...register("servers.pybaseball", {
-								required: true,
-								pattern: /\/$/i,
-							})}
-						/>
-					</Col>
-				</Form.Group>
-				<Form.Group as={Row} className="mb-3" controlId="mlbstats">
-					<Form.Label column xs="auto">
-						mlbstats server:
-					</Form.Label>
-					<Col xs="auto">
-						<Form.Control
-							type="text"
-							defaultValue={props.servers.mlbstats}
-							{...register("servers.mlbstats", {
-								required: true,
-								pattern: /\/$/i,
-							})}
-						/>
-					</Col>
-				</Form.Group>
-
-				<Button variant="primary" type="submit">
-					Submit
-				</Button>
+				<Container fluid>
+					<Form.Group as={Row} controlId="pybaseball">
+						<div className="tw-grid tw-justify-items-stretch tw-px-0">
+							<Form.Label column lg={true}>
+								pybaseball server:
+							</Form.Label>
+						</div>
+						<div className="tw-grid tw-justify-items-center">
+							<Col lg={true}>
+								<Form.Control
+									type="text"
+									defaultValue={props.servers.pybaseball}
+									{...register("servers.pybaseball", {
+										required: true,
+										pattern: /\/$/i,
+									})}
+								/>
+							</Col>
+						</div>
+					</Form.Group>
+					<Form.Group as={Row} controlId="mlbstats">
+						<div className="tw-grid tw-justify-items-stretch">
+							<Form.Label column lg={true}>
+								mlbstats server:
+							</Form.Label>
+						</div>
+						<div className="tw-grid tw-justify-items-center">
+							<Col lg={true}>
+								<Form.Control
+									type="text"
+									defaultValue={props.servers.mlbstats}
+									{...register("servers.mlbstats", {
+										required: true,
+										pattern: /\/$/i,
+									})}
+								/>
+							</Col>
+						</div>
+					</Form.Group>
+					<div className="tw-flex-none tw-py-3">
+						<Button variant="primary" type="submit">
+							Submit
+						</Button>
+					</div>
+				</Container>
 			</Form>
 		</div>
 	);
