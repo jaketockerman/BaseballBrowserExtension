@@ -1,81 +1,126 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes, { InferProps } from "prop-types";
-import "./Standings.css";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ServersType } from "../Types";
+import { Table } from "react-bootstrap";
 
 Standings.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
 };
 
 interface Standings_Response {
-	result: Array<Array<Team>>;
+	result: Array<Division>;
+}
+
+interface Standings_Type {
+	divisions: Array<Division>;
+	valid: boolean;
+	error?: string;
+}
+
+interface Division {
+	div_name: string;
+	teams: Array<Team>;
 }
 
 interface Team {
-	GB: string;
-	L: string;
-	Tm: string;
-	W: string;
-	"W-L%": string;
+	div_rank: string;
+	elim_num: string;
+	gb: string;
+	l: number;
+	league_rank: string;
+	name: string;
+	sport_rank: string;
+	team_id: number;
+	w: number;
+	wc_elim_num: string;
+	wc_gb: string;
+	wc_rank: string;
 }
 
 function Standings(props: InferProps<typeof Standings.propTypes>) {
-	const [standings, setStandings] = useState<Array<Array<Team>>>();
-	const [year] = useState(2021);
-
-	useEffect(() => {
+	const [standings, setStandings] = useState<Standings_Type>();
+	if (standings === undefined) {
 		axios
-			.get<Standings_Response>(
-				props.servers.pybaseball + "standings/" + year.toString()
-			)
+			.get<Standings_Response>(props.servers.mlbstats + "standings/")
 			.then((response) => {
-				setStandings(response.data.result);
-				// console.log(standings);
+				setStandings({
+					divisions: [
+						response.data.result["201"],
+						response.data.result["202"],
+						response.data.result["200"],
+						response.data.result["204"],
+						response.data.result["205"],
+						response.data.result["203"],
+					],
+					valid: true,
+				});
+			})
+			.catch((error: AxiosError<{ additionalInfo: string }>) => {
+				if (error.response?.status != 200) {
+					setStandings({
+						divisions: [],
+						valid: false,
+						error: error.message,
+					});
+				}
 			});
-	}, [year]);
+	}
 
-	function display_division(division: Array<Team>, divisionID: number) {
+	function display_division(division: Division) {
 		return (
-			<table key={divisionID}>
-				<thead>
-					<tr>
-						<td>Team</td>
-						<td>W</td>
-						<td>L</td>
-						<td>PCT</td>
-						<td>GB</td>
-					</tr>
-				</thead>
-				<tbody>
-					{division.map((team: Team) => {
-						return (
-							<tr key={team.Tm}>
-								<td>{team.Tm}</td>
-								<td>{team.W}</td>
-								<td>{team.L}</td>
-								<td>{team["W-L%"]}</td>
-								<td>{team.GB}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</table>
+			<div className="tw-px-5 tw-pt-3 tw-w-full">
+				<Table bordered size="sm" key={division.div_name}>
+					<thead>
+						<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42]">
+							<th>{division.div_name}</th>
+							<th>W</th>
+							<th>L</th>
+							<th>PCT</th>
+							<th>GB</th>
+						</tr>
+					</thead>
+					<tbody>
+						{division.teams.map((team: Team) => {
+							return (
+								<tr
+									className="tw-bg-[#eceef1] tw-border-[#e4e4e4]"
+									key={team.team_id}
+								>
+									<td>{team.name}</td>
+									<td>{team.w}</td>
+									<td>{team.l}</td>
+									<td>
+										{(team.w / (team.w + team.l)).toFixed(
+											3
+										)}
+									</td>
+									<td>{team.gb}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</Table>
+			</div>
 		);
 	}
 
-	function display_standings(divisions: Array<Array<Team>>) {
-		return divisions.map((division: Array<Team>, index) => {
-			return display_division(division, index);
-		});
+	function display_standings(standings: Standings_Type) {
+		if (standings.valid) {
+			return standings.divisions.map((division: Division) => {
+				return display_division(division);
+			});
+		} else {
+			return "unable to connect to mlbstats server: " + standings.error;
+		}
 	}
 
 	return (
-		<div className="Standings">
+		<div className="tw-bg-app-dark tw-min-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
 			{standings != undefined ? (
 				display_standings(standings)
 			) : (
-				<React.Fragment />
+				<React.Fragment> Loading... </React.Fragment>
 			)}
 		</div>
 	);

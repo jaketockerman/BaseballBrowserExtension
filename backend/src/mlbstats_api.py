@@ -11,14 +11,10 @@ app = Flask(__name__)
 
 def get_standings(year=None):
     if not year:
-        if statsapi.standings(season=year):
-            my_year = datetime.now().year
-        else:
-            my_year = datetime.now().year - 1
-    else:
-        my_year = year
-
-    response = json.jsonify({"result" : statsapi.standings_data(season=my_year), "year" : my_year})
+        year = datetime.now().year
+        if not statsapi.standings(season=year):
+            year = datetime.now().year - 1
+    response = json.jsonify({"result": statsapi.standings_data(season=year), "year": year})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
