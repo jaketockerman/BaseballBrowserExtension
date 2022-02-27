@@ -5,7 +5,7 @@ import "./App.css";
 import Standings from "./components/Standings";
 import Navigation from "./components/NavBar";
 import Settings from "./components/Settings";
-import { ServersType } from "./Types";
+import { ServersType } from "./types/App_Types";
 
 function App() {
 	const servers_default: ServersType = {
