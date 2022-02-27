@@ -5,7 +5,7 @@ import "./App.css";
 import Standings from "./components/Standings";
 import Navigation from "./components/NavBar";
 import Settings from "./components/Settings";
-import { ServersType } from "./Types";
+import { ServersType } from "./types/App_Types";
 
 function App() {
 	const servers_default: ServersType = {
@@ -19,7 +19,7 @@ function App() {
 		<div className="App">
 			<div className="Content">
 				<Routes>
-					<Route path="/" element={<Live />} />
+					<Route path="/" element={<Live servers={servers} />} />
 					<Route
 						path="/standings"
 						element={<Standings servers={servers} />}

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes, { InferProps } from "prop-types";
-import { ServersType } from "../Types";
+import { ServersType } from "../types/App_Types";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
