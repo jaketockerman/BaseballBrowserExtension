@@ -17,7 +17,7 @@ function App() {
 		<div className="tw-items-center tw-bg-app-dark tw-w-full tw-h-full tw-flex tw-flex-col tw-text-white tw-text-center tw-text-app-text">
 			<div className="tw-w-full tw-h-9/10 tw-flex-1 tw-overflow-y-auto">
 				<Routes>
-					<Route path="/" element={<Live />} />
+					<Route path="/" element={<Live servers={servers} />} />
 					<Route
 						path="/standings"
 						element={<Standings servers={servers} />}
