@@ -19,7 +19,7 @@ function App() {
 		<div className="App">
 			<div className="Content">
 				<Routes>
-					<Route path="/" element={<Live servers={servers} />} />
+					<Route path="/" element={<Live />} />
 					<Route
 						path="/standings"
 						element={<Standings servers={servers} />}
