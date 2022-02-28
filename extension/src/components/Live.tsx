@@ -18,14 +18,16 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("");
+	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [players, setPlayers] = useState<Array<player_Type>>();
 	const [liveDelay, setLiveDelay] = useState(100);
 	const [gameDelay, setGameDelay] = useState<number | null>(500);
 	useInterval(() => {
 		axios
-			.get<gameData_Response>(props.servers.mlbstats + "gameData/634198")
+			.get<gameData_Response>(
+				props.servers.mlbstats + "gameData/" + gameID
+			)
 			.then((response) => {
 				setGameData(response.data.result);
 				setPlayers(Object.values(response.data.result["players"]));
@@ -85,7 +87,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div> Home Team: {gameData?.teams.home.teamName} </div>
 			<div> Away Team: {gameData?.teams.away.teamName} </div>
 			<div> player: {players?.map} </div>
-			<div> Game ID: {gameID}</div>
 		</div>
 	);
 }
