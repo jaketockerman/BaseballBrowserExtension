@@ -1,7 +1,5 @@
 /*global chrome*/
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import "./Live.css";
 
 function Live() {
 	const [url, setUrl] = useState("");
@@ -29,20 +27,8 @@ function Live() {
 		}
 	});
 	return (
-		<div>
-			<img src={logo} className="App-logo" alt="logo" />
-			<p>
-				Edit <code>src/App.tsx</code> and save to reload.
-			</p>
-			<a
-				className="App-link"
-				href="https://reactjs.org"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				This is the live page
-			</a>
-
+		<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
+			<div>This is the live page</div>
 			<div> URL: {url} </div>
 			<div> Game ID: {gameID}</div>
 		</div>
