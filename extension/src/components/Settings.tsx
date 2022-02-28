@@ -26,9 +26,12 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 	console.log(errors);
 
 	return (
-		<div className="tw-flex tw-flex-col tw-py-3">
-			<Form onSubmit={handleSubmit(submit)}>
-				<Container fluid>
+		<div className="tw-flex tw-h-full tw-flex-col tw-py-3">
+			<Form className="tw-h-full" onSubmit={handleSubmit(submit)}>
+				<Container
+					fluid
+					className="tw-h-full tw-flex tw-flex-col tw-justify-start"
+				>
 					<Form.Group as={Row} controlId="pybaseball">
 						<div className="tw-grid tw-justify-items-stretch tw-px-0">
 							<Form.Label column lg={true}>
