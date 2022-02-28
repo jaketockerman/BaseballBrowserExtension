@@ -7,10 +7,12 @@ import gear from "../images/gear.svg";
 
 class Navigation extends React.Component {
 	render() {
+		//Unfortunately tailwind borders are broken without @tailwind base
 		const style = {
 			borderRight: "1px solid",
 			borderColor: "#FFFFFF",
 		};
+
 		return (
 			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-full">
 				<Nav.Link
