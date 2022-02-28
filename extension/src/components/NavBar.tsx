@@ -14,7 +14,7 @@ class Navigation extends React.Component {
 		};
 
 		return (
-			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-full">
+			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-1/10">
 				<Nav.Link
 					as={Link}
 					to="/"
