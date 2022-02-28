@@ -7,6 +7,9 @@ module.exports = {
 				"app-dark": "#282c34",
 				"nav-blue": "#002774",
 			},
+			fontSize: {
+				"app-text": "calc(10px + 2vmin)",
+			},
 		},
 	},
 	plugins: [],
