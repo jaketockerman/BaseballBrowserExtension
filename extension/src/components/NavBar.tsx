@@ -1,42 +1,35 @@
 import React from "react";
-import { /*Container*/ Nav /*Navbar Dropdown*/ } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./NavBar.css";
 import home from "../images/home.svg";
 import flag from "../images/flag.svg";
 import gear from "../images/gear.svg";
 
 class Navigation extends React.Component {
 	render() {
-		const myStyle = {
-			backgroundColor: "#002774",
+		const style = {
+			borderRight: "1px solid",
 			borderColor: "#FFFFFF",
-			color: "#CED9DF",
 		};
 		return (
-			<nav className="navigation">
+			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-full">
 				<Nav.Link
 					as={Link}
 					to="/"
-					className="tabCenter"
-					style={myStyle}
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white tw-items-center"
+					style={style}
 				>
 					<img src={home} className="home-logo" alt="live" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
 					to="/Standings"
-					className="tabCenter"
-					style={myStyle}
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
+					style={style}
 				>
 					<img src={flag} className="flag-logo" alt="standings" />
 				</Nav.Link>
-				<Nav.Link
-					as={Link}
-					to="/settings"
-					className="tab"
-					style={myStyle}
-				>
+				<Nav.Link as={Link} to="/settings" className="tw-flex-1 tw-w-0">
 					<img src={gear} className="gear-logo" alt="settings" />
 				</Nav.Link>
 			</nav>
