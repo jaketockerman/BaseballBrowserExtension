@@ -43,7 +43,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		() => {
 			axios
 				.get<liveData_Response>(
-					props.servers.mlbstats + "liveData/634198"
+					props.servers.mlbstats + "liveData/" + gameID
 				)
 				.then((response) => {
 					response.data;
