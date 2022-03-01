@@ -24,36 +24,40 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [liveDelay, setLiveDelay] = useState(100);
 	const [gameDelay, setGameDelay] = useState<number | null>(500);
 	useInterval(() => {
-		axios
-			.get<gameData_Response>(
-				props.servers.mlbstats + "gameData/" + gameID
-			)
-			.then((response) => {
-				setGameData(response.data.result);
-				setPlayers(Object.values(response.data.result["players"]));
-				setGameDelay(null);
-			})
-			.catch((error: AxiosError<{ additionalInfo: string }>) => {
-				if (error.response?.status != 200) {
-					console.log(error.message);
-				}
-			});
-	}, gameDelay);
-	useInterval(
-		() => {
+		if (gameID !== "") {
 			axios
-				.get<liveData_Response>(
-					props.servers.mlbstats + "liveData/634198"
+				.get<gameData_Response>(
+					props.servers.mlbstats + "gameData/" + gameID
 				)
 				.then((response) => {
-					response.data;
-					setLiveDelay(10000);
+					setGameData(response.data.result);
+					setPlayers(Object.values(response.data.result["players"]));
+					setGameDelay(null);
 				})
 				.catch((error: AxiosError<{ additionalInfo: string }>) => {
 					if (error.response?.status != 200) {
 						console.log(error.message);
 					}
 				});
+		}
+	}, gameDelay);
+	useInterval(
+		() => {
+			if (gameID !== "") {
+				axios
+					.get<liveData_Response>(
+						props.servers.mlbstats + "liveData/" + gameID
+					)
+					.then((response) => {
+						response.data;
+						setLiveDelay(10000);
+					})
+					.catch((error: AxiosError<{ additionalInfo: string }>) => {
+						if (error.response?.status != 200) {
+							console.log(error.message);
+						}
+					});
+			}
 		},
 		// Delay in milliseconds or null to stop it
 		liveDelay
@@ -80,13 +84,36 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			console.log("unable to detect url due to error " + e);
 		}
 	});
+	const style = {
+		borderRight: "1px solid",
+		borderColor: "#FFFFFF",
+	};
 	return (
-		<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
-			<div>This is the live page</div>
-			<div> URL: {url} </div>
-			<div> Home Team: {gameData?.teams.home.teamName} </div>
-			<div> Away Team: {gameData?.teams.away.teamName} </div>
-			<div> player: {players?.map} </div>
+		<div>
+			<div className="tw-flex tw-flex-row tw-w-full">
+				<div
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white tw-items-center"
+					style={style}
+				>
+					{" "}
+					Home Team: {gameData?.teams.home.teamName}{" "}
+				</div>
+				<div
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
+					style={style}
+				>
+					{" "}
+					Strikezone:{" "}
+				</div>
+				<div className="tw-flex-1 tw-w-0">
+					{" "}
+					Away Team: {gameData?.teams.away.teamName}{" "}
+				</div>
+			</div>
+			<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
+				<div> URL: {url} </div>
+				<div> player: {players?.map} </div>
+			</div>
 		</div>
 	);
 }
