@@ -20,6 +20,7 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 		axios
 			.get<Standings_Response>(props.servers.mlbstats + "standings/")
 			.then((response) => {
+				console.log(typeof response.data);
 				setStandings({
 					divisions: [
 						response.data.result["201"],
