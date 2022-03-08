@@ -95,13 +95,11 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_batting_order(id: Array<number>) {
 		const playerID = id[0];
-		const player : player_Type = gameData?.players[playerID as keyof object];
-		const name = player.fullName;
-		console.log(name);
+		// const name = player.fullName;
+		// console.log(name);
 
-		console.log(gameData?.players[playerID as keyof object]);
 		return(
-			<div> 1st Batter: {gameData?.players[playerID as keyof object]} </div>
+			<div> 1st Batter: {gameData?.players["ID" + playerID].fullName} </div>
 		);
 	}
 

@@ -7,7 +7,7 @@ interface gameData_Type {
 	alert: Array<unknown>;
 	flags: flags_Type;
 	gameInfo: gameInfo_Type;
-	players: object;
+	players: Record<string, player_Type>;
 	review: review_Type;
 	teams: teams_Type;
 	venue: activeVenue_Type;
