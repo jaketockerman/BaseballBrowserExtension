@@ -164,6 +164,10 @@ interface batSide_Type {
 //-----------------------------------------------------------------------------------------------------------------------//
 
 interface liveData_Response {
+	result: liveData_Type;
+}
+
+interface liveData_Type{
 	boxscore: boxscore_Type;
 	plays: plays_Type;
 }
@@ -438,4 +442,5 @@ export type {
 	pitching_Type,
 	fielding_Type,
 	batting_Type,
+	liveData_Type,
 };

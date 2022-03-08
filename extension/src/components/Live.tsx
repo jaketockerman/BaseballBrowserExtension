@@ -8,6 +8,7 @@ import {
 	gameData_Response,
 	gameData_Type,
 	liveData_Response,
+	liveData_Type,
 	player_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
@@ -18,8 +19,9 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("634198"); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
+	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [players, setPlayers] = useState<Array<player_Type>>();
 	const [liveDelay, setLiveDelay] = useState(100);
 	const [gameDelay, setGameDelay] = useState<number | null>(500);
@@ -49,7 +51,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						props.servers.mlbstats + "liveData/" + gameID
 					)
 					.then((response) => {
-						response.data;
+						//console.log(response.data); 
+						setLiveData(response.data.result);
 						setLiveDelay(10000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {
@@ -88,6 +91,20 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		borderRight: "1px solid",
 		borderColor: "#FFFFFF",
 	};
+	//console.log(liveData);
+
+	function display_batting_order(id: Array<number>) {
+		const playerID = id[0];
+		const player : player_Type = gameData?.players[playerID as keyof object];
+		const name = player.fullName;
+		console.log(name);
+
+		console.log(gameData?.players[playerID as keyof object]);
+		return(
+			<div> 1st Batter: {gameData?.players[playerID as keyof object]} </div>
+		);
+	}
+
 	return (
 		<div>
 			<div className="tw-flex tw-flex-row tw-w-full">
@@ -96,7 +113,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					style={style}
 				>
 					{" "}
-					Home Team: {gameData?.teams.home.teamName}{" "}
+					Away Team: {gameData?.teams.away.teamName}{" "}
+					<div> 1st Batter: {liveData?.boxscore?.teams?.away?.battingOrder[0]} </div>
 				</div>
 				<div
 					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
@@ -107,12 +125,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				</div>
 				<div className="tw-flex-1 tw-w-0">
 					{" "}
-					Away Team: {gameData?.teams.away.teamName}{" "}
+					Home Team: {gameData?.teams.home.teamName}{" "}
+					{display_batting_order(liveData?.boxscore?.teams?.home?.battingOrder ? liveData?.boxscore?.teams?.home?.battingOrder : [] )}
 				</div>
 			</div>
 			<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
 				<div> URL: {url} </div>
-				<div> player: {players?.map} </div>
 			</div>
 		</div>
 	);
