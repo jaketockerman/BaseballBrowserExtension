@@ -167,7 +167,7 @@ interface liveData_Response {
 	result: liveData_Type;
 }
 
-interface liveData_Type{
+interface liveData_Type {
 	boxscore: boxscore_Type;
 	plays: plays_Type;
 }

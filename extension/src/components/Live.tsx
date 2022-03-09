@@ -12,6 +12,7 @@ import {
 	player_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
+import { Accordion } from "react-bootstrap";
 
 Live.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -51,7 +52,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						props.servers.mlbstats + "liveData/" + gameID
 					)
 					.then((response) => {
-						//console.log(response.data); 
+						//console.log(response.data);
 						setLiveData(response.data.result);
 						setLiveDelay(10000);
 					})
@@ -91,17 +92,43 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		borderRight: "1px solid",
 		borderColor: "#FFFFFF",
 	};
-	//console.log(liveData);
 
-	function display_batting_order(id: Array<number>) {
-		const playerID = id[0];
-		// const name = player.fullName;
-		// console.log(name);
-
-		return(
-			<div> 1st Batter: {gameData?.players["ID" + playerID].fullName} </div>
+	function display_Name(playerID: number, index: number) {
+		return (
+			<div>
+				{" "}
+				{index + 1}: {gameData?.players["ID" + playerID].fullName}{" "}
+			</div>
 		);
 	}
+
+	function display_batting_order(id: Array<number>) {
+		return id.map((playerID: number, index: number) => {
+			return display_Name(playerID, index);
+		});
+	}
+
+	function display_Bench_Name(playerID: number) {
+		return <div> {gameData?.players["ID" + playerID].fullName} </div>;
+	}
+
+	function display_bench(id: Array<number>) {
+		return id.map((playerID: number) => {
+			return display_Bench_Name(playerID);
+		});
+	}
+
+	function display_Bullpen_Name(playerID: number) {
+		return <div> {gameData?.players["ID" + playerID].fullName} </div>;
+	}
+
+	function display_bullpen(id: Array<number>) {
+		return id.map((playerID: number) => {
+			return display_Bullpen_Name(playerID);
+		});
+	}
+
+	console.log(players); //CAN DELETE LATER IF PLAYERS NOT NEEDED
 
 	return (
 		<div>
@@ -112,7 +139,47 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				>
 					{" "}
 					Away Team: {gameData?.teams.away.teamName}{" "}
-					<div> 1st Batter: {liveData?.boxscore?.teams?.away?.battingOrder[0]} </div>
+					<Accordion className="tw-mt-5">
+						<Accordion.Item eventKey="0">
+							<Accordion.Header>Lineup</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34] tw-border-none">
+								{display_batting_order(
+									liveData?.boxscore?.teams?.away
+										?.battingOrder
+										? liveData?.boxscore?.teams?.away
+												?.battingOrder
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+						<Accordion.Item
+							eventKey="1"
+							className="tw-mt-3 tw-bg-[#282c34]"
+						>
+							<Accordion.Header>Bench</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34] tw-border-none">
+								{display_bench(
+									liveData?.boxscore?.teams?.away?.bench
+										? liveData?.boxscore?.teams?.away?.bench
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+						<Accordion.Item
+							eventKey="3"
+							className="tw-mt-3 tw-bg-[#282c34]"
+						>
+							<Accordion.Header>Bullpen</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34] tw-border-none">
+								{display_bullpen(
+									liveData?.boxscore?.teams?.away?.bullpen
+										? liveData?.boxscore?.teams?.away
+												?.bullpen
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+					</Accordion>
 				</div>
 				<div
 					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
@@ -124,7 +191,43 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<div className="tw-flex-1 tw-w-0">
 					{" "}
 					Home Team: {gameData?.teams.home.teamName}{" "}
-					{display_batting_order(liveData?.boxscore?.teams?.home?.battingOrder ? liveData?.boxscore?.teams?.home?.battingOrder : [] )}
+					<Accordion className="tw-mt-5">
+						<Accordion.Item eventKey="0">
+							<Accordion.Header className="tw-text-white tw-bg-[#282c34]">
+								Lineup
+							</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34]">
+								{display_batting_order(
+									liveData?.boxscore?.teams?.home
+										?.battingOrder
+										? liveData?.boxscore?.teams?.home
+												?.battingOrder
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+						<Accordion.Item eventKey="1">
+							<Accordion.Header>Bench</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34]">
+								{display_bench(
+									liveData?.boxscore?.teams?.home?.bench
+										? liveData?.boxscore?.teams?.home?.bench
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+						<Accordion.Item eventKey="3">
+							<Accordion.Header>Bullpen</Accordion.Header>
+							<Accordion.Body className="tw-text-white tw-bg-[#282c34]">
+								{display_bullpen(
+									liveData?.boxscore?.teams?.home?.bullpen
+										? liveData?.boxscore?.teams?.home
+												?.bullpen
+										: []
+								)}
+							</Accordion.Body>
+						</Accordion.Item>
+					</Accordion>
 				</div>
 			</div>
 			<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
