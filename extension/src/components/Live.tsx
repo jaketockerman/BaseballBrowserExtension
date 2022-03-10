@@ -10,6 +10,7 @@ import {
 	liveData_Response,
 	liveData_Type,
 	player_Type,
+	playerID,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 import { Accordion } from "react-bootstrap";
@@ -93,11 +94,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		borderColor: "#FFFFFF",
 	};
 
-	function display_Name(playerID: number, index: number) {
+	function display_Name(playerIDNum: number, index: number) {
 		return (
 			<div>
 				{" "}
-				{index + 1}: {gameData?.players["ID" + playerID].fullName}{" "}
+				{index + 1}:{" "}
+				{gameData?.players[("ID" + playerIDNum) as playerID].fullName}{" "}
 			</div>
 		);
 	}
@@ -108,8 +110,15 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		});
 	}
 
-	function display_Bench_Name(playerID: number) {
-		return <div> {gameData?.players["ID" + playerID].fullName} </div>;
+	function display_Bench_Name(playerIDNum: number) {
+		return (
+			<div>
+				{" "}
+				{
+					gameData?.players[("ID" + playerIDNum) as playerID].fullName
+				}{" "}
+			</div>
+		);
 	}
 
 	function display_bench(id: Array<number>) {
@@ -118,8 +127,15 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		});
 	}
 
-	function display_Bullpen_Name(playerID: number) {
-		return <div> {gameData?.players["ID" + playerID].fullName} </div>;
+	function display_Bullpen_Name(playerIDNum: number) {
+		return (
+			<div>
+				{" "}
+				{
+					gameData?.players[("ID" + playerIDNum) as playerID].fullName
+				}{" "}
+			</div>
+		);
 	}
 
 	function display_bullpen(id: Array<number>) {

@@ -3,11 +3,13 @@ interface gameData_Response {
 	result: gameData_Type;
 }
 
+type playerID = `ID${number}`;
+
 interface gameData_Type {
 	alert: Array<unknown>;
 	flags: flags_Type;
 	gameInfo: gameInfo_Type;
-	players: Record<string, player_Type>;
+	players: Record<playerID, player_Type>;
 	review: review_Type;
 	teams: teams_Type;
 	venue: activeVenue_Type;
@@ -443,4 +445,5 @@ export type {
 	fielding_Type,
 	batting_Type,
 	liveData_Type,
+	playerID,
 };
