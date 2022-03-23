@@ -21,7 +21,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("634198"); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [players, setPlayers] = useState<Array<player_Type>>();
@@ -91,7 +91,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	});
 	const style = {
 		borderRight: "1px solid",
-		borderColor: "#FFFFFF",
+		borderColor: "#525252",
 	};
 
 	function display_Name(playerIDNum: number, index: number) {
@@ -150,7 +150,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		<div>
 			<div className="tw-flex tw-flex-row tw-w-full">
 				<div
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white tw-items-center"
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center"
 					style={style}
 				>
 					{" "}
@@ -160,7 +160,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Lineup
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_batting_order(
 								liveData?.boxscore?.teams?.away?.battingOrder
 									? liveData?.boxscore?.teams?.away
@@ -174,7 +174,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Bench
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_bench(
 								liveData?.boxscore?.teams?.away?.bench
 									? liveData?.boxscore?.teams?.away?.bench
@@ -187,7 +187,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Bullpen
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_bullpen(
 								liveData?.boxscore?.teams?.away?.bullpen
 									? liveData?.boxscore?.teams?.away?.bullpen
@@ -197,7 +197,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					</details>
 				</div>
 				<div
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600"
 					style={style}
 				>
 					{" "}
@@ -211,7 +211,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Lineup
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_batting_order(
 								liveData?.boxscore?.teams?.home?.battingOrder
 									? liveData?.boxscore?.teams?.home
@@ -225,7 +225,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Bench
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_bench(
 								liveData?.boxscore?.teams?.home?.bench
 									? liveData?.boxscore?.teams?.home?.bench
@@ -238,7 +238,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							Bullpen
 							<span></span>
 						</summary>
-						<p className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-black">
+						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 							{display_bullpen(
 								liveData?.boxscore?.teams?.home?.bullpen
 									? liveData?.boxscore?.teams?.home?.bullpen
@@ -247,9 +247,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						</p>
 					</details>
 				</div>
-			</div>
-			<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
-				<div> URL: {url} </div>
 			</div>
 		</div>
 	);
