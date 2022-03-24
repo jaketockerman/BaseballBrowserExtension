@@ -129,6 +129,7 @@ interface player_Type {
 	currentAge?: number;
 	draftYear?: number;
 	fullName?: string;
+	lastInitName?: string;
 	height?: string;
 	id: number;
 	mlbDebutDate?: string;

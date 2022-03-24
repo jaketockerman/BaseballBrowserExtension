@@ -21,7 +21,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("634198"); //634198 Example Game
+	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [players, setPlayers] = useState<Array<player_Type>>();
@@ -97,9 +97,18 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	function display_Name(playerIDNum: number, index: number) {
 		return (
 			<div>
-				{" "}
 				{index + 1}:{" "}
-				{gameData?.players[("ID" + playerIDNum) as playerID].fullName}{" "}
+				{
+					gameData?.players[("ID" + playerIDNum) as playerID]
+						.lastInitName
+				}
+				{"   "}
+				<span className="tw-italic tw-text-gray-500">
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							?.primaryPosition?.abbreviation
+					}
+				</span>
 			</div>
 		);
 	}
@@ -115,8 +124,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div>
 				{" "}
 				{
-					gameData?.players[("ID" + playerIDNum) as playerID].fullName
-				}{" "}
+					gameData?.players[("ID" + playerIDNum) as playerID]
+						.lastInitName
+				}
+				{"   "}
+				<span className="tw-italic tw-text-gray-500">
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							?.primaryPosition?.abbreviation
+					}
+				</span>
 			</div>
 		);
 	}
@@ -132,8 +149,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div>
 				{" "}
 				{
-					gameData?.players[("ID" + playerIDNum) as playerID].fullName
-				}{" "}
+					gameData?.players[("ID" + playerIDNum) as playerID]
+						.lastInitName
+				}
+				{"   "}
+				<span className="tw-italic tw-text-gray-500">
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							?.primaryPosition?.abbreviation
+					}
+				</span>
 			</div>
 		);
 	}
@@ -144,109 +169,143 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		});
 	}
 
+	function display_logo(teamId: number, teamName: string) {
+		const link = `https://www.mlbstatic.com/team-logos/team-cap-on-dark/${teamId}.svg`;
+		const altText = `${teamName} logo`;
+		return (
+			<div className="tw-pb-2 tw-pt-1">
+				<img
+					src={link}
+					alt={altText}
+					className="tw-max-w-12 tw-max-h-12"
+				/>
+			</div>
+		);
+	}
+
 	console.log(players); //CAN DELETE LATER IF PLAYERS NOT NEEDED
 
 	return (
-		<div>
-			<div className="tw-flex tw-flex-row tw-w-full">
-				<div
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center"
-					style={style}
-				>
-					{" "}
-					Away Team: {gameData?.teams.away.teamName}{" "}
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Lineup
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_batting_order(
-								liveData?.boxscore?.teams?.away?.battingOrder
-									? liveData?.boxscore?.teams?.away
-											?.battingOrder
-									: []
-							)}
-						</p>
-					</details>
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Bench
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_bench(
-								liveData?.boxscore?.teams?.away?.bench
-									? liveData?.boxscore?.teams?.away?.bench
-									: []
-							)}
-						</p>
-					</details>
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Bullpen
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_bullpen(
-								liveData?.boxscore?.teams?.away?.bullpen
-									? liveData?.boxscore?.teams?.away?.bullpen
-									: []
-							)}
-						</p>
-					</details>
+		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
+			<div
+				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
+				style={style}
+			>
+				{" "}
+				Away Team{" "}
+				{gameData?.teams.away.id
+					? display_logo(
+							gameData?.teams.away.id,
+							gameData?.teams.away.name
+					  )
+					: ""}
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Lineup
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_batting_order(
+							liveData?.boxscore?.teams?.away?.battingOrder
+								? liveData?.boxscore?.teams?.away?.battingOrder
+								: []
+						)}
+					</p>
+				</details>
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Bench
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_bench(
+							liveData?.boxscore?.teams?.away?.bench
+								? liveData?.boxscore?.teams?.away?.bench
+								: []
+						)}
+					</p>
+				</details>
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Bullpen
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_bullpen(
+							liveData?.boxscore?.teams?.away?.bullpen
+								? liveData?.boxscore?.teams?.away?.bullpen
+								: []
+						)}
+					</p>
+				</details>
+			</div>
+			<div
+				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-h-full"
+				style={style}
+			>
+				{" "}
+				Strikezone:{" "}
+				<div>
+					Current Batter:{" "}
+					{liveData?.plays.currentPlay.matchup.batter.fullName}
 				</div>
-				<div
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600"
-					style={style}
-				>
-					{" "}
-					Strikezone:{" "}
+				<div>
+					Current Pitcher:{" "}
+					{liveData?.plays.currentPlay.matchup.pitcher.fullName}
 				</div>
-				<div className="tw-flex-1 tw-w-0">
-					{" "}
-					Home Team: {gameData?.teams.home.teamName}{" "}
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Lineup
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_batting_order(
-								liveData?.boxscore?.teams?.home?.battingOrder
-									? liveData?.boxscore?.teams?.home
-											?.battingOrder
-									: []
-							)}
-						</p>
-					</details>
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Bench
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_bench(
-								liveData?.boxscore?.teams?.home?.bench
-									? liveData?.boxscore?.teams?.home?.bench
-									: []
-							)}
-						</p>
-					</details>
-					<details>
-						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-							Bullpen
-							<span></span>
-						</summary>
-						<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-							{display_bullpen(
-								liveData?.boxscore?.teams?.home?.bullpen
-									? liveData?.boxscore?.teams?.home?.bullpen
-									: []
-							)}
-						</p>
-					</details>
-				</div>
+				{/* <div>
+					Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
+				</div> */}
+				<div>Outs: {liveData?.plays.currentPlay.count.outs}</div>
+			</div>
+			<div className="tw-flex-1 tw-w-0 tw-h-full tw-overflow-y-auto">
+				{" "}
+				Home Team{" "}
+				{gameData?.teams.home.id
+					? display_logo(
+							gameData?.teams.home.id,
+							gameData?.teams.away.name
+					  )
+					: ""}
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Lineup
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_batting_order(
+							liveData?.boxscore?.teams?.home?.battingOrder
+								? liveData?.boxscore?.teams?.home?.battingOrder
+								: []
+						)}
+					</p>
+				</details>
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Bench
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_bench(
+							liveData?.boxscore?.teams?.home?.bench
+								? liveData?.boxscore?.teams?.home?.bench
+								: []
+						)}
+					</p>
+				</details>
+				<details>
+					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+						Bullpen
+						<span></span>
+					</summary>
+					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+						{display_bullpen(
+							liveData?.boxscore?.teams?.home?.bullpen
+								? liveData?.boxscore?.teams?.home?.bullpen
+								: []
+						)}
+					</p>
+				</details>
 			</div>
 		</div>
 	);
