@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
-import PropTypes, { InferProps, number } from "prop-types";
+import PropTypes, { InferProps } from "prop-types";
 import { useInterval } from "usehooks-ts";
+import { player_Type } from "../types/Live_Types";
+import { useLocation } from "react-router-dom";
 
 Player.propTypes = {
-	mlbamID: number,
 	servers: PropTypes.object.isRequired as never as ServersType,
 };
+
+interface stateType {
+	mlbamID: number;
+	playerInfo: player_Type;
+}
 
 interface FGBattingStatsType {
 	AVG: number;
@@ -32,6 +38,8 @@ interface FGResponseType {
 }
 
 function Player(props: InferProps<typeof Player.propTypes>) {
+	const location = useLocation();
+	const { mlbamID, playerInfo } = location.state as stateType;
 	const [playerDelay, setPlayerDelay] = useState<number | null>(500);
 	const [fgStats, setFGStats] = useState<PlayerStatsType>();
 	//test player 460075: Braun
@@ -42,9 +50,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 
 	useInterval(() => {
 		axios
-			.get<FGResponseType>(
-				props.servers.pybaseball + "player/" + props.mlbamID
-			)
+			.get<FGResponseType>(props.servers.pybaseball + "player/" + mlbamID)
 			.then((response) => {
 				// setPlayerData(response.data.result);
 				setPlayerDelay(null);
@@ -63,15 +69,55 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			});
 	}, playerDelay);
 
+	function display_headshot(playerIDNum: number) {
+		const link = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerIDNum}/headshot/67/current`;
+		return <img src={link} className="tw-max-w-full" />;
+	}
+
 	function player_info() {
-		const style = {
+		const dividerStyle = {
 			borderBottom: "1px solid",
 			borderColor: "#FFFFFF",
 		};
+		// const backStyle = {
+		// 	border: "1px solid",
+		// 	borderColor: "#FFFFFF",
+		// };
 
 		return (
-			<div className="tw-h-3/6 tw-w-full" style={style}>
-				{props.mlbamID}
+			<div
+				className="tw-max-h-3/6 tw-flex tw-w-full"
+				style={dividerStyle}
+			>
+				<div className="tw-flex tw-flex-col tw-text-left tw-w-2/12">
+					{/* <div className="tw-w-full tw-h-1/12 tw-text-center" style={backStyle} onClick={()=>{navigate(-1);}}> 
+						<img src={arrowLeft} alt="back" />
+					</div> */}
+					<div className="tw-min-h-0 tw-min-w-0">
+						{mlbamID ? display_headshot(mlbamID) : ""}
+					</div>
+				</div>
+				<div className="tw-w-full tw-h-full tw-flex tw-flex-col">
+					<div className="tw-w-full">
+						{playerInfo.fullName} #{playerInfo.primaryNumber}
+					</div>
+					<div className="tw-w-full">
+						{playerInfo.primaryPosition?.abbreviation} | B/T:{" "}
+						{playerInfo.batSide?.code}/{playerInfo.pitchHand?.code}{" "}
+						| {playerInfo.height}/{playerInfo.weight} | Age:{" "}
+						{playerInfo.currentAge}
+					</div>
+					<div className="tw-w-full">
+						{playerInfo.mlbDebutDate
+							? `MLB Debut: ${playerInfo.mlbDebutDate}`
+							: ""}
+					</div>
+					<div className="tw-w-full">
+						{playerInfo.nickName
+							? `Nickname: ${playerInfo.nickName}`
+							: ""}
+					</div>
+				</div>
 			</div>
 		);
 	}

@@ -203,8 +203,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				Away Team{" "}
 				{gameData?.teams.away.id
 					? display_logo(
-							gameData?.teams.away.id,
-							gameData?.teams.away.name
+						gameData?.teams.away.id,
+						gameData?.teams.away.name
 					  )
 					: ""}
 				<details>
@@ -274,8 +274,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				Home Team{" "}
 				{gameData?.teams.home.id
 					? display_logo(
-							gameData?.teams.home.id,
-							gameData?.teams.away.name
+						gameData?.teams.home.id,
+						gameData?.teams.away.name
 					  )
 					: ""}
 				<details>

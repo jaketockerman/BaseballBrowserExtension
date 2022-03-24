@@ -1,8 +1,13 @@
 from datetime import datetime
 from flask import Flask, json
-from pybaseball import get_splits, playerid_reverse_lookup, batting_stats, pitching_stats
+from pybaseball import playerid_reverse_lookup, batting_stats, pitching_stats, cache
 
 app = Flask(__name__)
+
+#cache playerid lookup table at startup
+print("cache enabled at " + cache.config.cache_directory)
+cache.enable()
+playerid_reverse_lookup([])
 
 @app.route('/player/<mlbamID>', methods=['GET'])
 def get_player(mlbamID: str):
@@ -22,4 +27,4 @@ def get_player(mlbamID: str):
     return response
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5001)
