@@ -305,6 +305,19 @@ interface teamInfo_Type {
 	bench: Array<number>;
 	bullpen: Array<number>;
 	teamStats: teamStats_Type;
+	players: Record<playerID, live_Player_Type>;
+}
+
+interface live_Player_Type {
+	jerseyNumber: number;
+	position: position_Type;
+}
+
+interface position_Type {
+	code: string;
+	name: string;
+	type: string;
+	abbreviation: string;
 }
 
 interface teamStats_Type {
@@ -447,4 +460,6 @@ export type {
 	batting_Type,
 	liveData_Type,
 	playerID,
+	live_Player_Type,
+	position_Type,
 };

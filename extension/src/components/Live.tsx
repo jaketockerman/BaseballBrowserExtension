@@ -11,6 +11,7 @@ import {
 	liveData_Type,
 	player_Type,
 	playerID,
+	team_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 // import { Accordion } from "react-bootstrap";
@@ -94,7 +95,11 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		borderColor: "#525252",
 	};
 
-	function display_Name(playerIDNum: number, index: number) {
+	function display_Name(
+		playerIDNum: number,
+		index: number,
+		team: keyof team_Type
+	) {
 		return (
 			<div>
 				{index + 1}:{" "}
@@ -105,21 +110,22 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
-						gameData?.players[("ID" + playerIDNum) as playerID]
-							?.primaryPosition?.abbreviation
+						liveData?.boxscore.teams[team].players[
+							("ID" + playerIDNum) as playerID
+						]?.position.abbreviation
 					}
 				</span>
 			</div>
 		);
 	}
 
-	function display_batting_order(id: Array<number>) {
+	function display_batting_order(id: Array<number>, team: keyof team_Type) {
 		return id.map((playerID: number, index: number) => {
-			return display_Name(playerID, index);
+			return display_Name(playerID, index, team);
 		});
 	}
 
-	function display_Bench_Name(playerIDNum: number) {
+	function display_Bench_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
 			<div>
 				{" "}
@@ -130,21 +136,22 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
-						gameData?.players[("ID" + playerIDNum) as playerID]
-							?.primaryPosition?.abbreviation
+						liveData?.boxscore.teams[team].players[
+							("ID" + playerIDNum) as playerID
+						]?.position.abbreviation
 					}
 				</span>
 			</div>
 		);
 	}
 
-	function display_bench(id: Array<number>) {
+	function display_bench(id: Array<number>, team: keyof team_Type) {
 		return id.map((playerID: number) => {
-			return display_Bench_Name(playerID);
+			return display_Bench_Name(playerID, team);
 		});
 	}
 
-	function display_Bullpen_Name(playerIDNum: number) {
+	function display_Bullpen_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
 			<div>
 				{" "}
@@ -155,17 +162,18 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
-						gameData?.players[("ID" + playerIDNum) as playerID]
-							?.primaryPosition?.abbreviation
+						liveData?.boxscore.teams[team].players[
+							("ID" + playerIDNum) as playerID
+						]?.position.abbreviation
 					}
 				</span>
 			</div>
 		);
 	}
 
-	function display_bullpen(id: Array<number>) {
+	function display_bullpen(id: Array<number>, team: keyof team_Type) {
 		return id.map((playerID: number) => {
-			return display_Bullpen_Name(playerID);
+			return display_Bullpen_Name(playerID, team);
 		});
 	}
 
@@ -208,7 +216,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_batting_order(
 							liveData?.boxscore?.teams?.away?.battingOrder
 								? liveData?.boxscore?.teams?.away?.battingOrder
-								: []
+								: [],
+							"away" as keyof team_Type
 						)}
 					</p>
 				</details>
@@ -221,7 +230,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_bench(
 							liveData?.boxscore?.teams?.away?.bench
 								? liveData?.boxscore?.teams?.away?.bench
-								: []
+								: [],
+							"away" as keyof team_Type
 						)}
 					</p>
 				</details>
@@ -234,7 +244,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_bullpen(
 							liveData?.boxscore?.teams?.away?.bullpen
 								? liveData?.boxscore?.teams?.away?.bullpen
-								: []
+								: [],
+							"away" as keyof team_Type
 						)}
 					</p>
 				</details>
@@ -276,7 +287,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_batting_order(
 							liveData?.boxscore?.teams?.home?.battingOrder
 								? liveData?.boxscore?.teams?.home?.battingOrder
-								: []
+								: [],
+							"home" as keyof team_Type
 						)}
 					</p>
 				</details>
@@ -289,7 +301,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_bench(
 							liveData?.boxscore?.teams?.home?.bench
 								? liveData?.boxscore?.teams?.home?.bench
-								: []
+								: [],
+							"home" as keyof team_Type
 						)}
 					</p>
 				</details>
@@ -302,7 +315,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						{display_bullpen(
 							liveData?.boxscore?.teams?.home?.bullpen
 								? liveData?.boxscore?.teams?.home?.bullpen
-								: []
+								: [],
+							"home" as keyof team_Type
 						)}
 					</p>
 				</details>
