@@ -219,77 +219,18 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	// const kwong = {
-	// 	id: 543939,
-	// 	fullName: "Kolten Wong",
-	// 	link: "/api/v1/people/543939",
-	// 	firstName: "Kolten",
-	// 	lastName: "Wong",
-	// 	primaryNumber: "16",
-	// 	birthDate: "1990-10-10",
-	// 	currentAge: 31,
-	// 	birthCity: "Hilo",
-	// 	birthStateProvince: "HI",
-	// 	birthCountry: "USA",
-	// 	height: "5' 7\"",
-	// 	weight: 185,
-	// 	active: true,
-	// 	primaryPosition: {
-	// 		code: "4",
-	// 		name: "Second Base",
-	// 		type: "Infielder",
-	// 		abbreviation: "2B",
-	// 	},
-	// 	useName: "Kolten",
-	// 	middleName: "Kaha",
-	// 	boxscoreName: "Wong, Ko",
-	// 	nickName: "Thewongone808",
-	// 	gender: "M",
-	// 	isPlayer: true,
-	// 	isVerified: true,
-	// 	draftYear: 2011,
-	// 	mlbDebutDate: "2013-08-16",
-	// 	batSide: {
-	// 		code: "L",
-	// 		description: "Left",
-	// 	},
-	// 	pitchHand: {
-	// 		code: "R",
-	// 		description: "Right",
-	// 	},
-	// 	nameFirstLast: "Kolten Wong",
-	// 	nameSlug: "kolten-wong-543939",
-	// 	firstLastName: "Kolten Wong",
-	// 	lastFirstName: "Wong, Kolten",
-	// 	lastInitName: "Wong, K",
-	// 	initLastName: "K Wong",
-	// 	fullFMLName: "Kolten Kaha Wong",
-	// 	fullLFMName: "Wong, Kolten Kaha",
-	// 	strikeZoneTop: 3.179,
-	// 	strikeZoneBottom: 1.474,
-	// };
-
 	return (
 		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
-			{/* <Link
-				to={"/player"}
-				state={{ mlbamID: kwong.id, playerInfo: kwong }}
-			>
-				{" "}
-				{kwong.id}{" "}
-			</Link> */}
 			<div
 				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
 				style={style}
 			>
 				{" "}
 				Away Team{" "}
-				{gameData?.teams.away.id
-					? display_logo(
-							gameData?.teams.away.id,
-							gameData?.teams.away.name
-					  )
-					: ""}
+				{
+					/* prettier-ignore */
+					gameData?.teams.away.id ? display_logo(gameData?.teams.away.id, gameData?.teams.away.name) : ""
+				}
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Lineup
@@ -355,12 +296,10 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div className="tw-flex-1 tw-w-0 tw-h-full tw-overflow-y-auto">
 				{" "}
 				Home Team{" "}
-				{gameData?.teams.home.id
-					? display_logo(
-							gameData?.teams.home.id,
-							gameData?.teams.away.name
-					  )
-					: ""}
+				{
+					/* prettier-ignore */
+					gameData?.teams.home.id ? display_logo(gameData?.teams.home.id, gameData?.teams.away.name): ""
+				}
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Lineup
