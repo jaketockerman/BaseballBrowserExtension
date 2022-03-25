@@ -130,7 +130,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		return (
 			<React.Fragment>
 				<React.Fragment>{player_info()}</React.Fragment>
-				<div className="tw-h-full tw-w-full">test_under</div>
+				<div className="tw-h-full tw-w-full"></div>
 			</React.Fragment>
 		);
 	}

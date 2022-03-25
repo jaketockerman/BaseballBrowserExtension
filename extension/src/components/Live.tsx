@@ -9,11 +9,11 @@ import {
 	gameData_Type,
 	liveData_Response,
 	liveData_Type,
-	player_Type,
 	playerID,
 	team_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
+import { Link } from "react-router-dom";
 // import { Accordion } from "react-bootstrap";
 
 Live.propTypes = {
@@ -25,19 +25,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
-	const [players, setPlayers] = useState<Array<player_Type>>();
 	const [liveDelay, setLiveDelay] = useState(100);
-	const [gameDelay, setGameDelay] = useState<number | null>(500);
-	useInterval(() => {
-		if (gameID !== "") {
+
+	useEffect(() => {
+		if (gameID) {
 			axios
 				.get<gameData_Response>(
 					props.servers.mlbstats + "gameData/" + gameID
 				)
 				.then((response) => {
 					setGameData(response.data.result);
-					setPlayers(Object.values(response.data.result["players"]));
-					setGameDelay(null);
 				})
 				.catch((error: AxiosError<{ additionalInfo: string }>) => {
 					if (error.response?.status != 200) {
@@ -45,7 +42,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					}
 				});
 		}
-	}, gameDelay);
+	}, [gameID]);
+
 	useInterval(
 		() => {
 			if (gameID !== "") {
@@ -102,11 +100,21 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	) {
 		return (
 			<div>
-				{index + 1}:{" "}
-				{
-					gameData?.players[("ID" + playerIDNum) as playerID]
-						.lastInitName
-				}
+				{index + 1}:
+				<Link
+					to={"/player"}
+					state={{
+						mlbamID: playerIDNum,
+						playerInfo:
+							gameData?.players[("ID" + playerIDNum) as playerID],
+					}}
+				>
+					{" "}
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							.lastInitName
+					}{" "}
+				</Link>
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
@@ -129,10 +137,20 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		return (
 			<div>
 				{" "}
-				{
-					gameData?.players[("ID" + playerIDNum) as playerID]
-						.lastInitName
-				}
+				<Link
+					to={"/player"}
+					state={{
+						mlbamID: playerIDNum,
+						playerInfo:
+							gameData?.players[("ID" + playerIDNum) as playerID],
+					}}
+				>
+					{" "}
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							.lastInitName
+					}{" "}
+				</Link>
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
@@ -155,10 +173,20 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		return (
 			<div>
 				{" "}
-				{
-					gameData?.players[("ID" + playerIDNum) as playerID]
-						.lastInitName
-				}
+				<Link
+					to={"/player"}
+					state={{
+						mlbamID: playerIDNum,
+						playerInfo:
+							gameData?.players[("ID" + playerIDNum) as playerID],
+					}}
+				>
+					{" "}
+					{
+						gameData?.players[("ID" + playerIDNum) as playerID]
+							.lastInitName
+					}{" "}
+				</Link>
 				{"   "}
 				<span className="tw-italic tw-text-gray-500">
 					{
@@ -191,10 +219,65 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	console.log(players); //CAN DELETE LATER IF PLAYERS NOT NEEDED
+	// const kwong = {
+	// 	id: 543939,
+	// 	fullName: "Kolten Wong",
+	// 	link: "/api/v1/people/543939",
+	// 	firstName: "Kolten",
+	// 	lastName: "Wong",
+	// 	primaryNumber: "16",
+	// 	birthDate: "1990-10-10",
+	// 	currentAge: 31,
+	// 	birthCity: "Hilo",
+	// 	birthStateProvince: "HI",
+	// 	birthCountry: "USA",
+	// 	height: "5' 7\"",
+	// 	weight: 185,
+	// 	active: true,
+	// 	primaryPosition: {
+	// 		code: "4",
+	// 		name: "Second Base",
+	// 		type: "Infielder",
+	// 		abbreviation: "2B",
+	// 	},
+	// 	useName: "Kolten",
+	// 	middleName: "Kaha",
+	// 	boxscoreName: "Wong, Ko",
+	// 	nickName: "Thewongone808",
+	// 	gender: "M",
+	// 	isPlayer: true,
+	// 	isVerified: true,
+	// 	draftYear: 2011,
+	// 	mlbDebutDate: "2013-08-16",
+	// 	batSide: {
+	// 		code: "L",
+	// 		description: "Left",
+	// 	},
+	// 	pitchHand: {
+	// 		code: "R",
+	// 		description: "Right",
+	// 	},
+	// 	nameFirstLast: "Kolten Wong",
+	// 	nameSlug: "kolten-wong-543939",
+	// 	firstLastName: "Kolten Wong",
+	// 	lastFirstName: "Wong, Kolten",
+	// 	lastInitName: "Wong, K",
+	// 	initLastName: "K Wong",
+	// 	fullFMLName: "Kolten Kaha Wong",
+	// 	fullLFMName: "Wong, Kolten Kaha",
+	// 	strikeZoneTop: 3.179,
+	// 	strikeZoneBottom: 1.474,
+	// };
 
 	return (
 		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
+			{/* <Link
+				to={"/player"}
+				state={{ mlbamID: kwong.id, playerInfo: kwong }}
+			>
+				{" "}
+				{kwong.id}{" "}
+			</Link> */}
 			<div
 				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
 				style={style}
@@ -203,8 +286,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				Away Team{" "}
 				{gameData?.teams.away.id
 					? display_logo(
-						gameData?.teams.away.id,
-						gameData?.teams.away.name
+							gameData?.teams.away.id,
+							gameData?.teams.away.name
 					  )
 					: ""}
 				<details>
@@ -274,8 +357,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				Home Team{" "}
 				{gameData?.teams.home.id
 					? display_logo(
-						gameData?.teams.home.id,
-						gameData?.teams.away.name
+							gameData?.teams.home.id,
+							gameData?.teams.away.name
 					  )
 					: ""}
 				<details>
