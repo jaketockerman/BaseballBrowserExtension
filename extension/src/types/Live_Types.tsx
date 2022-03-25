@@ -3,11 +3,13 @@ interface gameData_Response {
 	result: gameData_Type;
 }
 
+type playerID = `ID${number}`;
+
 interface gameData_Type {
 	alert: Array<unknown>;
 	flags: flags_Type;
 	gameInfo: gameInfo_Type;
-	players: object;
+	players: Record<playerID, player_Type>;
 	review: review_Type;
 	teams: teams_Type;
 	venue: activeVenue_Type;
@@ -127,6 +129,7 @@ interface player_Type {
 	currentAge?: number;
 	draftYear?: number;
 	fullName?: string;
+	lastInitName?: string;
 	height?: string;
 	id: number;
 	mlbDebutDate?: string;
@@ -164,6 +167,10 @@ interface batSide_Type {
 //-----------------------------------------------------------------------------------------------------------------------//
 
 interface liveData_Response {
+	result: liveData_Type;
+}
+
+interface liveData_Type {
 	boxscore: boxscore_Type;
 	plays: plays_Type;
 }
@@ -298,6 +305,19 @@ interface teamInfo_Type {
 	bench: Array<number>;
 	bullpen: Array<number>;
 	teamStats: teamStats_Type;
+	players: Record<playerID, live_Player_Type>;
+}
+
+interface live_Player_Type {
+	jerseyNumber: number;
+	position: position_Type;
+}
+
+interface position_Type {
+	code: string;
+	name: string;
+	type: string;
+	abbreviation: string;
 }
 
 interface teamStats_Type {
@@ -438,4 +458,8 @@ export type {
 	pitching_Type,
 	fielding_Type,
 	batting_Type,
+	liveData_Type,
+	playerID,
+	live_Player_Type,
+	position_Type,
 };
