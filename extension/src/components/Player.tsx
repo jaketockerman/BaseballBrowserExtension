@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
-import { useInterval } from "usehooks-ts";
 import { player_Type } from "../types/Live_Types";
 import { useLocation } from "react-router-dom";
 
@@ -40,20 +39,18 @@ interface FGResponseType {
 function Player(props: InferProps<typeof Player.propTypes>) {
 	const location = useLocation();
 	const { mlbamID, playerInfo } = location.state as stateType;
-	const [playerDelay, setPlayerDelay] = useState<number | null>(500);
 	const [fgStats, setFGStats] = useState<PlayerStatsType>();
+	const [active, setActive] = useState<"batting" | "pitching">();
 	//test player 460075: Braun
 	//test player 592885: Yelich
 	//test player 660271: Ohtani (has both pitching and batting)
 	//test player 669203: Burnes (has both pitching and batting)
 	//test player 541650: Hernan Perez (has both pitching and batting)
 
-	useInterval(() => {
+	useEffect(() => {
 		axios
 			.get<FGResponseType>(props.servers.pybaseball + "player/" + mlbamID)
 			.then((response) => {
-				// setPlayerData(response.data.result);
-				setPlayerDelay(null);
 				const batting = response.data.result.batting
 					? JSON.parse(response.data.result.batting)
 					: [];
@@ -61,13 +58,18 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					? JSON.parse(response.data.result.pitching)
 					: [];
 				setFGStats({ batting: batting, pitching: pitching });
+				if (playerInfo.primaryPosition?.abbreviation === "P") {
+					setActive("pitching");
+				} else {
+					setActive("batting");
+				}
 			})
 			.catch((error: AxiosError<{ additionalInfo: string }>) => {
 				if (error.response?.status != 200) {
 					console.log(error.message);
 				}
 			});
-	}, playerDelay);
+	}, [mlbamID]);
 
 	function display_headshot(playerIDNum: number) {
 		const link = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerIDNum}/headshot/67/current`;
@@ -79,25 +81,16 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			borderBottom: "1px solid",
 			borderColor: "#FFFFFF",
 		};
-		// const backStyle = {
-		// 	border: "1px solid",
-		// 	borderColor: "#FFFFFF",
-		// };
 
 		return (
 			<div
 				className="tw-max-h-3/6 tw-flex tw-w-full"
 				style={dividerStyle}
 			>
-				<div className="tw-flex tw-flex-col tw-text-left tw-w-2/12">
-					{/* <div className="tw-w-full tw-h-1/12 tw-text-center" style={backStyle} onClick={()=>{navigate(-1);}}> 
-						<img src={arrowLeft} alt="back" />
-					</div> */}
-					<div className="tw-min-h-0 tw-min-w-0">
-						{mlbamID ? display_headshot(mlbamID) : ""}
-					</div>
+				<div className="tw-flex tw-flex-col tw-text-left tw-w-2/12 tw-min-h-0 tw-min-w-0">
+					{mlbamID ? display_headshot(mlbamID) : ""}
 				</div>
-				<div className="tw-w-full tw-h-full tw-flex tw-flex-col">
+				<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-justify-center">
 					<div className="tw-w-full">
 						{playerInfo.fullName} #{playerInfo.primaryNumber}
 					</div>
@@ -122,6 +115,94 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		);
 	}
 
+	function player_options() {
+		const dividerStyle = {
+			borderLeft: "1px solid",
+			borderRight: "1px solid",
+			borderBottom: "1px solid",
+			borderColor: "#FFFFFF",
+		};
+
+		const battingStyle = {
+			borderRight: "0px",
+			borderColor: "#FFFFFF",
+		};
+
+		if (fgStats?.batting.length && fgStats.pitching.length) {
+			battingStyle["borderRight"] = "1px solid";
+			if (active === "batting") {
+				//Both batting and pitching with batting active
+				return (
+					<div className="tw-h-full tw-flex" style={dividerStyle}>
+						<div
+							style={battingStyle}
+							className="tw-h-full tw-w-full tw-bg-nav-blue-extra-light"
+						>
+							{"Batting"}
+						</div>
+						<div
+							onClick={() => {
+								setActive("pitching");
+							}}
+							className="tw-h-full tw-w-full tw-bg-nav-blue"
+						>
+							{"Pitching"}
+						</div>
+					</div>
+				);
+			}
+			//Both batting and pitching with pitching active
+			else {
+				return (
+					<div className="tw-h-full tw-flex" style={dividerStyle}>
+						<div
+							onClick={() => {
+								setActive("batting");
+							}}
+							style={battingStyle}
+							className="tw-h-full tw-w-full tw-bg-nav-blue"
+						>
+							{"Batting"}
+						</div>
+						<div className="tw-h-full tw-w-full tw-bg-nav-blue-extra-light">
+							{"Pitching"}
+						</div>
+					</div>
+				);
+			}
+		}
+
+		//Only batting or pitching
+		return (
+			<div
+				className="tw-h-full tw-flex tw-bg-nav-blue"
+				style={dividerStyle}
+			>
+				{fgStats?.batting.length ? (
+					<div style={battingStyle} className="tw-h-full tw-w-full">
+						{"Batting"}
+					</div>
+				) : (
+					""
+				)}
+				{fgStats?.pitching.length ? (
+					<div className="tw-h-full tw-w-full">{"Pitching"}</div>
+				) : (
+					""
+				)}
+			</div>
+		);
+	}
+
+	function player_data() {
+		return (
+			<div className="tw-w-full tw-h-full tw-flex tw-flex-col">
+				<div className="tw-h-1/6">{player_options()}</div>
+				<div className="tw-h-full">{active}</div>
+			</div>
+		);
+	}
+
 	function display_player() {
 		console.log("batting");
 		console.log(fgStats?.batting ? fgStats?.batting : "no batting data");
@@ -130,13 +211,13 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		return (
 			<React.Fragment>
 				<React.Fragment>{player_info()}</React.Fragment>
-				<div className="tw-h-full tw-w-full"></div>
+				<React.Fragment>{player_data()}</React.Fragment>
 			</React.Fragment>
 		);
 	}
 
 	return (
-		<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
+		<div className="tw-flex tw-flex-col tw-h-full tw-items-center">
 			{fgStats != undefined ? (
 				display_player()
 			) : (
