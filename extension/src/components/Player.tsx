@@ -4,6 +4,7 @@ import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { player_Type } from "../types/Live_Types";
 import { useLocation } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 Player.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -15,10 +16,12 @@ interface stateType {
 }
 
 interface FGBattingStatsType {
+	Season: number;
 	AVG: number;
 }
 
 interface FGPitchingStatsType {
+	Season: number;
 	ERA: number;
 }
 
@@ -194,11 +197,81 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		);
 	}
 
+	function batting_table() {
+		return (
+			<Table bordered size="sm" style={{ margin: "0px" }}>
+				<thead>
+					<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42] tw-text-stats-table-text">
+						<th>Season</th>
+						<th>AVG</th>
+						{/* <th>W</th>
+							<th>L</th>
+							<th>PCT</th>
+							<th>GB</th> */}
+					</tr>
+				</thead>
+				<tbody>
+					{fgStats?.batting.map((season: FGBattingStatsType) => {
+						return (
+							<tr
+								className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
+								key={season.Season}
+							>
+								<td>{season.Season}</td>
+								<td>{season.AVG.toFixed(3)}</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</Table>
+		);
+	}
+
+	function pitching_table() {
+		return (
+			<Table bordered size="sm" style={{ margin: "0px" }}>
+				<thead>
+					<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42] tw-text-stats-table-text">
+						<th>Season</th>
+						<th>ERA</th>
+						{/* <th>W</th>
+							<th>L</th>
+							<th>PCT</th>
+							<th>GB</th> */}
+					</tr>
+				</thead>
+				<tbody>
+					{fgStats?.pitching.map((season: FGPitchingStatsType) => {
+						return (
+							<tr
+								className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
+								key={season.Season}
+							>
+								<td>{season.Season}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</Table>
+		);
+	}
+
+	function player_stats() {
+		if (active === "batting") {
+			return batting_table();
+		} else {
+			// Pitching
+			return pitching_table();
+		}
+	}
+
 	function player_data() {
 		return (
-			<div className="tw-w-full tw-h-full tw-flex tw-flex-col">
-				<div className="tw-h-1/6">{player_options()}</div>
-				<div className="tw-h-full">{active}</div>
+			//TODO: Deal with overflow
+			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-auto">
+				<div className="tw-h-1/12">{player_options()}</div>
+				<div className="tw-h-full">{player_stats()}</div>
 			</div>
 		);
 	}

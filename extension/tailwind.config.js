@@ -11,6 +11,7 @@ module.exports = {
 			},
 			fontSize: {
 				"app-text": "18px",
+				"stats-table-text": "14px",
 			},
 		},
 	},
