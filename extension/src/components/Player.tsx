@@ -197,42 +197,55 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		);
 	}
 
-	function batting_table() {
-		return (
-			<Table bordered size="sm" style={{ margin: "0px" }}>
-				<thead>
-					<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42] tw-text-stats-table-text">
-						<th>Season</th>
-						<th>AVG</th>
-						{/* <th>W</th>
-							<th>L</th>
-							<th>PCT</th>
-							<th>GB</th> */}
-					</tr>
-				</thead>
-				<tbody>
-					{fgStats?.batting.map((season: FGBattingStatsType) => {
-						return (
-							<tr
-								className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
-								key={season.Season}
-							>
-								<td>{season.Season}</td>
-								<td>{season.AVG.toFixed(3)}</td>
-							</tr>
-						);
-					})}
-				</tbody>
-			</Table>
-		);
-	}
+	// function batting_table() {
+	// 	return (
+	// 		<Table bordered size="sm" style={{ margin: "0px", tableLayout: "fixed", height: "100%", width: "100%" }}>
+	// 			<thead>
+	// 				<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42] tw-text-stats-table-text">
+	// 					<th>Season</th>
+	// 					<th>AVG</th>
+	// 					{/* <th>W</th>
+	// 						<th>L</th>
+	// 						<th>PCT</th>
+	// 						<th>GB</th> */}
+	// 				</tr>
+	// 			</thead>
+	// 			<tbody>
+	// 				{fgStats?.batting.map((season: FGBattingStatsType) => {
+	// 					return (
+	// 						<tr
+	// 							className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
+	// 							key={season.Season}
+	// 						>
+	// 							<td>{season.Season}</td>
+	// 							<td>{season.AVG.toFixed(3)}</td>
+	// 						</tr>
+	// 					);
+	// 				})}
+	// 			</tbody>
+	// 		</Table>
+	// 	);
+	// }
 
 	function pitching_table() {
 		return (
-			<Table bordered size="sm" style={{ margin: "0px" }}>
+			<Table style={{ margin: "0" }}>
 				<thead>
 					<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42] tw-text-stats-table-text">
 						<th>Season</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
+						<th>ERA</th>
 						<th>ERA</th>
 						{/* <th>W</th>
 							<th>L</th>
@@ -240,14 +253,27 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							<th>GB</th> */}
 					</tr>
 				</thead>
-				<tbody>
+				<tbody className="tw-overflow-auto tw-max-h-full">
 					{fgStats?.pitching.map((season: FGPitchingStatsType) => {
 						return (
 							<tr
-								className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
+								className="tw-bg-[#eceef1] tw-text-black tw-border-[#e4e4e4] tw-text-stats-table-text"
 								key={season.Season}
 							>
 								<td>{season.Season}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.ERA.toFixed(2)}</td>
 								<td>{season.ERA.toFixed(2)}</td>
 							</tr>
 						);
@@ -259,7 +285,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 
 	function player_stats() {
 		if (active === "batting") {
-			return batting_table();
+			return <div>yes</div>; //batting_table();
 		} else {
 			// Pitching
 			return pitching_table();
@@ -268,10 +294,11 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 
 	function player_data() {
 		return (
-			//TODO: Deal with overflow
-			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-auto">
+			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-hidden">
 				<div className="tw-h-1/12">{player_options()}</div>
-				<div className="tw-h-full">{player_stats()}</div>
+				<div className="tw-h-full tw-overflow-auto">
+					{player_stats()}
+				</div>
 			</div>
 		);
 	}
