@@ -255,6 +255,7 @@ interface details_Type {
 	isInPlay: boolean;
 	isStrike: boolean;
 	type: type_Type;
+	ballColor: string;
 }
 
 interface type_Type {
