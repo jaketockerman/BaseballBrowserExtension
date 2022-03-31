@@ -23,14 +23,14 @@ jobs:
           path: extension # optional, default is ./
           # Output filename
           #output: # optional, default is ./bom.xml
-      - name: Upload extension
+      - name: Upload SBOM
         uses: actions/upload-artifact@v2.3.1
         with:
           # Artifact name
           name: SBOM
           # A file, directory or wildcard pattern that describes what to upload
           # upload-artifact does NOT use working-directory
-          path: ./extension/bom.xml
+          path: extension/bom.xml
           if-no-files-found: warn
 
   build:
