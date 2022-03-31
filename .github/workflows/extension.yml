@@ -13,7 +13,7 @@ jobs:
   sbom:
     runs-on: ubuntu-latest
     steps:
-      - run: ls
+      - uses: actions/checkout@v2
       - name: CycloneDX Node.js Generate SBOM
       # You may pin to the exact commit or the version.
       # uses: CycloneDX/gh-node-module-generatebom@b5753d516608ed84f7a40eb19b7687b5828b9b2d
