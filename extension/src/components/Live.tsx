@@ -16,6 +16,7 @@ import {
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
+// import { Line } from "react-konva";
 // import { render } from "react-dom";
 // import { isAbsolute } from "path/posix";
 
@@ -224,57 +225,54 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function display_Pitch(index: number) {
-		//const App = () => {
+	// function display_Pitch(index: number) {
+	//const App = () => {
 
-		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
-		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
-		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
-		// const balls = liveData?.plays.currentPlay.playEvents[index].count?.balls;
-		// const strikes = liveData?.plays.currentPlay.playEvents[index].count?.strikes;
-		// const outs = liveData?.plays.currentPlay.playEvents[index].count?.outs;
-		// const ballColor = liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
-		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-		const strikezoneTop =
-			liveData?.plays.currentPlay.playEvents[index].pitchData
-				?.strikeZoneTop;
-		const strikzoneBottom =
-			liveData?.plays.currentPlay.playEvents[index].pitchData
-				?.strikeZoneBottom;
-		// const pitchX = liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates?.pX;
-		// const pitchZ = liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates?.pZ;
-		const strikezoneHeight =
-			strikezoneTop && strikzoneBottom
-				? (strikezoneTop - strikzoneBottom) * 100
-				: 0;
-		// const scale = 12;
-		// const ballScale = 1.0;
-		// const height = ballScale;
-		// const width = ballScale;
-		// const x = pitchX ? pitchX * scale : 0;
-		// const z = pitchZ ? pitchZ * scale : 0;
+	// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
+	// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
+	// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
+	// const balls = liveData?.plays.currentPlay.playEvents[index].count?.balls;
+	// const strikes = liveData?.plays.currentPlay.playEvents[index].count?.strikes;
+	// const outs = liveData?.plays.currentPlay.playEvents[index].count?.outs;
+	// const ballColor = liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
+	// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
+	// const strikezoneTop = liveData?.plays.currentPlay.playEvents[index].pitchData?.strikeZoneTop;
+	// const strikzoneBottom =liveData?.plays.currentPlay.playEvents[index].pitchData?.strikeZoneBottom;
+	// const pitchX = liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates?.pX;
+	// const pitchZ = liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates?.pZ;
+	// const strikezoneHeight = strikezoneTop && strikzoneBottom ? (strikezoneTop - strikzoneBottom) * 100 : 0;
+	// const scale = 12;
+	// const ballScale = 1.0;
+	// const height = ballScale;
+	// const width = ballScale;
+	// const x = pitchX ? pitchX * scale : 0;
+	// const z = pitchZ ? pitchZ * scale : 0;
 
-		return (
-			<div className="tw-flex-center">
-				<Rect width={100} height={strikezoneHeight} stroke="black" />
-			</div>
-		);
-		//};
-		//render(<App />, document.getElementById("root"));
-	}
+	// return (
+	// 	<Rect width={100} height={200} stroke="black" />
+	// );
+	//};
+	//render(<App />, document.getElementById("root"));
+	// }
 
 	function display_Strikezone() {
 		//Display acutal strikezone grid before this
 		return (
-			<Stage width={100} height={100}>
-				<Layer>
-					{liveData?.plays.currentPlay.pitchIndex.map(
-						(index: number) => {
-							return display_Pitch(index);
-						}
-					)}
-				</Layer>
-			</Stage>
+			<div className="tw-flex tw-justify-center">
+				<Stage width={150} height={200}>
+					<Layer>
+						{/* <						Line points={[0, 0, 20, 0, 0, 0]} stroke="white" /> */}
+						{/* <Line points={[0, 0, 0, 20, 0, 0]} stroke="white"/> */}
+
+						<Rect
+							width={100}
+							height={200}
+							offsetY={25}
+							stroke="black"
+						/>
+					</Layer>
+				</Stage>
+			</div>
 		);
 	}
 
