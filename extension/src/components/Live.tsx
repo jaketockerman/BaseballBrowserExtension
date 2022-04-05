@@ -80,7 +80,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			chrome.tabs.query(
 				{ active: true, lastFocusedWindow: true },
 				(tabs) => {
-					setUrl(tabs[0].url || "");
+					setUrl(tabs[0]?.url || "");
 					detect_game(url);
 				}
 			);
