@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
-import { Stage, Layer, Rect, Circle } from "react-konva";
+import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 // import { NumberLiteralType } from "typescript";
 
 import {
@@ -27,7 +27,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("634198"); //634198 Example Game
+	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
@@ -59,7 +59,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					.then((response) => {
 						//console.log(response.data);
 						setLiveData(response.data.result);
-						setLiveDelay(10000);
+						setLiveDelay(2000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {
 						if (error.response?.status != 200) {
@@ -224,51 +224,139 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function display_Pitch(index: number) {
+	function display_Pitch(
+		index: number,
+		height: number,
+		width: number,
+		pitchNum: number
+	) {
+		const plateWidth = 17 / 12;
 		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
 		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
 		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
 		// const balls = liveData?.plays.currentPlay.playEvents[index].count?.balls;
 		// const strikes = liveData?.plays.currentPlay.playEvents[index].count?.strikes;
 		// const outs = liveData?.plays.currentPlay.playEvents[index].count?.outs;
-		// const ballColor = liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
+		const ballColor =
+			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
 		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-		// const strikezoneTop = liveData?.plays.currentPlay.playEvents[index].pitchData?.strikeZoneTop;
-		// const strikzoneBottom =liveData?.plays.currentPlay.playEvents[index].pitchData?.strikeZoneBottom;
+
+		const strikezoneTop =
+			liveData?.plays.currentPlay.playEvents[index].pitchData
+				?.strikeZoneTop;
+		const strikezoneBottom =
+			liveData?.plays.currentPlay.playEvents[index].pitchData
+				?.strikeZoneBottom;
+		const strikezoneMiddle =
+			strikezoneTop && strikezoneBottom
+				? (strikezoneTop - strikezoneBottom) / 2 + strikezoneBottom
+				: 0;
 		const pitchX =
-			liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates
+			liveData?.plays.currentPlay.playEvents[index].pitchData?.coordinates
 				?.pX;
 		const pitchZ =
-			liveData?.plays.currentPlay.playEvents[index].pitchData.coordinates
+			liveData?.plays.currentPlay.playEvents[index].pitchData?.coordinates
 				?.pZ;
-		// const strikezoneHeight = strikezoneTop && strikzoneBottom ? (strikezoneTop - strikzoneBottom) * 100 : 0;
-		const scale = 12;
-		// const ballScale = 1.0;
-		// const height = ballScale;
-		// const width = ballScale;
-		const x = pitchX ? pitchX * scale : 0;
-		const z = pitchZ ? pitchZ * scale : 0;
-
-		return <Circle radius={5} x={49.5 + x} y={33 + z} stroke="black" />;
+		const strikezoneZeroZ = 114;
+		const strikezoneZeroX = 99.5;
+		if (pitchZ && pitchZ < 0) {
+			//DEALING WITH BALLS IN THE DIRT
+			return "";
+		}
+		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
+		const zLoc =
+			pitchZ && strikezoneTop && strikezoneBottom
+				? ((strikezoneMiddle - pitchZ) /
+						((strikezoneTop - strikezoneBottom) / 2)) *
+				  (height / 2)
+				: 0;
+		const x = xLoc + strikezoneZeroX;
+		const z = zLoc + strikezoneZeroZ;
+		console.log({
+			pitchX,
+			pitchZ,
+			strikezoneTop,
+			x,
+			z,
+			pitchNum,
+			strikezoneMiddle,
+		});
+		return (
+			<Group x={x} y={z} key={index}>
+				<Circle radius={5} stroke={ballColor} fill={ballColor} />
+				<Text text={pitchNum.toString()} />
+			</Group>
+		);
 	}
 
 	function display_Strikezone() {
 		//Display acutal strikezone grid before this
+		const height = 164;
+		const width = 122;
+		let pitchNum = 1;
+		const strikezoneOffsetX = 38.5;
+		const strikezoneOffsetY = 33;
 		return (
 			<div>
-				<Stage width={199} height={230}>
+				<Stage width={199} height={300}>
 					<Layer>
 						<Rect
-							width={122}
-							height={164}
-							x={38.5}
-							y={33}
+							width={width}
+							height={height}
+							x={strikezoneOffsetX}
+							y={strikezoneOffsetY}
 							stroke="black"
 							strokeWidth={3}
 						/>
+						<Line
+							points={[
+								strikezoneOffsetX,
+								strikezoneOffsetY + height / 3,
+								strikezoneOffsetX + width,
+								strikezoneOffsetY + height / 3,
+							]}
+							strokeWidth={3}
+							stroke="grey"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX,
+								strikezoneOffsetY + (2 * height) / 3,
+								strikezoneOffsetX + width,
+								strikezoneOffsetY + (2 * height) / 3,
+							]}
+							strokeWidth={3}
+							stroke="grey"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX + width / 3,
+								strikezoneOffsetY,
+								strikezoneOffsetX + width / 3,
+								strikezoneOffsetY + height,
+							]}
+							strokeWidth={3}
+							stroke="grey"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX + (2 * width) / 3,
+								strikezoneOffsetY,
+								strikezoneOffsetX + (2 * width) / 3,
+								strikezoneOffsetY + height,
+							]}
+							strokeWidth={3}
+							stroke="grey"
+						/>
+						{/* <Circle radius={5} x={99.5} y={114} stroke="red"/> */}
 						{liveData?.plays.currentPlay.pitchIndex.map(
 							(index: number) => {
-								return display_Pitch(index);
+								return display_Pitch(
+									index,
+									height,
+									width,
+									pitchNum++
+								);
 							}
 						)}
 					</Layer>
