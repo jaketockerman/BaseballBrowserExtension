@@ -1,16 +1,20 @@
 FROM python:3
 
-MAINTAINER Rufat Imanov "rimanov@purdue.edu"
+LABEL author="Rufat Imanov" email="rimanov@purdue.edu"
 
 RUN mkdir app
 
 WORKDIR /app
 
-RUN pip install -r ../requirements.txt
+ADD docker/mlbstats/requirements.txt /app
+
+ADD src /app
+
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
 ENTRYPOINT [ "python" ]
 
-CMD [ "../src/mlbstats" ]
+CMD [ "mlbstats_api.py" ]
 
