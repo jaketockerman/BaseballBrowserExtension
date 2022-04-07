@@ -224,10 +224,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
+	function pitchInfo(index: number) {
+		console.log(index);
+	}
+
 	function display_Pitch(
 		index: number,
 		height: number,
 		width: number,
+		strikezoneOffsetX: number,
+		strikezoneOffsetZ: number,
 		pitchNum: number
 	) {
 		const plateWidth = 17 / 12;
@@ -257,8 +263,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const pitchZ =
 			liveData?.plays.currentPlay.playEvents[index].pitchData?.coordinates
 				?.pZ;
-		const strikezoneZeroZ = 114;
-		const strikezoneZeroX = 99.5;
+		const strikezoneZeroZ = height / 2 + strikezoneOffsetZ;
+		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
 			return "";
@@ -272,18 +278,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				: 0;
 		const x = xLoc + strikezoneZeroX;
 		const z = zLoc + strikezoneZeroZ;
-		console.log({
-			pitchX,
-			pitchZ,
-			strikezoneTop,
-			x,
-			z,
-			pitchNum,
-			strikezoneMiddle,
-		});
 		return (
 			<Group x={x} y={z} key={index}>
-				<Circle radius={5} stroke={ballColor} fill={ballColor} />
+				<Circle
+					radius={5}
+					stroke={ballColor}
+					fill={ballColor}
+					onClick={() => {
+						pitchInfo(index);
+					}}
+				/>
 				<Text text={pitchNum.toString()} />
 			</Group>
 		);
@@ -293,12 +297,14 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		//Display acutal strikezone grid before this
 		const height = 164;
 		const width = 122;
+		const stageWidth = 199;
+		const stageHeight = 300;
 		let pitchNum = 1;
-		const strikezoneOffsetX = 38.5;
-		const strikezoneOffsetY = 33;
+		const strikezoneOffsetX = (stageWidth - width) / 2;
+		const strikezoneOffsetY = (stageHeight - height) / 2;
 		return (
 			<div>
-				<Stage width={199} height={300}>
+				<Stage width={stageWidth} height={stageHeight}>
 					<Layer>
 						<Rect
 							width={width}
@@ -355,6 +361,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 									index,
 									height,
 									width,
+									strikezoneOffsetX,
+									strikezoneOffsetY,
 									pitchNum++
 								);
 							}
@@ -426,18 +434,18 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			>
 				{" "}
 				Strikezone: {display_Strikezone()}
-				<div>
+				{/* <div>
 					Current Batter:{" "}
 					{liveData?.plays.currentPlay.matchup.batter.fullName}
 				</div>
 				<div>
 					Current Pitcher:{" "}
 					{liveData?.plays.currentPlay.matchup.pitcher.fullName}
-				</div>
+				</div> */}
 				{/* <div>
 					Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
 				</div> */}
-				<div>Outs: {liveData?.plays.currentPlay.count.outs}</div>
+				{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
 			</div>
 			<div className="tw-flex-1 tw-w-0 tw-h-full tw-overflow-y-auto">
 				{" "}
