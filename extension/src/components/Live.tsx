@@ -31,6 +31,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
+	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
+	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 
 	useEffect(() => {
 		if (gameID) {
@@ -240,9 +242,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
 		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
 		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
-		// const balls = liveData?.plays.currentPlay.playEvents[index].count?.balls;
-		// const strikes = liveData?.plays.currentPlay.playEvents[index].count?.strikes;
-		// const outs = liveData?.plays.currentPlay.playEvents[index].count?.outs;
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
 		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
@@ -288,13 +287,20 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						pitchInfo(index);
 					}}
 				/>
-				<Text text={pitchNum.toString()} />
+				<Text
+					text={pitchNum.toString()}
+					stroke="white"
+					strokeWidth={1}
+				/>
 			</Group>
 		);
 	}
 
 	function display_Strikezone() {
 		//Display acutal strikezone grid before this
+		const outs = liveData?.plays.currentPlay.count.outs;
+		const balls = liveData?.plays.currentPlay.count.balls;
+		const strikes = liveData?.plays.currentPlay.count.strikes;
 		const height = 164;
 		const width = 122;
 		const stageWidth = 199;
@@ -306,6 +312,27 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div>
 				<Stage width={stageWidth} height={stageHeight}>
 					<Layer>
+						<Text
+							text={balls?.toString() + "balls"}
+							x={strikezoneOffsetX}
+							y={20}
+							stroke="white"
+							strokeWidth={1}
+						/>
+						<Text
+							text={strikes?.toString() + "strikes"}
+							x={strikezoneOffsetX + 50}
+							y={20}
+							stroke="white"
+							strokeWidth={1}
+						/>
+						<Text
+							text={outs?.toString() + "outs"}
+							x={strikezoneOffsetX + 100}
+							y={20}
+							stroke="white"
+							strokeWidth={1}
+						/>
 						<Rect
 							width={width}
 							height={height}
@@ -433,15 +460,39 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				style={style}
 			>
 				{" "}
-				Strikezone: {display_Strikezone()}
-				{/* <div>
-					Current Batter:{" "}
-					{liveData?.plays.currentPlay.matchup.batter.fullName}
+				{display_Strikezone()}
+				<div className="tw-text-sm">
+					Batter:{" "}
+					<Link
+						to={"/player"}
+						state={{
+							mlbamID: currBatterID,
+							playerInfo:
+								gameData?.players[
+									("ID" + currBatterID) as playerID
+								],
+						}}
+						className="tw-text-white"
+					>
+						{liveData?.plays.currentPlay.matchup.batter.fullName}
+					</Link>
 				</div>
-				<div>
-					Current Pitcher:{" "}
-					{liveData?.plays.currentPlay.matchup.pitcher.fullName}
-				</div> */}
+				<div className="tw-text-sm">
+					Pitcher:{" "}
+					<Link
+						to={"/player"}
+						state={{
+							mlbamID: currPitcherID,
+							playerInfo:
+								gameData?.players[
+									("ID" + currPitcherID) as playerID
+								],
+						}}
+						className="tw-text-white"
+					>
+						{liveData?.plays.currentPlay.matchup.pitcher.fullName}
+					</Link>
+				</div>
 				{/* <div>
 					Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
 				</div> */}
