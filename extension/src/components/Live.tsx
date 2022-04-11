@@ -228,6 +228,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function pitchInfo(index: number) {
 		console.log(index);
+		//Somehow make a pop up rectangle that opens when you click the pitch (Not sure how to close though?)
 	}
 
 	function display_Pitch(
@@ -245,7 +246,10 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
 		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-
+		const isPitch = liveData?.plays.currentPlay.playEvents[index].isPitch;
+		if (!isPitch) {
+			return;
+		}
 		const strikezoneTop =
 			liveData?.plays.currentPlay.playEvents[index].pitchData
 				?.strikeZoneTop;
@@ -266,7 +270,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
-			return "";
+			return;
 		}
 		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
 		const zLoc =
@@ -305,7 +309,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const width = 122;
 		const stageWidth = 199;
 		const stageHeight = 300;
-		let pitchNum = 1;
+		let pitchNum = 1; //THIS STILL INCREMENTS WHEN isPitch is false, need to figure out how to fix
 		const strikezoneOffsetX = (stageWidth - width) / 2;
 		const strikezoneOffsetY = (stageHeight - height) / 2;
 		return (
@@ -339,7 +343,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							x={strikezoneOffsetX}
 							y={strikezoneOffsetY}
 							stroke="black"
-							strokeWidth={3}
+							strokeWidth={2}
 						/>
 						<Line
 							points={[
@@ -348,8 +352,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width,
 								strikezoneOffsetY + height / 3,
 							]}
-							strokeWidth={3}
-							stroke="grey"
+							strokeWidth={2}
+							stroke="#525252"
 						/>
 						<Line
 							points={[
@@ -358,8 +362,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width,
 								strikezoneOffsetY + (2 * height) / 3,
 							]}
-							strokeWidth={3}
-							stroke="grey"
+							strokeWidth={2}
+							stroke="#525252"
 						/>
 						<Line
 							points={[
@@ -368,8 +372,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width / 3,
 								strikezoneOffsetY + height,
 							]}
-							strokeWidth={3}
-							stroke="grey"
+							strokeWidth={2}
+							stroke="#525252"
 						/>
 						<Line
 							points={[
@@ -378,8 +382,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + (2 * width) / 3,
 								strikezoneOffsetY + height,
 							]}
-							strokeWidth={3}
-							stroke="grey"
+							strokeWidth={2}
+							stroke="#525252"
 						/>
 						{/* <Circle radius={5} x={99.5} y={114} stroke="red"/> */}
 						{liveData?.plays.currentPlay.pitchIndex.map(
