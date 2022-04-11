@@ -208,7 +208,6 @@ interface playEvents_Type {
 }
 
 interface pitchData_Type {
-	breaks: breaks_Type;
 	coordinates: coordinates_Type;
 	endSpeed: number;
 	extension: number;

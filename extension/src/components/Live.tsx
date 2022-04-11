@@ -61,7 +61,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					.then((response) => {
 						//console.log(response.data);
 						setLiveData(response.data.result);
-						setLiveDelay(2000);
+						setLiveDelay(10000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {
 						if (error.response?.status != 200) {
@@ -228,7 +228,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function pitchInfo(index: number) {
 		console.log(index);
-		//Somehow make a pop up rectangle that opens when you click the pitch (Not sure how to close though?)
 	}
 
 	function display_Pitch(
@@ -246,10 +245,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
 		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-		const isPitch = liveData?.plays.currentPlay.playEvents[index].isPitch;
-		if (!isPitch) {
-			return;
-		}
+
 		const strikezoneTop =
 			liveData?.plays.currentPlay.playEvents[index].pitchData
 				?.strikeZoneTop;
@@ -270,7 +266,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
-			return;
+			return "";
 		}
 		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
 		const zLoc =
@@ -305,17 +301,57 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const outs = liveData?.plays.currentPlay.count.outs;
 		const balls = liveData?.plays.currentPlay.count.balls;
 		const strikes = liveData?.plays.currentPlay.count.strikes;
-		const height = 164;
-		const width = 122;
-		const stageWidth = 199;
+		const height = 123;
+		const width = 91.5;
+		const stageWidth = 349;
 		const stageHeight = 300;
-		let pitchNum = 1; //THIS STILL INCREMENTS WHEN isPitch is false, need to figure out how to fix
+		let pitchNum = 1;
 		const strikezoneOffsetX = (stageWidth - width) / 2;
-		const strikezoneOffsetY = (stageHeight - height) / 2;
+		const strikezoneOffsetY = (stageHeight - height) / 2 + 30;
 		return (
 			<div>
 				<Stage width={stageWidth} height={stageHeight}>
 					<Layer>
+						{/* <Line
+							points={[
+								0,
+								0,
+								stageWidth,
+								0,
+							]}
+							strokeWidth={3}
+							stroke="red"
+						/>
+						<Line
+							points={[
+								0,
+								0,
+								0,
+								stageHeight,
+							]}
+							strokeWidth={3}
+							stroke="red"
+						/>
+						<Line
+							points={[
+								0,
+								stageHeight,
+								stageWidth,
+								stageHeight,
+							]}
+							strokeWidth={3}
+							stroke="red"
+						/>
+						<Line
+							points={[
+								stageWidth,
+								0,
+								stageWidth,
+								stageHeight,
+							]}
+							strokeWidth={3}
+							stroke="red"
+						/> */}
 						<Text
 							text={balls?.toString() + "balls"}
 							x={strikezoneOffsetX}
@@ -386,8 +422,13 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							stroke="#525252"
 						/>
 						{/* <Circle radius={5} x={99.5} y={114} stroke="red"/> */}
-						{liveData?.plays.currentPlay.pitchIndex.map(
-							(index: number) => {
+						{liveData?.plays.currentPlay.pitchIndex
+							.filter((pitchIndex) => {
+								return liveData?.plays.currentPlay.playEvents[
+									pitchIndex
+								].isPitch;
+							})
+							.map((index: number) => {
 								return display_Pitch(
 									index,
 									height,
@@ -396,8 +437,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 									strikezoneOffsetY,
 									pitchNum++
 								);
-							}
-						)}
+							})}
 					</Layer>
 				</Stage>
 			</div>
@@ -407,7 +447,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	return (
 		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
 			<div
-				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
+				className="tw-flex-1 tw-w-0 tw-max-w-[25%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
 				style={style}
 			>
 				{" "}
@@ -502,7 +542,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				</div> */}
 				{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
 			</div>
-			<div className="tw-flex-1 tw-w-0 tw-h-full tw-overflow-y-auto">
+			<div className="tw-flex-1 tw-w-0 tw-max-w-[25%] tw-h-full tw-overflow-y-auto">
 				{" "}
 				Home Team{" "}
 				{

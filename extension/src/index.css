@@ -2,7 +2,7 @@
 @tailwind utilities;
 
 .window {
-	width: 600px;
+	width: 700px;
 	height: 400px;
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
