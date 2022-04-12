@@ -68,9 +68,12 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 									<td>{team.w}</td>
 									<td>{team.l}</td>
 									<td>
-										{(team.w / (team.w + team.l)).toFixed(
-											3
-										)}
+										{team.w + team.l
+											? (
+													team.w /
+													(team.w + team.l)
+											  ).toFixed(3)
+											: ""}
 									</td>
 									<td>{team.gb}</td>
 								</tr>
