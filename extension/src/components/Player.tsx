@@ -4,7 +4,7 @@ import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { player_Type } from "../types/Live_Types";
 import { useLocation } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Form, Table } from "react-bootstrap";
 
 Player.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -52,6 +52,7 @@ interface FGBattingStatsType {
 // 	"FB": 179,
 // 	"LD": 131,
 // 	"IFFB": 14,
+//STOPPED HERE
 // 	"Balls": 1059,
 // 	"Strikes": 2009,
 // 	"Pitches": 3068,
@@ -358,6 +359,7 @@ interface FGBattingStatsType {
 //   }
 
 interface FGPitchingStatsType {
+	//REGULAR
 	Season: number;
 	Age: number;
 	Team: string;
@@ -368,7 +370,7 @@ interface FGPitchingStatsType {
 	GS: number;
 	GF: number;
 	CG: number;
-	SHO: number;
+	ShO: number;
 	SV: number;
 	IP: number;
 	H: number;
@@ -376,6 +378,15 @@ interface FGPitchingStatsType {
 	ER: number;
 	HR: number;
 	BB: number;
+	IBB: number;
+	HBP: number;
+	WP: number;
+	BK: number;
+	SO: number;
+	//ADVANCED
+	GB: number;
+	FB: number;
+	LD: number;
 }
 
 interface PlayerStatsType {
@@ -432,6 +443,45 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		return <img src={link} className="tw-max-w-full" />;
 	}
 
+	// function player_info() {
+	// 	const dividerStyle = {
+	// 		borderBottom: "1px solid",
+	// 		borderColor: "#FFFFFF",
+	// 	};
+
+	// 	return (
+	// 		<div
+	// 			className="tw-h-1/2 tw-flex tw-w-full"
+	// 			style={dividerStyle}
+	// 		>
+	// 			<div className="tw-flex tw-flex-col tw-text-left tw-w-[13%] tw-min-h-0 tw-min-w-0">
+	// 				{mlbamID ? display_headshot(mlbamID) : ""}
+	// 			</div>
+	// 			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-justify-center">
+	// 				<div className="tw-w-full">
+	// 					{playerInfo.fullName} #{playerInfo.primaryNumber}
+	// 				</div>
+	// 				<div className="tw-w-full">
+	// 					{playerInfo.primaryPosition?.abbreviation} | B/T:{" "}
+	// 					{playerInfo.batSide?.code}/{playerInfo.pitchHand?.code}{" "}
+	// 					| {playerInfo.height}/{playerInfo.weight} | Age:{" "}
+	// 					{playerInfo.currentAge}
+	// 				</div>
+	// 				<div className="tw-w-full">
+	// 					{playerInfo.mlbDebutDate
+	// 						? `MLB Debut: ${playerInfo.mlbDebutDate}`
+	// 						: ""}
+	// 				</div>
+	// 				<div className="tw-w-full">
+	// 					{playerInfo.nickName
+	// 						? `Nickname: ${playerInfo.nickName}`
+	// 						: ""}
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
+
 	function player_info() {
 		const dividerStyle = {
 			borderBottom: "1px solid",
@@ -439,10 +489,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		};
 
 		return (
-			<div
-				className="tw-max-h-3/6 tw-flex tw-w-full"
-				style={dividerStyle}
-			>
+			<div className="tw-h-1/2 tw-flex tw-w-full" style={dividerStyle}>
 				<div className="tw-flex tw-flex-col tw-text-left tw-w-2/12 tw-min-h-0 tw-min-w-0">
 					{mlbamID ? display_headshot(mlbamID) : ""}
 				</div>
@@ -465,6 +512,11 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 						{playerInfo.nickName
 							? `Nickname: ${playerInfo.nickName}`
 							: ""}
+					</div>
+					{/* <div className="tw-h-full tw-flex tw-items-end"> */}
+					<div className="">
+						<Form.Switch />
+						{/* <div className="tw-w-full tw-text-[16px]">{advanced_options()}</div> */}
 					</div>
 				</div>
 			</div>
@@ -589,28 +641,26 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			<Table size="sm" style={{ margin: "0px" }}>
 				<thead className={tableHeadTailwind}>
 					<tr>
-						<th className="tw-px-2">Season</th>
+						<th>Season</th>
+						<th>Age</th>
+						<th>Tm</th>
+						<th>W</th>
+						<th>L</th>
+						<th>W-L%</th>
 						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
-						<th>ERA</th>
+						<th>G</th>
+						<th>GS</th>
+						<th>CG</th>
+						<th>SHO</th>
+						<th>SV</th>
+						<th>IP</th>
+						<th>H</th>
+						<th>R</th>
+						<th>ER</th>
+						<th>HR</th>
+						<th>BB</th>
+						<th>IBB</th>
+						<th>SO</th>
 						{/* <th>W</th>
 							<th>L</th>
 							<th>PCT</th>
@@ -625,27 +675,33 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 								key={season.Season}
 							>
 								<td>{season.Season}</td>
+								<td>{season.Age}</td>
+								<td>{season.Team}</td>
+								<td>{season.W}</td>
+								<td>{season.L}</td>
+								<td>
+									{season.W + season.L
+										? (
+												season.W /
+												(season.W + season.L)
+										  ).toFixed(3)
+										: ""}
+								</td>
 								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.G}</td>
+								<td>{season.GS}</td>
+								<td>{season.CG}</td>
+								<td>{season.ShO}</td>
+								<td>{season.SV}</td>
+								<td>{season.IP.toFixed(1)}</td>
+								<td>{season.H}</td>
+								<td>{season.R}</td>
+								<td>{season.ER}</td>
+								<td>{season.HR}</td>
+								<td>{season.BB}</td>
+								<td>{season.IBB}</td>
+								<td>{season.SO}</td>
+								{/* <td>{season.HBP}</td> */}
 							</tr>
 						);
 					})}
@@ -666,7 +722,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	function player_data() {
 		return (
 			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-overflow-hidden">
-				<div className="tw-h-1/12">{player_options()}</div>
+				<div className="tw-text-[16px]">{player_options()}</div>
 				<div className="tw-h-full tw-w-full tw-overflow-auto">
 					{player_stats()}
 				</div>
@@ -688,7 +744,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	}
 
 	return (
-		<div className="tw-flex tw-flex-col tw-h-full tw-items-center">
+		<div className="tw-flex tw-flex-col tw-h-full tw-items-center tw-justify-center">
 			{fgStats != undefined ? (
 				display_player()
 			) : (
