@@ -266,7 +266,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
-			return "";
+			return;
 		}
 		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
 		const zLoc =
