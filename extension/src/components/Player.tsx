@@ -638,7 +638,8 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 
 	function pitching_table() {
 		return (
-			<Table size="sm" style={{ margin: "0px" }}>
+			// <Table size="sm" style={{ margin: "0px" }}>
+			<table className="tw-w-full tw-table-auto">
 				<thead className={tableHeadTailwind}>
 					<tr>
 						<th>Season</th>
@@ -668,45 +669,53 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					</tr>
 				</thead>
 				<tbody>
-					{fgStats?.pitching.map((season: FGPitchingStatsType) => {
-						return (
-							<tr
-								className="tw-bg-[#eceef1] tw-text-stats-table-text"
-								key={season.Season}
-							>
-								<td>{season.Season}</td>
-								<td>{season.Age}</td>
-								<td>{season.Team}</td>
-								<td>{season.W}</td>
-								<td>{season.L}</td>
-								<td>
-									{season.W + season.L
-										? (
-												season.W /
-												(season.W + season.L)
-										  ).toFixed(3)
-										: ""}
-								</td>
-								<td>{season.ERA.toFixed(2)}</td>
-								<td>{season.G}</td>
-								<td>{season.GS}</td>
-								<td>{season.CG}</td>
-								<td>{season.ShO}</td>
-								<td>{season.SV}</td>
-								<td>{season.IP.toFixed(1)}</td>
-								<td>{season.H}</td>
-								<td>{season.R}</td>
-								<td>{season.ER}</td>
-								<td>{season.HR}</td>
-								<td>{season.BB}</td>
-								<td>{season.IBB}</td>
-								<td>{season.SO}</td>
-								{/* <td>{season.HBP}</td> */}
-							</tr>
-						);
-					})}
+					{fgStats?.pitching.map(
+						(season: FGPitchingStatsType, index) => {
+							const tailwindRow =
+								index % 2
+									? "tw-bg-[#eceef1] tw-text-stats-table-text tw-text-black tw-bg-gray-200 tw-py-10"
+									: "tw-bg-[#eceef1] tw-text-stats-table-text tw-text-black";
+							return (
+								<tr className={tailwindRow} key={season.Season}>
+									<td className="tw-px-1">{season.Season}</td>
+									<td className="tw-px-1">{season.Age}</td>
+									<td className="tw-px-1">{season.Team}</td>
+									<td className="tw-px-1">{season.W}</td>
+									<td className="tw-px-1">{season.L}</td>
+									<td className="tw-px-1">
+										{season.W + season.L
+											? (
+													season.W /
+													(season.W + season.L)
+											  ).toFixed(3)
+											: ""}
+									</td>
+									<td className="tw-px-1">
+										{season.ERA.toFixed(2)}
+									</td>
+									<td className="tw-px-1">{season.G}</td>
+									<td className="tw-px-1">{season.GS}</td>
+									<td className="tw-px-1">{season.CG}</td>
+									<td className="tw-px-1">{season.ShO}</td>
+									<td className="tw-px-1">{season.SV}</td>
+									<td className="tw-px-1">
+										{season.IP.toFixed(1)}
+									</td>
+									<td className="tw-px-1">{season.H}</td>
+									<td className="tw-px-1">{season.R}</td>
+									<td className="tw-px-1">{season.ER}</td>
+									<td className="tw-px-1">{season.HR}</td>
+									<td className="tw-px-1">{season.BB}</td>
+									<td className="tw-px-1">{season.IBB}</td>
+									<td className="tw-px-1">{season.SO}</td>
+									{/* <td>{season.HBP}</td> */}
+								</tr>
+							);
+						}
+					)}
 				</tbody>
-			</Table>
+				{/* </Table> */}
+			</table>
 		);
 	}
 
