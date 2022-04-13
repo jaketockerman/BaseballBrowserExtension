@@ -264,10 +264,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				?.pZ;
 		const strikezoneZeroZ = height / 2 + strikezoneOffsetZ;
 		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
-		if (pitchZ && pitchZ < 0) {
-			//DEALING WITH BALLS IN THE DIRT
-			return;
-		}
 		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
 		const zLoc =
 			pitchZ && strikezoneTop && strikezoneBottom
@@ -277,6 +273,26 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				: 0;
 		const x = xLoc + strikezoneZeroX;
 		const z = zLoc + strikezoneZeroZ;
+		if (pitchZ && pitchZ < 0) {
+			//DEALING WITH BALLS IN THE DIRT
+			return (
+				<Group x={x} y={299} key={index}>
+					<Circle
+						radius={5}
+						stroke={ballColor}
+						fill={ballColor}
+						onClick={() => {
+							pitchInfo(index);
+						}}
+					/>
+					<Text
+						text={pitchNum.toString()}
+						stroke="white"
+						strokeWidth={1}
+					/>
+				</Group>
+			);
+		}
 		return (
 			<Group x={x} y={z} key={index}>
 				<Circle
@@ -296,9 +312,115 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function display_Strikezone() {
-		//Display acutal strikezone grid before this
+	function drawOuts(strikezoneOffsetX: number) {
 		const outs = liveData?.plays.currentPlay.count.outs;
+		if (outs == 0) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+				</Group>
+			);
+		} else if (outs == 1) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+				</Group>
+			);
+		} else if (outs == 2) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill=""
+					/>
+				</Group>
+			);
+		} else if (outs == 3) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+				</Group>
+			);
+		}
+	}
+
+	function drawBaseRunners() {
+		return;
+	}
+
+	function display_Strikezone() {
 		const balls = liveData?.plays.currentPlay.count.balls;
 		const strikes = liveData?.plays.currentPlay.count.strikes;
 		const height = 123;
@@ -312,67 +434,38 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div>
 				<Stage width={stageWidth} height={stageHeight}>
 					<Layer>
-						{/* <Line
-							points={[
-								0,
-								0,
-								stageWidth,
-								0,
-							]}
-							strokeWidth={3}
-							stroke="red"
-						/>
-						<Line
-							points={[
-								0,
-								0,
-								0,
-								stageHeight,
-							]}
-							strokeWidth={3}
-							stroke="red"
-						/>
-						<Line
-							points={[
-								0,
-								stageHeight,
-								stageWidth,
-								stageHeight,
-							]}
-							strokeWidth={3}
-							stroke="red"
-						/>
-						<Line
-							points={[
-								stageWidth,
-								0,
-								stageWidth,
-								stageHeight,
-							]}
-							strokeWidth={3}
-							stroke="red"
-						/> */}
-						<Text
-							text={balls?.toString() + "balls"}
+						<Rect
+							width={width}
+							height={height / 8}
 							x={strikezoneOffsetX}
-							y={20}
+							y={5}
+							stroke="#002774"
+							strokeWidth={2}
+							fill={"#002774"}
+						/>
+						<Text
+							text={balls?.toString() + " - "}
+							x={strikezoneOffsetX + 8}
+							y={7}
 							stroke="white"
 							strokeWidth={1}
 						/>
 						<Text
-							text={strikes?.toString() + "strikes"}
-							x={strikezoneOffsetX + 50}
-							y={20}
+							text={strikes?.toString()}
+							x={strikezoneOffsetX + 25}
+							y={7}
 							stroke="white"
 							strokeWidth={1}
 						/>
-						<Text
-							text={outs?.toString() + "outs"}
-							x={strikezoneOffsetX + 100}
-							y={20}
+						{/* <Text
+							text={outs?.toString() + " outs"}
+							x={strikezoneOffsetX + 48}
+							y={7}
 							stroke="white"
 							strokeWidth={1}
-						/>
+						/> */}
+						{drawOuts(strikezoneOffsetX)}
+						{drawBaseRunners()}
 						<Rect
 							width={width}
 							height={height}
@@ -421,7 +514,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							strokeWidth={2}
 							stroke="#525252"
 						/>
-						{/* <Circle radius={5} x={99.5} y={114} stroke="red"/> */}
 						{liveData?.plays.currentPlay.pitchIndex
 							.filter((pitchIndex) => {
 								return liveData?.plays.currentPlay.playEvents[
