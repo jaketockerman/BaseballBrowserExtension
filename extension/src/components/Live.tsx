@@ -106,7 +106,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		team: keyof team_Type
 	) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{index + 1}:
 				<Link
 					to={"/player"}
@@ -142,7 +142,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bench_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{" "}
 				<Link
 					to={"/player"}
@@ -178,7 +178,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bullpen_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{" "}
 				<Link
 					to={"/player"}
@@ -425,7 +425,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		const strikes = liveData?.plays.currentPlay.count.strikes;
 		const height = 123;
 		const width = 91.5;
-		const stageWidth = 349;
+		const stageWidth = 275;
 		const stageHeight = 300;
 		let pitchNum = 1;
 		const strikezoneOffsetX = (stageWidth - width) / 2;
@@ -539,7 +539,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	return (
 		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
 			<div
-				className="tw-flex-1 tw-w-0 tw-max-w-[25%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
+				className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
 				style={style}
 			>
 				{" "}
@@ -634,7 +634,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				</div> */}
 				{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
 			</div>
-			<div className="tw-flex-1 tw-w-0 tw-max-w-[25%] tw-h-full tw-overflow-y-auto">
+			<div className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-h-full tw-overflow-y-auto">
 				{" "}
 				Home Team{" "}
 				{
