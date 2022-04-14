@@ -4,7 +4,7 @@ import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { player_Type } from "../types/Live_Types";
 import { useLocation } from "react-router-dom";
-import { Form, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 Player.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -513,10 +513,16 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							? `Nickname: ${playerInfo.nickName}`
 							: ""}
 					</div>
-					{/* <div className="tw-h-full tw-flex tw-items-end"> */}
-					<div className="">
-						<Form.Switch />
-						{/* <div className="tw-w-full tw-text-[16px]">{advanced_options()}</div> */}
+					<div className="tw-flex tw-ustify-center">
+						<div className="tw-form-check tw-form-switch">
+							<input
+								className="tw-form-check-input tw-appearance-none tw-w-9 tw--ml-10 tw-rounded-full tw-float-left tw-h-5 tw-align-top tw-bg-white tw-bg-no-repeat tw-bg-contain tw-bg-gray-300 tw-focus:outline-none tw-cursor-pointer tw-shadow-sm"
+								type="checkbox"
+								role="switch"
+								id="flexSwitchCheckDefault"
+							/>
+							{/* <label className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault">Default switch checkbox input</label> */}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -642,26 +648,33 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			<table className="tw-w-full tw-table-auto">
 				<thead className={tableHeadTailwind}>
 					<tr>
-						<th>Season</th>
-						<th>Age</th>
-						<th>Tm</th>
-						<th>W</th>
-						<th>L</th>
-						<th>W-L%</th>
-						<th>ERA</th>
-						<th>G</th>
-						<th>GS</th>
-						<th>CG</th>
-						<th>SHO</th>
-						<th>SV</th>
-						<th>IP</th>
-						<th>H</th>
-						<th>R</th>
-						<th>ER</th>
-						<th>HR</th>
-						<th>BB</th>
-						<th>IBB</th>
-						<th>SO</th>
+						<th className="tw-px-1">Season</th>
+						<th className="tw-px-1">Age</th>
+						<th className="tw-px-1">Tm</th>
+						<th className="tw-px-1">W</th>
+						<th className="tw-px-1">L</th>
+						<th className="tw-px-1">W-L%</th>
+						<th className="tw-px-1">ERA</th>
+						<th className="tw-px-1">G</th>
+						<th className="tw-px-1">GS</th>
+						<th className="tw-px-1">CG</th>
+						<th className="tw-px-1">SHO</th>
+						<th className="tw-px-1">SV</th>
+						<th className="tw-px-1">IP</th>
+						<th className="tw-px-1">H</th>
+						<th className="tw-px-1">R</th>
+						<th className="tw-px-1">ER</th>
+						<th className="tw-px-1">HR</th>
+						<th className="tw-px-1">BB</th>
+						<th className="tw-px-1">IBB</th>
+						<th className="tw-px-1">SO</th>
+						<th className="tw-px-1">H</th>
+						<th className="tw-px-1">R</th>
+						<th className="tw-px-1">ER</th>
+						<th className="tw-px-1">HR</th>
+						<th className="tw-px-1">BB</th>
+						<th className="tw-px-1">IBB</th>
+						<th className="tw-px-1">SO</th>
 						{/* <th>W</th>
 							<th>L</th>
 							<th>PCT</th>
@@ -701,6 +714,13 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 									<td className="tw-px-1">
 										{season.IP.toFixed(1)}
 									</td>
+									<td className="tw-px-1">{season.H}</td>
+									<td className="tw-px-1">{season.R}</td>
+									<td className="tw-px-1">{season.ER}</td>
+									<td className="tw-px-1">{season.HR}</td>
+									<td className="tw-px-1">{season.BB}</td>
+									<td className="tw-px-1">{season.IBB}</td>
+									<td className="tw-px-1">{season.SO}</td>
 									<td className="tw-px-1">{season.H}</td>
 									<td className="tw-px-1">{season.R}</td>
 									<td className="tw-px-1">{season.ER}</td>
