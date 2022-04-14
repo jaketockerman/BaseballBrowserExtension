@@ -173,6 +173,25 @@ interface liveData_Response {
 interface liveData_Type {
 	boxscore: boxscore_Type;
 	plays: plays_Type;
+	linescore: linescore_Type;
+}
+
+interface linescore_Type {
+	currentInning: number;
+	isTopInning: boolean;
+	offense: offense_Type;
+}
+
+interface offense_Type {
+	first?: baseRunner_Type;
+	second?: baseRunner_Type;
+	third?: baseRunner_Type;
+}
+
+interface baseRunner_Type {
+	id: number;
+	fullName: string;
+	link: string;
 }
 
 interface plays_Type {
@@ -185,6 +204,7 @@ interface currentPlay_Type {
 	pitchIndex: Array<number>;
 	playEvents: Array<playEvents_Type>;
 	result: result_Type;
+	runnerIndex: Array<number>;
 }
 
 interface result_Type {
