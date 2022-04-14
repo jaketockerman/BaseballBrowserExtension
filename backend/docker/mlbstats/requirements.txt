@@ -1,2 +1,2 @@
 Flask==2.0.3
-MLB-StatsAPI
+MLB-StatsAPI==1.4.1

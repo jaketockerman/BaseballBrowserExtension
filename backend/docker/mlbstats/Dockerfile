@@ -8,7 +8,7 @@ WORKDIR /app
 
 ADD docker/mlbstats/requirements.txt /app
 
-ADD src /app
+ADD src/mlbstats_api.py /app
 
 RUN pip install -r requirements.txt
 

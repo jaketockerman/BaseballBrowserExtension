@@ -2,4 +2,12 @@ To build docker for mlbstats run from /ECE-49595O/backend/:
     docker build -f .\docker\mlbstats\Dockerfile -t mlbstats .
 
 Then, to run mlbstats docker:
-    docker run -p 5000:5000 mlbstats
+    docker run -it -p 5000:5000 mlbstats
+
+____UPDATED____:
+    Now, mlbstats_api.py and pybaseball_api.py flask apps are binded to http://0.0.0.0:5000
+
+To pull the data from docker running above on terminal:
+    curl -X GET http://localhost:5000/standings/2021 
+    or on terminal do ipconfig, and check your IPv4 Address fro Ethernet Adapter, mine is
+    curl -X GET http://172.oo.ooo.1:5000/standings/2021, o's are intentionally inserted, privacy reasons.
