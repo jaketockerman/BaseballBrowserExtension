@@ -514,9 +514,9 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							: ""}
 					</div>
 					<div className="tw-flex tw-ustify-center">
-						<div className="tw-form-check tw-form-switch">
+						<div className="form-check form-switch">
 							<input
-								className="tw-form-check-input tw-appearance-none tw-w-9 tw--ml-10 tw-rounded-full tw-float-left tw-h-5 tw-align-top tw-bg-white tw-bg-no-repeat tw-bg-contain tw-bg-gray-300 tw-focus:outline-none tw-cursor-pointer tw-shadow-sm"
+								className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
 								type="checkbox"
 								role="switch"
 								id="flexSwitchCheckDefault"
