@@ -208,7 +208,6 @@ interface playEvents_Type {
 }
 
 interface pitchData_Type {
-	breaks: breaks_Type;
 	coordinates: coordinates_Type;
 	endSpeed: number;
 	extension: number;
@@ -255,6 +254,7 @@ interface details_Type {
 	isInPlay: boolean;
 	isStrike: boolean;
 	type: type_Type;
+	ballColor: string;
 }
 
 interface type_Type {

@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
+import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 // import { NumberLiteralType } from "typescript";
+
 import {
 	gameData_Response,
 	gameData_Type,
@@ -14,6 +16,9 @@ import {
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
+// import { render } from "react-dom";
+// import { isAbsolute } from "path/posix";
+
 // import { Accordion } from "react-bootstrap";
 
 Live.propTypes = {
@@ -26,6 +31,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
+	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
+	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 
 	useEffect(() => {
 		if (gameID) {
@@ -99,7 +106,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		team: keyof team_Type
 	) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{index + 1}:
 				<Link
 					to={"/player"}
@@ -135,7 +142,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bench_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{" "}
 				<Link
 					to={"/player"}
@@ -171,7 +178,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bullpen_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div>
+			<div className="tw-text-left tw-pl-2">
 				{" "}
 				<Link
 					to={"/player"}
@@ -219,10 +226,320 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
+	function pitchInfo(index: number) {
+		console.log(index);
+	}
+
+	function display_Pitch(
+		index: number,
+		height: number,
+		width: number,
+		strikezoneOffsetX: number,
+		strikezoneOffsetZ: number,
+		pitchNum: number
+	) {
+		const plateWidth = 17 / 12;
+		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
+		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
+		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
+		const ballColor =
+			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
+		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
+
+		const strikezoneTop =
+			liveData?.plays.currentPlay.playEvents[index].pitchData
+				?.strikeZoneTop;
+		const strikezoneBottom =
+			liveData?.plays.currentPlay.playEvents[index].pitchData
+				?.strikeZoneBottom;
+		const strikezoneMiddle =
+			strikezoneTop && strikezoneBottom
+				? (strikezoneTop - strikezoneBottom) / 2 + strikezoneBottom
+				: 0;
+		const pitchX =
+			liveData?.plays.currentPlay.playEvents[index].pitchData?.coordinates
+				?.pX;
+		const pitchZ =
+			liveData?.plays.currentPlay.playEvents[index].pitchData?.coordinates
+				?.pZ;
+		const strikezoneZeroZ = height / 2 + strikezoneOffsetZ;
+		const strikezoneZeroX = width / 2 + strikezoneOffsetX;
+		const xLoc = pitchX ? (pitchX / (plateWidth / 2)) * (width / 2) : 0;
+		const zLoc =
+			pitchZ && strikezoneTop && strikezoneBottom
+				? ((strikezoneMiddle - pitchZ) /
+						((strikezoneTop - strikezoneBottom) / 2)) *
+				  (height / 2)
+				: 0;
+		const x = xLoc + strikezoneZeroX;
+		const z = zLoc + strikezoneZeroZ;
+		if (pitchZ && pitchZ < 0) {
+			//DEALING WITH BALLS IN THE DIRT
+			return (
+				<Group x={x} y={299} key={index}>
+					<Circle
+						radius={5}
+						stroke={ballColor}
+						fill={ballColor}
+						onClick={() => {
+							pitchInfo(index);
+						}}
+					/>
+					<Text
+						text={pitchNum.toString()}
+						stroke="white"
+						strokeWidth={1}
+					/>
+				</Group>
+			);
+		}
+		return (
+			<Group x={x} y={z} key={index}>
+				<Circle
+					radius={5}
+					stroke={ballColor}
+					fill={ballColor}
+					onClick={() => {
+						pitchInfo(index);
+					}}
+				/>
+				<Text
+					text={pitchNum.toString()}
+					stroke="white"
+					strokeWidth={1}
+				/>
+			</Group>
+		);
+	}
+
+	function drawOuts(strikezoneOffsetX: number) {
+		const outs = liveData?.plays.currentPlay.count.outs;
+		if (outs == 0) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+				</Group>
+			);
+		} else if (outs == 1) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+					/>
+				</Group>
+			);
+		} else if (outs == 2) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill=""
+					/>
+				</Group>
+			);
+		} else if (outs == 3) {
+			return (
+				<Group>
+					<Circle
+						x={strikezoneOffsetX + 55}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 70}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+					<Circle
+						x={strikezoneOffsetX + 85}
+						y={12}
+						stroke="white"
+						radius={5}
+						fill="white"
+					/>
+				</Group>
+			);
+		}
+	}
+
+	function drawBaseRunners() {
+		return;
+	}
+
+	function display_Strikezone() {
+		const balls = liveData?.plays.currentPlay.count.balls;
+		const strikes = liveData?.plays.currentPlay.count.strikes;
+		const height = 123;
+		const width = 91.5;
+		const stageWidth = 275;
+		const stageHeight = 300;
+		let pitchNum = 1;
+		const strikezoneOffsetX = (stageWidth - width) / 2;
+		const strikezoneOffsetY = (stageHeight - height) / 2 + 30;
+		return (
+			<div>
+				<Stage width={stageWidth} height={stageHeight}>
+					<Layer>
+						<Rect
+							width={width}
+							height={height / 8}
+							x={strikezoneOffsetX}
+							y={5}
+							stroke="#002774"
+							strokeWidth={2}
+							fill={"#002774"}
+						/>
+						<Text
+							text={balls?.toString() + " - "}
+							x={strikezoneOffsetX + 8}
+							y={7}
+							stroke="white"
+							strokeWidth={1}
+						/>
+						<Text
+							text={strikes?.toString()}
+							x={strikezoneOffsetX + 25}
+							y={7}
+							stroke="white"
+							strokeWidth={1}
+						/>
+						{/* <Text
+							text={outs?.toString() + " outs"}
+							x={strikezoneOffsetX + 48}
+							y={7}
+							stroke="white"
+							strokeWidth={1}
+						/> */}
+						{drawOuts(strikezoneOffsetX)}
+						{drawBaseRunners()}
+						<Rect
+							width={width}
+							height={height}
+							x={strikezoneOffsetX}
+							y={strikezoneOffsetY}
+							stroke="black"
+							strokeWidth={2}
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX,
+								strikezoneOffsetY + height / 3,
+								strikezoneOffsetX + width,
+								strikezoneOffsetY + height / 3,
+							]}
+							strokeWidth={2}
+							stroke="#525252"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX,
+								strikezoneOffsetY + (2 * height) / 3,
+								strikezoneOffsetX + width,
+								strikezoneOffsetY + (2 * height) / 3,
+							]}
+							strokeWidth={2}
+							stroke="#525252"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX + width / 3,
+								strikezoneOffsetY,
+								strikezoneOffsetX + width / 3,
+								strikezoneOffsetY + height,
+							]}
+							strokeWidth={2}
+							stroke="#525252"
+						/>
+						<Line
+							points={[
+								strikezoneOffsetX + (2 * width) / 3,
+								strikezoneOffsetY,
+								strikezoneOffsetX + (2 * width) / 3,
+								strikezoneOffsetY + height,
+							]}
+							strokeWidth={2}
+							stroke="#525252"
+						/>
+						{liveData?.plays.currentPlay.pitchIndex
+							.filter((pitchIndex) => {
+								return liveData?.plays.currentPlay.playEvents[
+									pitchIndex
+								].isPitch;
+							})
+							.map((index: number) => {
+								return display_Pitch(
+									index,
+									height,
+									width,
+									strikezoneOffsetX,
+									strikezoneOffsetY,
+									pitchNum++
+								);
+							})}
+					</Layer>
+				</Stage>
+			</div>
+		);
+	}
+
 	return (
 		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
 			<div
-				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
+				className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
 				style={style}
 			>
 				{" "}
@@ -279,21 +596,45 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				style={style}
 			>
 				{" "}
-				Strikezone:{" "}
-				<div>
-					Current Batter:{" "}
-					{liveData?.plays.currentPlay.matchup.batter.fullName}
+				{display_Strikezone()}
+				<div className="tw-text-sm">
+					Batter:{" "}
+					<Link
+						to={"/player"}
+						state={{
+							mlbamID: currBatterID,
+							playerInfo:
+								gameData?.players[
+									("ID" + currBatterID) as playerID
+								],
+						}}
+						className="tw-text-white"
+					>
+						{liveData?.plays.currentPlay.matchup.batter.fullName}
+					</Link>
 				</div>
-				<div>
-					Current Pitcher:{" "}
-					{liveData?.plays.currentPlay.matchup.pitcher.fullName}
+				<div className="tw-text-sm">
+					Pitcher:{" "}
+					<Link
+						to={"/player"}
+						state={{
+							mlbamID: currPitcherID,
+							playerInfo:
+								gameData?.players[
+									("ID" + currPitcherID) as playerID
+								],
+						}}
+						className="tw-text-white"
+					>
+						{liveData?.plays.currentPlay.matchup.pitcher.fullName}
+					</Link>
 				</div>
 				{/* <div>
 					Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
 				</div> */}
-				<div>Outs: {liveData?.plays.currentPlay.count.outs}</div>
+				{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
 			</div>
-			<div className="tw-flex-1 tw-w-0 tw-h-full tw-overflow-y-auto">
+			<div className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-h-full tw-overflow-y-auto">
 				{" "}
 				Home Team{" "}
 				{

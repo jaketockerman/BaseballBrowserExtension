@@ -10,11 +10,20 @@ class Navigation extends React.Component {
 		//Unfortunately tailwind borders are broken without @tailwind base
 		const style = {
 			borderRight: "1px solid",
-			borderColor: "#FFFFFF",
+			borderTop: "1px solid",
+			borderColor: "#525252",
 		};
 
 		return (
 			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-1/10">
+				<Nav.Link
+					as={Link}
+					to="/Standings"
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
+					style={style}
+				>
+					<img src={flag} className="flag-logo" alt="standings" />
+				</Nav.Link>
 				<Nav.Link
 					as={Link}
 					to="/"
@@ -25,13 +34,10 @@ class Navigation extends React.Component {
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
-					to="/Standings"
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
-					style={style}
+					to="/settings"
+					className="tw-flex-1 tw-w-0"
+					style={{ borderTop: "1px solid", borderColor: "#525252" }}
 				>
-					<img src={flag} className="flag-logo" alt="standings" />
-				</Nav.Link>
-				<Nav.Link as={Link} to="/settings" className="tw-flex-1 tw-w-0">
 					<img src={gear} className="gear-logo" alt="settings" />
 				</Nav.Link>
 			</nav>
