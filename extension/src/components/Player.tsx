@@ -414,6 +414,10 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	//test player 669203: Burnes (has both pitching and batting)
 	//test player 541650: Hernan Perez (has both pitching and batting)
 
+	const [toggle, setToggle] = useState(true);
+
+	const toggleClass = " tw-transform tw-translate-x-5";
+
 	useEffect(() => {
 		axios
 			.get<FGResponseType>(props.servers.pybaseball + "player/" + mlbamID)
@@ -513,15 +517,21 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							? `Nickname: ${playerInfo.nickName}`
 							: ""}
 					</div>
-					<div className="tw-flex tw-ustify-center">
-						<div className="form-check form-switch">
-							<input
-								className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
-								type="checkbox"
-								role="switch"
-								id="flexSwitchCheckDefault"
+					<div className="tw-flex tw-justify-center tw-items-center">
+						<div
+							className="md:tw-w-14 md:tw-h-7 tw-w-12 tw-h-6 tw-flex tw-items-center tw-bg-gray-400 tw-rounded-full tw-p-1 tw-cursor-pointer"
+							onClick={() => {
+								console.log(!toggle);
+								setToggle(!toggle);
+							}}
+						>
+							{/* Switch */}
+							<div
+								className={
+									"tw-bg-black md:tw-w-6 md:tw-h-6 tw-h-5 tw-w-5 tw-rounded-full tw-shadow-md tw-transform tw-duration-300 tw-ease-in-out" +
+									(toggle ? "" : toggleClass)
+								}
 							/>
-							{/* <label className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault">Default switch checkbox input</label> */}
 						</div>
 					</div>
 				</div>
