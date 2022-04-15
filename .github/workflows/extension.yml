@@ -27,7 +27,7 @@ jobs:
           name: SBOM
           # A file, directory or wildcard pattern that describes what to upload
           # upload-artifact does NOT use working-directory
-          path: ./bom.xml
+          path: ./extension_bom.xml
           if-no-files-found: warn
 
   build:
