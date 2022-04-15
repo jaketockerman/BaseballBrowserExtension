@@ -20,6 +20,7 @@ jobs:
         uses: CycloneDX/gh-node-module-generatebom@v1.0.0
         with:
           path: ./extension
+          output: ./extension_bom.xml
       - name: Upload SBOM
         uses: actions/upload-artifact@v2.3.1
         with:
