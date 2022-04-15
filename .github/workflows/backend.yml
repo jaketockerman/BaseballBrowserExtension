@@ -16,7 +16,8 @@ jobs:
       # uses: CycloneDX/gh-node-module-generatebom@b5753d516608ed84f7a40eb19b7687b5828b9b2d
         uses: CycloneDX/gh-python-generate-sbom@v1.0.0
         with:
-          path: ./backend/docker/pybaseball
+         input: ./backend/docker/pybaseball/requirements.txt
+         output: ./pybaseball_bom.xml
       - name: Upload SBOM
         uses: actions/upload-artifact@v2.3.1
         with:
@@ -35,7 +36,8 @@ jobs:
       # uses: CycloneDX/gh-node-module-generatebom@b5753d516608ed84f7a40eb19b7687b5828b9b2d
         uses: CycloneDX/gh-python-generate-sbom@v1.0.0
         with:
-          path: ./backend/docker/mlbstats
+          input: ./backend/docker/mlbstats/requirements.txt
+          output: ./mlbstats_bom.xml
       - name: Upload SBOM
         uses: actions/upload-artifact@v2.3.1
         with:
