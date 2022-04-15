@@ -414,9 +414,8 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	//test player 669203: Burnes (has both pitching and batting)
 	//test player 541650: Hernan Perez (has both pitching and batting)
 
-	const [toggle, setToggle] = useState(true);
-
-	const toggleClass = " tw-transform tw-translate-x-5";
+	// Advanced Toggle
+	const [advancedToggle, setAdvancedToggle] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -447,53 +446,11 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		return <img src={link} className="tw-max-w-full" />;
 	}
 
-	// function player_info() {
-	// 	const dividerStyle = {
-	// 		borderBottom: "1px solid",
-	// 		borderColor: "#FFFFFF",
-	// 	};
-
-	// 	return (
-	// 		<div
-	// 			className="tw-h-1/2 tw-flex tw-w-full"
-	// 			style={dividerStyle}
-	// 		>
-	// 			<div className="tw-flex tw-flex-col tw-text-left tw-w-[13%] tw-min-h-0 tw-min-w-0">
-	// 				{mlbamID ? display_headshot(mlbamID) : ""}
-	// 			</div>
-	// 			<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-justify-center">
-	// 				<div className="tw-w-full">
-	// 					{playerInfo.fullName} #{playerInfo.primaryNumber}
-	// 				</div>
-	// 				<div className="tw-w-full">
-	// 					{playerInfo.primaryPosition?.abbreviation} | B/T:{" "}
-	// 					{playerInfo.batSide?.code}/{playerInfo.pitchHand?.code}{" "}
-	// 					| {playerInfo.height}/{playerInfo.weight} | Age:{" "}
-	// 					{playerInfo.currentAge}
-	// 				</div>
-	// 				<div className="tw-w-full">
-	// 					{playerInfo.mlbDebutDate
-	// 						? `MLB Debut: ${playerInfo.mlbDebutDate}`
-	// 						: ""}
-	// 				</div>
-	// 				<div className="tw-w-full">
-	// 					{playerInfo.nickName
-	// 						? `Nickname: ${playerInfo.nickName}`
-	// 						: ""}
-	// 				</div>
-	// 			</div>
-	// 		</div>
-	// 	);
-	// }
-
 	function player_info() {
-		const dividerStyle = {
-			borderBottom: "1px solid",
-			borderColor: "#FFFFFF",
-		};
+		const toggleClass = " tw-transform tw-translate-x-6 tw-bg-green-500";
 
 		return (
-			<div className="tw-h-1/2 tw-flex tw-w-full" style={dividerStyle}>
+			<div className="tw-h-1/2 tw-flex tw-w-full tw-border-b tw-border-white tw-text-player-info">
 				<div className="tw-flex tw-flex-col tw-text-left tw-w-2/12 tw-min-h-0 tw-min-w-0">
 					{mlbamID ? display_headshot(mlbamID) : ""}
 				</div>
@@ -517,19 +474,19 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							? `Nickname: ${playerInfo.nickName}`
 							: ""}
 					</div>
-					<div className="tw-flex tw-justify-center tw-items-center">
+					<div className="tw-flex tw-justify-center tw-items-center tw-py-1">
+						<div className="tw-px-2">Advanced:</div>
 						<div
-							className="md:tw-w-14 md:tw-h-7 tw-w-12 tw-h-6 tw-flex tw-items-center tw-bg-gray-400 tw-rounded-full tw-p-1 tw-cursor-pointer"
+							className="tw-w-12 tw-h-6 tw-flex tw-items-center tw-bg-gray-400 tw-rounded-full tw-p-1 tw-cursor-pointer"
 							onClick={() => {
-								console.log(!toggle);
-								setToggle(!toggle);
+								setAdvancedToggle(!advancedToggle);
 							}}
 						>
-							{/* Switch */}
+							{/* Circle*/}
 							<div
 								className={
-									"tw-bg-black md:tw-w-6 md:tw-h-6 tw-h-5 tw-w-5 tw-rounded-full tw-shadow-md tw-transform tw-duration-300 tw-ease-in-out" +
-									(toggle ? "" : toggleClass)
+									"tw-bg-black tw-w-4 tw-h-4 tw-rounded-full tw-shadow-md tw-transform tw-duration-300 tw-ease-in-out" +
+									(advancedToggle ? toggleClass : "")
 								}
 							/>
 						</div>
@@ -540,28 +497,12 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	}
 
 	function player_options() {
-		const dividerStyle = {
-			borderLeft: "1px solid",
-			borderRight: "1px solid",
-			borderBottom: "1px solid",
-			borderColor: "#FFFFFF",
-		};
-
-		const battingStyle = {
-			borderRight: "0px",
-			borderColor: "#FFFFFF",
-		};
-
 		if (fgStats?.batting.length && fgStats.pitching.length) {
-			battingStyle["borderRight"] = "1px solid";
 			if (active === "batting") {
 				//Both batting and pitching with batting active
 				return (
-					<div className="tw-h-full tw-flex" style={dividerStyle}>
-						<div
-							style={battingStyle}
-							className="tw-h-full tw-w-full tw-bg-nav-blue-extra-light"
-						>
+					<div className="tw-h-full tw-flex tw-border-white tw-border-x tw-border-b">
+						<div className="tw-h-full tw-w-full tw-bg-nav-blue-extra-light tw-border-r">
 							{"Batting"}
 						</div>
 						<div
@@ -578,13 +519,12 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			//Both batting and pitching with pitching active
 			else {
 				return (
-					<div className="tw-h-full tw-flex" style={dividerStyle}>
+					<div className="tw-h-full tw-flex tw-border-white tw-border-x tw-border-b">
 						<div
 							onClick={() => {
 								setActive("batting");
 							}}
-							style={battingStyle}
-							className="tw-h-full tw-w-full tw-bg-nav-blue"
+							className="tw-h-full tw-w-full tw-bg-nav-blue tw-border-r"
 						>
 							{"Batting"}
 						</div>
@@ -598,12 +538,9 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 
 		//Only batting or pitching
 		return (
-			<div
-				className="tw-h-full tw-flex tw-bg-nav-blue"
-				style={dividerStyle}
-			>
+			<div className="tw-h-full tw-flex tw-bg-nav-blue tw-border-white tw-border-x tw-border-b">
 				{fgStats?.batting.length ? (
-					<div style={battingStyle} className="tw-h-full tw-w-full">
+					<div className="tw-h-full tw-w-full tw-border-r">
 						{"Batting"}
 					</div>
 				) : (
@@ -621,7 +558,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	// Stats Tables:
 	const tableHeadTailwind =
 		"tw-sticky tw-top-0 tw-text-white tw-bg-nav-blue tw-text-stats-table-text";
-
+	const tableRowTailwind = "tw-bg-[#eceef1] tw-text-stats-table-text";
 	function batting_table() {
 		return (
 			<Table size="sm" style={{ margin: "0px" }}>
@@ -653,99 +590,99 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	}
 
 	function pitching_table() {
+		const standardHead = (
+			<thead className={tableHeadTailwind}>
+				<tr>
+					<th>Season</th>
+					<th>Age</th>
+					<th>Tm</th>
+					<th>W</th>
+					<th>L</th>
+					<th>W-L%</th>
+					<th>ERA</th>
+					<th>G</th>
+					<th>GS</th>
+					<th>CG</th>
+					<th>SHO</th>
+					<th>SV</th>
+					<th>IP</th>
+					<th>H</th>
+					<th>R</th>
+					<th>ER</th>
+					<th>HR</th>
+					<th>BB</th>
+					<th>IBB</th>
+					<th>SO</th>
+				</tr>
+			</thead>
+		);
+
+		const advancedHead = (
+			<thead className={tableHeadTailwind}>
+				<tr>
+					<th>Season</th>
+					<th>Age</th>
+					<th>Tm</th>
+				</tr>
+			</thead>
+		);
+
 		return (
-			// <Table size="sm" style={{ margin: "0px" }}>
-			<table className="tw-w-full tw-table-auto">
-				<thead className={tableHeadTailwind}>
-					<tr>
-						<th className="tw-px-1">Season</th>
-						<th className="tw-px-1">Age</th>
-						<th className="tw-px-1">Tm</th>
-						<th className="tw-px-1">W</th>
-						<th className="tw-px-1">L</th>
-						<th className="tw-px-1">W-L%</th>
-						<th className="tw-px-1">ERA</th>
-						<th className="tw-px-1">G</th>
-						<th className="tw-px-1">GS</th>
-						<th className="tw-px-1">CG</th>
-						<th className="tw-px-1">SHO</th>
-						<th className="tw-px-1">SV</th>
-						<th className="tw-px-1">IP</th>
-						<th className="tw-px-1">H</th>
-						<th className="tw-px-1">R</th>
-						<th className="tw-px-1">ER</th>
-						<th className="tw-px-1">HR</th>
-						<th className="tw-px-1">BB</th>
-						<th className="tw-px-1">IBB</th>
-						<th className="tw-px-1">SO</th>
-						<th className="tw-px-1">H</th>
-						<th className="tw-px-1">R</th>
-						<th className="tw-px-1">ER</th>
-						<th className="tw-px-1">HR</th>
-						<th className="tw-px-1">BB</th>
-						<th className="tw-px-1">IBB</th>
-						<th className="tw-px-1">SO</th>
-						{/* <th>W</th>
-							<th>L</th>
-							<th>PCT</th>
-							<th>GB</th> */}
-					</tr>
-				</thead>
+			<Table striped size="sm" style={{ margin: "0px" }}>
+				{advancedToggle ? advancedHead : standardHead}
 				<tbody>
-					{fgStats?.pitching.map(
-						(season: FGPitchingStatsType, index) => {
-							const tailwindRow =
-								index % 2
-									? "tw-bg-[#eceef1] tw-text-stats-table-text tw-text-black tw-bg-gray-200 tw-py-10"
-									: "tw-bg-[#eceef1] tw-text-stats-table-text tw-text-black";
-							return (
-								<tr className={tailwindRow} key={season.Season}>
-									<td className="tw-px-1">{season.Season}</td>
-									<td className="tw-px-1">{season.Age}</td>
-									<td className="tw-px-1">{season.Team}</td>
-									<td className="tw-px-1">{season.W}</td>
-									<td className="tw-px-1">{season.L}</td>
-									<td className="tw-px-1">
-										{season.W + season.L
-											? (
-													season.W /
-													(season.W + season.L)
-											  ).toFixed(3)
-											: ""}
-									</td>
-									<td className="tw-px-1">
-										{season.ERA.toFixed(2)}
-									</td>
-									<td className="tw-px-1">{season.G}</td>
-									<td className="tw-px-1">{season.GS}</td>
-									<td className="tw-px-1">{season.CG}</td>
-									<td className="tw-px-1">{season.ShO}</td>
-									<td className="tw-px-1">{season.SV}</td>
-									<td className="tw-px-1">
-										{season.IP.toFixed(1)}
-									</td>
-									<td className="tw-px-1">{season.H}</td>
-									<td className="tw-px-1">{season.R}</td>
-									<td className="tw-px-1">{season.ER}</td>
-									<td className="tw-px-1">{season.HR}</td>
-									<td className="tw-px-1">{season.BB}</td>
-									<td className="tw-px-1">{season.IBB}</td>
-									<td className="tw-px-1">{season.SO}</td>
-									<td className="tw-px-1">{season.H}</td>
-									<td className="tw-px-1">{season.R}</td>
-									<td className="tw-px-1">{season.ER}</td>
-									<td className="tw-px-1">{season.HR}</td>
-									<td className="tw-px-1">{season.BB}</td>
-									<td className="tw-px-1">{season.IBB}</td>
-									<td className="tw-px-1">{season.SO}</td>
-									{/* <td>{season.HBP}</td> */}
-								</tr>
-							);
-						}
-					)}
+					{fgStats?.pitching.map((season: FGPitchingStatsType) => {
+						const standardRow = (
+							<tr
+								className={tableRowTailwind}
+								key={season.Season}
+							>
+								<td>{season.Season}</td>
+								<td>{season.Age}</td>
+								<td>{season.Team}</td>
+								<td>{season.W}</td>
+								<td>{season.L}</td>
+								<td>
+									{season.W + season.L
+										? (
+												season.W /
+												(season.W + season.L)
+										  ).toFixed(3)
+										: ""}
+								</td>
+								<td>{season.ERA.toFixed(2)}</td>
+								<td>{season.G}</td>
+								<td>{season.GS}</td>
+								<td>{season.CG}</td>
+								<td>{season.ShO}</td>
+								<td>{season.SV}</td>
+								<td>{season.IP.toFixed(1)}</td>
+								<td>{season.H}</td>
+								<td>{season.R}</td>
+								<td>{season.ER}</td>
+								<td>{season.HR}</td>
+								<td>{season.BB}</td>
+								<td>{season.IBB}</td>
+								<td>{season.SO}</td>
+								{/* <td>{season.HBP}</td> */}
+							</tr>
+						);
+
+						const advancedRow = (
+							<tr
+								className={tableRowTailwind}
+								key={season.Season}
+							>
+								<td>{season.Season}</td>
+								<td>{season.Age}</td>
+								<td>{season.Team}</td>
+							</tr>
+						);
+						return advancedToggle ? advancedRow : standardRow;
+					})}
 				</tbody>
-				{/* </Table> */}
-			</table>
+			</Table>
+			// </table>
 		);
 	}
 

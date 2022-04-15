@@ -213,7 +213,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<img
 					src={link}
 					alt={altText}
-					className="tw-max-w-12 tw-max-h-12"
+					className="tw-max-w-12 tw-max-h-12 tw-mx-auto"
 				/>
 			</div>
 		);

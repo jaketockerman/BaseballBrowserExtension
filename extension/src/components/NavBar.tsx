@@ -21,7 +21,7 @@ class Navigation extends React.Component {
 					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white tw-items-center"
 					style={style}
 				>
-					<img src={home} className="home-logo" alt="live" />
+					<img src={home} className="tw-mx-auto" alt="live" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
@@ -29,10 +29,10 @@ class Navigation extends React.Component {
 					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
 					style={style}
 				>
-					<img src={flag} className="flag-logo" alt="standings" />
+					<img src={flag} className="tw-mx-auto" alt="standings" />
 				</Nav.Link>
 				<Nav.Link as={Link} to="/settings" className="tw-flex-1 tw-w-0">
-					<img src={gear} className="gear-logo" alt="settings" />
+					<img src={gear} className="tw-mx-auto" alt="settings" />
 				</Nav.Link>
 			</nav>
 		);
