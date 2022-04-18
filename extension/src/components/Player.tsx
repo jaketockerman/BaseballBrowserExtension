@@ -87,8 +87,6 @@ interface FGBattingStatsType {
 // 	"tERA": 4.02,
 // 	"xFIP": 3.87,
 // 	"WPA": 3.03,
-// 	"-WPA": -12.07,
-// 	"+WPA": 15.1,
 // 	"RE24": 27.65,
 // 	"REW": 2.9,
 // 	"pLI": 0.98,
@@ -383,10 +381,26 @@ interface FGPitchingStatsType {
 	WP: number;
 	BK: number;
 	SO: number;
+	WAR: number;
 	//ADVANCED
 	GB: number;
 	FB: number;
 	LD: number;
+	IFFB: number;
+	Balls: number;
+	Strikes: number;
+	Pitches: number;
+	"K/9": number;
+	"BB/9": number;
+	"K/BB": number;
+	"H/9": number;
+	"HR/9": number;
+	WHIP: number;
+	BABIP: number;
+	FIP: number;
+	"GB/FB": number;
+	xFIP: number;
+	WPA: number;
 }
 
 interface PlayerStatsType {
@@ -614,8 +628,9 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					<th>ER</th>
 					<th>HR</th>
 					<th>BB</th>
-					<th>IBB</th>
+					<th>HBP</th>
 					<th>SO</th>
+					<th>WAR</th>
 				</tr>
 			</thead>
 		);
@@ -626,6 +641,24 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					<th>Season</th>
 					<th>Age</th>
 					<th>Tm</th>
+					<th>GB</th>
+					<th>FB</th>
+					<th>LD</th>
+					<th>IFFB</th>
+					<th>GB/FB</th>
+					<th>B</th>
+					<th>S</th>
+					<th>P</th>
+					<th>K/9</th>
+					<th>BB/9</th>
+					<th>K/BB</th>
+					<th>H/9</th>
+					<th>HR/9</th>
+					<th>WHIP</th>
+					<th>BABIP</th>
+					<th>FIP</th>
+					<th>xFIP</th>
+					<th>WPA</th>
 				</tr>
 			</thead>
 		);
@@ -665,9 +698,9 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 								<td>{season.ER}</td>
 								<td>{season.HR}</td>
 								<td>{season.BB}</td>
-								<td>{season.IBB}</td>
+								<td>{season.HBP}</td>
 								<td>{season.SO}</td>
-								{/* <td>{season.HBP}</td> */}
+								<td>{season.WAR.toFixed(1)}</td>
 							</tr>
 						);
 
@@ -679,6 +712,24 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 								<td>{season.Season}</td>
 								<td>{season.Age}</td>
 								<td>{season.Team}</td>
+								<td>{season.GB}</td>
+								<td>{season.FB}</td>
+								<td>{season.LD}</td>
+								<td>{season.IFFB}</td>
+								<td>{season["GB/FB"].toFixed(2)}</td>
+								<td>{season.Balls}</td>
+								<td>{season.Strikes}</td>
+								<td>{season.Pitches}</td>
+								<td>{season["K/9"].toFixed(2)}</td>
+								<td>{season["BB/9"].toFixed(2)}</td>
+								<td>{season["K/BB"].toFixed(2)}</td>
+								<td>{season["H/9"].toFixed(2)}</td>
+								<td>{season["HR/9"].toFixed(2)}</td>
+								<td>{season.WHIP.toFixed(2)}</td>
+								<td>{season.BABIP.toFixed(3)}</td>
+								<td>{season.FIP.toFixed(2)}</td>
+								<td>{season.xFIP.toFixed(2)}</td>
+								<td>{season.WPA.toFixed(2)}</td>
 							</tr>
 						);
 						return advancedToggle ? advancedRow : standardRow;
