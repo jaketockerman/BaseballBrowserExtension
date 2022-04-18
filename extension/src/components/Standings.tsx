@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes, { InferProps } from "prop-types";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
-import { Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
 import {
 	Division,
 	Standings_Response,
@@ -100,7 +100,9 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 			{standings != undefined ? (
 				display_standings(standings)
 			) : (
-				<React.Fragment> Loading... </React.Fragment>
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
 			)}
 		</div>
 	);

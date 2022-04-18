@@ -8,6 +8,7 @@ module.exports = {
 				"nav-blue": "#002774",
 				"nav-blue-light": "#00308F",
 				"nav-blue-extra-light": "#0036A3",
+				"player-advanced-green": "#36a832",
 			},
 			fontSize: {
 				"app-text": "18px",

@@ -4,7 +4,7 @@ import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { player_Type } from "../types/Live_Types";
 import { useLocation } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
 
 Player.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -447,7 +447,8 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	}
 
 	function player_info() {
-		const toggleClass = " tw-transform tw-translate-x-6 tw-bg-green-500";
+		const toggleClass =
+			" tw-transform tw-translate-x-6 tw-bg-player-advanced-green";
 
 		return (
 			<div className="tw-h-1/2 tw-flex tw-w-full tw-border-b tw-border-white tw-text-player-info">
@@ -485,8 +486,10 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 							{/* Circle*/}
 							<div
 								className={
-									"tw-bg-black tw-w-4 tw-h-4 tw-rounded-full tw-shadow-md tw-transform tw-duration-300 tw-ease-in-out" +
-									(advancedToggle ? toggleClass : "")
+									"tw-w-4 tw-h-4 tw-rounded-full tw-shadow-md tw-transform tw-duration-300 tw-ease-in-out" +
+									(advancedToggle
+										? toggleClass
+										: " tw-bg-black")
 								}
 							/>
 						</div>
@@ -598,7 +601,7 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					<th>Tm</th>
 					<th>W</th>
 					<th>L</th>
-					<th>W-L%</th>
+					<th>W%</th>
 					<th>ERA</th>
 					<th>G</th>
 					<th>GS</th>
@@ -724,7 +727,9 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			{fgStats != undefined ? (
 				display_player()
 			) : (
-				<React.Fragment> Loading... </React.Fragment>
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
 			)}
 		</div>
 	);
