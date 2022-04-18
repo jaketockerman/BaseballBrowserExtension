@@ -14,347 +14,356 @@ interface stateType {
 	mlbamID: number;
 	playerInfo: player_Type;
 }
-
-interface FGBattingStatsType {
-	Season: number;
-	AVG: number;
-}
-
 // {
 // 	"IDfg": 2233,
-// 	"Season": 2021,
+// 	"Season": 2006,
 // 	"Name": "Adam Wainwright",
 // 	"Team": "STL",
-// 	"Age": 39,
-// 	"W": 17,
-// 	"L": 7,
-// 	"WAR": 3.8,
-// 	"ERA": 3.05,
-// 	"G": 32,
-// 	"GS": 32,
-// 	"CG": 3,
-// 	"ShO": 1,
-// 	"SV": 0,
-// 	"BS": 0,
-// 	"IP": 206.1,
-// 	"TBF": 828,
-// 	"H": 168,
-// 	"R": 72,
-// 	"ER": 70,
-// 	"HR": 21,
-// 	"BB": 50,
-// 	"IBB": 3,
-// 	"HBP": 9,
-// 	"WP": 4,
-// 	"BK": 1,
-// 	"SO": 174,
-// 	"GB": 280,
-// 	"FB": 179,
-// 	"LD": 131,
-// 	"IFFB": 14,
-//STOPPED HERE
-// 	"Balls": 1059,
-// 	"Strikes": 2009,
-// 	"Pitches": 3068,
-// 	"RS": 109,
-// 	"IFH": 8,
-// 	"BU": 5,
-// 	"BUH": 1,
-// 	"K/9": 7.59,
-// 	"BB/9": 2.18,
-// 	"K/BB": 3.48,
-// 	"H/9": 7.33,
-// 	"HR/9": 0.92,
-// 	"AVG": 0.218,
-// 	"WHIP": 1.06,
-// 	"BABIP": 0.256,
-// 	"LOB%": 0.784,
-// 	"FIP": 3.66,
-// 	"GB/FB": 1.56,
-// 	"LD%": 0.222,
-// 	"GB%": 0.475,
-// 	"FB%": 0.303,
-// 	"IFFB%": 0.078,
-// 	"HR/FB": 0.117,
-// 	"IFH%": 0.029,
-// 	"BUH%": 0.2,
-// 	"Starting": 36.8,
-// 	"Start-IP": 206.1,
-// 	"Relieving": null,
-// 	"Relief-IP": null,
-// 	"RAR": 36.8,
-// 	"Dollars": "$30.2",
-// 	"tERA": 4.02,
-// 	"xFIP": 3.87,
-// 	"WPA": 3.03,
-// 	"RE24": 27.65,
-// 	"REW": 2.9,
-// 	"pLI": 0.98,
-// 	"inLI": 0.93,
-// 	"gmLI": 0.88,
-// 	"exLI": 1.32,
-// 	"Pulls": 29,
-// 	"WPA/LI": 3.56,
-// 	"Clutch": -0.48,
-// 	"FB% 2": 0.379,
-// 	"FBv": 89.1,
-// 	"SL%": null,
-// 	"SLv": null,
-// 	"CT%": 0.217,
-// 	"CTv": 85,
-// 	"CB%": 0.341,
-// 	"CBv": 73.4,
-// 	"CH%": 0.063,
-// 	"CHv": 82.7,
+// 	"Age": 24,
+// 	"G": 61,
+// 	"AB": 6,
+// 	"PA": 6,
+// 	"H": 3,
+// 	"1B": 1,
+// 	"2B": 1,
+// 	"3B": 0,
+// 	"HR": 1,
+// 	"R": 2,
+// 	"RBI": 1,
+// 	"BB": 0,
+// 	"IBB": 0,
+// 	"SO": 0,
+// 	"HBP": 0,
+// 	"SF": 0,
+// 	"SH": 0,
+// 	"GDP": 0,
+// 	"SB": 0,
+// 	"CS": 0,
+// 	"AVG": 0.5,
+// 	"GB": 4,
+// 	"FB": 2,
+// 	"LD": 0,
+// 	"IFFB": 0,
+// 	"Pitches": 15,
+// 	"Balls": 2,
+// 	"Strikes": 13,
+// 	"IFH": 0,
+// 	"BU": 0,
+// 	"BUH": 0,
+//Stopped here
+// 	"BB%": 0,
+// 	"K%": 0,
+// 	"BB/K": 0,
+// 	"OBP": 0.5,
+// 	"SLG": 1.167,
+// 	"OPS": 1.667,
+// 	"ISO": 0.667,
+// 	"BABIP": 0.4,
+// 	"GB/FB": 0.02,
+// 	"LD%": 0,
+// 	"GB%": 0.667,
+// 	"FB%": 0.333,
+// 	"IFFB%": 0,
+// 	"HR/FB": 0.5,
+// 	"IFH%": 0,
+// 	"BUH%": 0,
+// 	"wOBA": 0.683,
+// 	"wRAA": 1.8,
+// 	"wRC": 3,
+// 	"Bat": 1.8,
+// 	"Fld": null,
+// 	"Rep": 0.2,
+// 	"Pos": 0.7,
+// 	"RAR": 2.7,
+// 	"WAR": 0.3,
+// 	"Dol": "$1.3",
+// 	"Spd": 2.6,
+// 	"wRC+": 328,
+// 	"WPA": 0.03,
+// 	"-WPA": -0.09,
+// 	"+WPA": 0.12,
+// 	"RE24": 0.42,
+// 	"REW": 0.04,
+// 	"pLI": 0.76,
+// 	"phLI": null,
+// 	"PH": 0,
+// 	"WPA/LI": 0.09,
+// 	"Clutch": -0.05,
+// 	"FB% (Pitch)": 0.667,
+// 	"FBv": 90.7,
+// 	"SL%": 0.067,
+// 	"SLv": 83,
+// 	"CT%": null,
+// 	"CTv": null,
+// 	"CB%": 0.067,
+// 	"CBv": 78,
+// 	"CH%": 0.2,
+// 	"CHv": 73.7,
 // 	"SF%": null,
 // 	"SFv": null,
 // 	"KN%": null,
 // 	"KNv": null,
-// 	"XX%": 0.004,
+// 	"XX%": null,
 // 	"PO%": null,
-// 	"wFB": 13.4,
-// 	"wSL": null,
-// 	"wCT": 2.3,
-// 	"wCB": 13.3,
-// 	"wCH": 0.2,
+// 	"wFB": 1.5,
+// 	"wSL": -0.2,
+// 	"wCT": null,
+// 	"wCB": 0.9,
+// 	"wCH": -0.2,
 // 	"wSF": null,
 // 	"wKN": null,
-// 	"wFB/C": 1.16,
-// 	"wSL/C": null,
-// 	"wCT/C": 0.35,
-// 	"wCB/C": 1.27,
-// 	"wCH/C": 0.11,
+// 	"wFB/C": 15.08,
+// 	"wSL/C": -19.83,
+// 	"wCT/C": null,
+// 	"wCB/C": 85.24,
+// 	"wCH/C": -7.92,
 // 	"wSF/C": null,
 // 	"wKN/C": null,
-// 	"O-Swing%": 0.303,
-// 	"Z-Swing%": 0.605,
-// 	"Swing%": 0.434,
-// 	"O-Contact%": 0.675,
-// 	"Z-Contact%": 0.904,
-// 	"Contact%": 0.813,
-// 	"Zone%": 0.432,
-// 	"F-Strike%": 0.643,
-// 	"SwStr%": 0.081,
-// 	"HLD": 0,
-// 	"SD": 0,
-// 	"MD": 0,
-// 	"ERA-": 76,
-// 	"FIP-": 89,
-// 	"xFIP-": 91,
-// 	"K%": 0.21,
-// 	"BB%": 0.06,
-// 	"SIERA": 4.13,
-// 	"RS/9": 4.75,
-// 	"E-F": -0.61,
-// 	"FA% (sc)": 0.095,
+// 	"O-Swing%": 0.333,
+// 	"Z-Swing%": 0.583,
+// 	"Swing%": 0.533,
+// 	"O-Contact%": 0,
+// 	"Z-Contact%": 0.857,
+// 	"Contact%": 0.75,
+// 	"Zone%": 0.8,
+// 	"F-Strike%": 0.667,
+// 	"SwStr%": 0.133,
+// 	"BsR": 0,
+// 	"FA% (sc)": null,
 // 	"FT% (sc)": null,
-// 	"FC% (sc)": 0.22,
+// 	"FC% (sc)": null,
 // 	"FS% (sc)": null,
 // 	"FO% (sc)": null,
-// 	"SI% (sc)": 0.281,
+// 	"SI% (sc)": null,
 // 	"SL% (sc)": null,
-// 	"CU% (sc)": 0.337,
+// 	"CU% (sc)": null,
 // 	"KC% (sc)": null,
 // 	"EP% (sc)": null,
-// 	"CH% (sc)": 0.064,
+// 	"CH% (sc)": null,
 // 	"SC% (sc)": null,
 // 	"KN% (sc)": null,
 // 	"UN% (sc)": null,
-// 	"vFA (sc)": 89,
+// 	"vFA (sc)": null,
 // 	"vFT (sc)": null,
-// 	"vFC (sc)": 84.9,
+// 	"vFC (sc)": null,
 // 	"vFS (sc)": null,
 // 	"vFO (sc)": null,
-// 	"vSI (sc)": 89.1,
+// 	"vSI (sc)": null,
 // 	"vSL (sc)": null,
-// 	"vCU (sc)": 73.5,
+// 	"vCU (sc)": null,
 // 	"vKC (sc)": null,
 // 	"vEP (sc)": null,
-// 	"vCH (sc)": 82.7,
+// 	"vCH (sc)": null,
 // 	"vSC (sc)": null,
 // 	"vKN (sc)": null,
-// 	"FA-X (sc)": -1.4,
+// 	"FA-X (sc)": null,
 // 	"FT-X (sc)": null,
-// 	"FC-X (sc)": 3.1,
+// 	"FC-X (sc)": null,
 // 	"FS-X (sc)": null,
 // 	"FO-X (sc)": null,
-// 	"SI-X (sc)": -7.7,
+// 	"SI-X (sc)": null,
 // 	"SL-X (sc)": null,
-// 	"CU-X (sc)": 9.2,
+// 	"CU-X (sc)": null,
 // 	"KC-X (sc)": null,
 // 	"EP-X (sc)": null,
-// 	"CH-X (sc)": -8.2,
+// 	"CH-X (sc)": null,
 // 	"SC-X (sc)": null,
 // 	"KN-X (sc)": null,
-// 	"FA-Z (sc)": 8.6,
+// 	"FA-Z (sc)": null,
 // 	"FT-Z (sc)": null,
-// 	"FC-Z (sc)": 3.9,
+// 	"FC-Z (sc)": null,
 // 	"FS-Z (sc)": null,
 // 	"FO-Z (sc)": null,
-// 	"SI-Z (sc)": 7.3,
+// 	"SI-Z (sc)": null,
 // 	"SL-Z (sc)": null,
-// 	"CU-Z (sc)": -8.5,
+// 	"CU-Z (sc)": null,
 // 	"KC-Z (sc)": null,
 // 	"EP-Z (sc)": null,
-// 	"CH-Z (sc)": 4.7,
+// 	"CH-Z (sc)": null,
 // 	"SC-Z (sc)": null,
 // 	"KN-Z (sc)": null,
-// 	"wFA (sc)": -4.6,
+// 	"wFA (sc)": null,
 // 	"wFT (sc)": null,
-// 	"wFC (sc)": 2.8,
+// 	"wFC (sc)": null,
 // 	"wFS (sc)": null,
 // 	"wFO (sc)": null,
-// 	"wSI (sc)": 17.5,
+// 	"wSI (sc)": null,
 // 	"wSL (sc)": null,
-// 	"wCU (sc)": 14.6,
+// 	"wCU (sc)": null,
 // 	"wKC (sc)": null,
 // 	"wEP (sc)": null,
-// 	"wCH (sc)": 1,
+// 	"wCH (sc)": null,
 // 	"wSC (sc)": null,
 // 	"wKN (sc)": null,
-// 	"wFA/C (sc)": -1.57,
+// 	"wFA/C (sc)": null,
 // 	"wFT/C (sc)": null,
-// 	"wFC/C (sc)": 0.41,
+// 	"wFC/C (sc)": null,
 // 	"wFS/C (sc)": null,
 // 	"wFO/C (sc)": null,
-// 	"wSI/C (sc)": 2.03,
+// 	"wSI/C (sc)": null,
 // 	"wSL/C (sc)": null,
-// 	"wCU/C (sc)": 1.41,
+// 	"wCU/C (sc)": null,
 // 	"wKC/C (sc)": null,
 // 	"wEP/C (sc)": null,
-// 	"wCH/C (sc)": 0.51,
+// 	"wCH/C (sc)": null,
 // 	"wSC/C (sc)": null,
 // 	"wKN/C (sc)": null,
-// 	"O-Swing% (sc)": 0.255,
-// 	"Z-Swing% (sc)": 0.593,
-// 	"Swing% (sc)": 0.434,
-// 	"O-Contact% (sc)": 0.595,
-// 	"Z-Contact% (sc)": 0.896,
-// 	"Contact% (sc)": 0.813,
-// 	"Zone% (sc)": 0.53,
+// 	"O-Swing% (sc)": null,
+// 	"Z-Swing% (sc)": null,
+// 	"Swing% (sc)": null,
+// 	"O-Contact% (sc)": null,
+// 	"Z-Contact% (sc)": null,
+// 	"Contact% (sc)": null,
+// 	"Zone% (sc)": null,
 // 	"Pace": null,
-// 	"RA9-WAR": 6,
-// 	"BIP-Wins": 1.6,
-// 	"LOB-Wins": 0.5,
-// 	"FDP-Wins": 2.2,
-// 	"Age Rng": "39 - 39",
-// 	"K-BB%": 0.15,
-// 	"Pull%": 0.432,
-// 	"Cent%": 0.341,
-// 	"Oppo%": 0.227,
-// 	"Soft%": 0.139,
-// 	"Med%": 0.563,
-// 	"Hard%": 0.297,
-// 	"kwERA": 4.36,
-// 	"TTO%": 0.296,
-// 	"CH% (pi)": 0.063,
+// 	"Def": 0.7,
+// 	"wSB": 0,
+// 	"UBR": null,
+// 	"Age Rng": "24 - 24",
+// 	"Off": 1.8,
+// 	"Lg": 0,
+// 	"wGDP": null,
+// 	"Pull%": 0.5,
+// 	"Cent%": 0.333,
+// 	"Oppo%": 0.167,
+// 	"Soft%": 0.167,
+// 	"Med%": 0.333,
+// 	"Hard%": 0.5,
+// 	"TTO%": 0.167,
+// 	"CH% (pi)": null,
 // 	"CS% (pi)": null,
-// 	"CU% (pi)": 0.341,
-// 	"FA% (pi)": 0.098,
-// 	"FC% (pi)": 0.217,
+// 	"CU% (pi)": null,
+// 	"FA% (pi)": null,
+// 	"FC% (pi)": null,
 // 	"FS% (pi)": null,
 // 	"KN% (pi)": null,
 // 	"SB% (pi)": null,
-// 	"SI% (pi)": 0.281,
+// 	"SI% (pi)": null,
 // 	"SL% (pi)": null,
 // 	"XX% (pi)": null,
-// 	"vCH (pi)": 83,
+// 	"vCH (pi)": null,
 // 	"vCS (pi)": null,
-// 	"vCU (pi)": 73.7,
-// 	"vFA (pi)": 89.3,
-// 	"vFC (pi)": 85.2,
+// 	"vCU (pi)": null,
+// 	"vFA (pi)": null,
+// 	"vFC (pi)": null,
 // 	"vFS (pi)": null,
 // 	"vKN (pi)": null,
 // 	"vSB (pi)": null,
-// 	"vSI (pi)": 89.4,
+// 	"vSI (pi)": null,
 // 	"vSL (pi)": null,
 // 	"vXX (pi)": null,
-// 	"CH-X (pi)": -8.1,
+// 	"CH-X (pi)": null,
 // 	"CS-X (pi)": null,
-// 	"CU-X (pi)": 9.5,
-// 	"FA-X (pi)": -1.2,
-// 	"FC-X (pi)": 3.5,
+// 	"CU-X (pi)": null,
+// 	"FA-X (pi)": null,
+// 	"FC-X (pi)": null,
 // 	"FS-X (pi)": null,
 // 	"KN-X (pi)": null,
 // 	"SB-X (pi)": null,
-// 	"SI-X (pi)": -7.5,
+// 	"SI-X (pi)": null,
 // 	"SL-X (pi)": null,
 // 	"XX-X (pi)": null,
-// 	"CH-Z (pi)": 3.2,
+// 	"CH-Z (pi)": null,
 // 	"CS-Z (pi)": null,
-// 	"CU-Z (pi)": -10.4,
-// 	"FA-Z (pi)": 7.3,
-// 	"FC-Z (pi)": 2.6,
+// 	"CU-Z (pi)": null,
+// 	"FA-Z (pi)": null,
+// 	"FC-Z (pi)": null,
 // 	"FS-Z (pi)": null,
 // 	"KN-Z (pi)": null,
 // 	"SB-Z (pi)": null,
-// 	"SI-Z (pi)": 6,
+// 	"SI-Z (pi)": null,
 // 	"SL-Z (pi)": null,
 // 	"XX-Z (pi)": null,
-// 	"wCH (pi)": 0.4,
+// 	"wCH (pi)": null,
 // 	"wCS (pi)": null,
-// 	"wCU (pi)": 14.1,
-// 	"wFA (pi)": -4.2,
-// 	"wFC (pi)": 2.1,
+// 	"wCU (pi)": null,
+// 	"wFA (pi)": null,
+// 	"wFC (pi)": null,
 // 	"wFS (pi)": null,
 // 	"wKN (pi)": null,
 // 	"wSB (pi)": null,
-// 	"wSI (pi)": 18.1,
+// 	"wSI (pi)": null,
 // 	"wSL (pi)": null,
 // 	"wXX (pi)": null,
-// 	"wCH/C (pi)": 0.19,
+// 	"wCH/C (pi)": null,
 // 	"wCS/C (pi)": null,
-// 	"wCU/C (pi)": 1.35,
-// 	"wFA/C (pi)": -1.4,
-// 	"wFC/C (pi)": 0.31,
+// 	"wCU/C (pi)": null,
+// 	"wFA/C (pi)": null,
+// 	"wFC/C (pi)": null,
 // 	"wFS/C (pi)": null,
 // 	"wKN/C (pi)": null,
 // 	"wSB/C (pi)": null,
-// 	"wSI/C (pi)": 2.1,
+// 	"wSI/C (pi)": null,
 // 	"wSL/C (pi)": null,
 // 	"wXX/C (pi)": null,
-// 	"O-Swing% (pi)": 0.249,
-// 	"Z-Swing% (pi)": 0.588,
-// 	"Swing% (pi)": 0.434,
-// 	"O-Contact% (pi)": 0.595,
-// 	"Z-Contact% (pi)": 0.89,
-// 	"Contact% (pi)": 0.813,
-// 	"Zone% (pi)": 0.545,
+// 	"O-Swing% (pi)": null,
+// 	"Z-Swing% (pi)": null,
+// 	"Swing% (pi)": null,
+// 	"O-Contact% (pi)": null,
+// 	"Z-Contact% (pi)": null,
+// 	"Contact% (pi)": null,
+// 	"Zone% (pi)": null,
 // 	"Pace (pi)": null,
-// 	"FRM": -0.6,
-// 	"K/9+": 85,
-// 	"BB/9+": 64,
-// 	"K/BB+": 132,
-// 	"H/9+": 89,
-// 	"HR/9+": 75,
-// 	"AVG+": 92,
-// 	"WHIP+": 82,
-// 	"BABIP+": 89,
-// 	"LOB%+": 109,
-// 	"K%+": 90,
-// 	"BB%+": 68,
-// 	"LD%+": 107,
-// 	"GB%+": 109,
-// 	"FB%+": 85,
-// 	"HR/FB%+": 86,
-// 	"Pull%+": 109,
-// 	"Cent%+": 97,
-// 	"Oppo%+": 91,
-// 	"Soft%+": 84,
-// 	"Med%+": 110,
-// 	"Hard%+": 93,
-// 	"EV": 88.2,
-// 	"LA": 10,
-// 	"Barrels": 37,
-// 	"Barrel%": 0.062,
-// 	"maxEV": 112.2,
-// 	"HardHit": 209,
-// 	"HardHit%": 0.351,
-// 	"Events": 595,
-// 	"CStr%": 0.216,
-// 	"CSW%": 0.298,
-// 	"xERA": null
+// 	"FRM": null,
+// 	"AVG+": 184,
+// 	"BB%+": 0,
+// 	"K%+": 0,
+// 	"OBP+": 146,
+// 	"SLG+": 264,
+// 	"ISO+": 392,
+// 	"BABIP+": 132,
+// 	"LD+%": 0,
+// 	"GB%+": 155,
+// 	"FB%+": 90,
+// 	"HR/FB%+": 453,
+// 	"Pull%+": 123,
+// 	"Cent%+": 98,
+// 	"Oppo%+": 66,
+// 	"Soft%+": 150,
+// 	"Med%+": 54,
+// 	"Hard%+": 182,
+// 	"EV": null,
+// 	"LA": null,
+// 	"Barrels": null,
+// 	"Barrel%": null,
+// 	"maxEV": null,
+// 	"HardHit": null,
+// 	"HardHit%": null,
+// 	"Events": 0,
+// 	"CStr%": 0.267,
+// 	"CSW%": 0.4,
+// 	"xBA": null,
+// 	"xSLG": null,
+// 	"xwOBA": null
 //   }
+interface FGBattingStatsType {
+	//REGULAR
+	Season: number;
+	Age: number;
+	Team: string;
+	G: number;
+	AB: number;
+	PA: number;
+	H: number;
+	"1B": number;
+	"2B": number;
+	"3B": number;
+	HR: number;
+	R: number;
+	RBI: number;
+	BB: number;
+	SO: number;
+	HBP: number;
+	SF: number;
+	GDP: number;
+	SB: number;
+	CS: number;
+	AVG: number;
+	OBP: number;
+	OPS: number;
+	SLG: number;
+	WAR: number;
+}
 
 interface FGPitchingStatsType {
 	//REGULAR
@@ -577,29 +586,127 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		"tw-sticky tw-top-0 tw-text-white tw-bg-nav-blue tw-text-stats-table-text";
 	const tableRowTailwind = "tw-bg-[#eceef1] tw-text-stats-table-text";
 	function batting_table() {
+		const standardHead = (
+			<thead className={tableHeadTailwind}>
+				<tr>
+					<th>Season</th>
+					<th>Age</th>
+					<th>Tm</th>
+					<th>G</th>
+					<th>PA</th>
+					<th>AB</th>
+					<th>R</th>
+					<th>H</th>
+					<th>2B</th>
+					<th>3B</th>
+					<th>HR</th>
+					<th>RBI</th>
+					<th>SB</th>
+					<th>CS</th>
+					<th>BB</th>
+					<th>SO</th>
+					<th>AVG</th>
+					<th>OBP</th>
+					<th>OPS</th>
+					<th>GDP</th>
+					<th>HBP</th>
+					<th>WAR</th>
+				</tr>
+			</thead>
+		);
+
+		const advancedHead = (
+			<thead className={tableHeadTailwind}>
+				<tr>
+					<th>Season</th>
+					<th>Age</th>
+					<th>Tm</th>
+					<th>GB</th>
+					<th>FB</th>
+					<th>LD</th>
+					<th>IFFB</th>
+					<th>GB/FB</th>
+					<th>B</th>
+					<th>S</th>
+					<th>P</th>
+					<th>K/9</th>
+					<th>BB/9</th>
+					<th>K/BB</th>
+					<th>H/9</th>
+					<th>HR/9</th>
+					<th>WHIP</th>
+					<th>BABIP</th>
+					<th>FIP</th>
+					<th>xFIP</th>
+					<th>WPA</th>
+				</tr>
+			</thead>
+		);
+
 		return (
-			<Table size="sm" style={{ margin: "0px" }}>
-				<thead className={tableHeadTailwind}>
-					<tr>
-						<th className="tw-px-2">Season</th>
-						<th>AVG</th>
-						{/* <th>W</th>
-							<th>L</th>
-							<th>PCT</th>
-							<th>GB</th> */}
-					</tr>
-				</thead>
+			<Table striped size="sm" style={{ margin: "0px" }}>
+				{advancedToggle ? advancedHead : standardHead}
 				<tbody>
 					{fgStats?.batting.map((season: FGBattingStatsType) => {
-						return (
+						const standardRow = (
 							<tr
-								className="tw-bg-[#eceef1] tw-border-[#e4e4e4] tw-text-stats-table-text"
+								className={tableRowTailwind}
 								key={season.Season}
 							>
 								<td>{season.Season}</td>
+								<td>{season.Age}</td>
+								<td>{season.Team}</td>
+								<td>{season.G}</td>
+								<td>{season.PA}</td>
+								<td>{season.AB}</td>
+								<td>{season.R}</td>
+								<td>{season.H}</td>
+								<td>{season["2B"]}</td>
+								<td>{season["3B"]}</td>
+								<td>{season.HR}</td>
+								<td>{season.RBI}</td>
+								<td>{season.SB}</td>
+								<td>{season.CS}</td>
+								<td>{season.BB}</td>
+								<td>{season.SO}</td>
 								<td>{season.AVG.toFixed(3)}</td>
+								<td>{season.OBP.toFixed(3)}</td>
+								<td>{season.OPS.toFixed(3)}</td>
+								<td>{season.GDP}</td>
+								<td>{season.HBP}</td>
+								<td>{season.WAR.toFixed(1)}</td>
 							</tr>
 						);
+
+						const advancedRow = (
+							<tr
+								className={tableRowTailwind}
+								key={season.Season}
+							>
+								{/* <td>{season.Season}</td>
+								<td>{season.Age}</td>
+								<td>{season.Team}</td>
+								<td>{season.GB}</td>
+								<td>{season.FB}</td>
+								<td>{season.LD}</td>
+								<td>{season.IFFB}</td>
+								<td>{season["GB/FB"].toFixed(2)}</td>
+								<td>{season.Balls}</td>
+								<td>{season.Strikes}</td>
+								<td>{season.Pitches}</td>
+								<td>{season["K/9"].toFixed(2)}</td>
+								<td>{season["BB/9"].toFixed(2)}</td>
+								<td>{season["K/BB"].toFixed(2)}</td>
+								<td>{season["H/9"].toFixed(2)}</td>
+								<td>{season["HR/9"].toFixed(2)}</td>
+								<td>{season.WHIP.toFixed(2)}</td>
+								<td>{season.BABIP.toFixed(3)}</td>
+								<td>{season.FIP.toFixed(2)}</td>
+								<td>{season.xFIP.toFixed(2)}</td>
+								<td>{season.WPA.toFixed(2)}</td> */}
+							</tr>
+						);
+						return advancedToggle ? advancedRow : standardRow;
 					})}
 				</tbody>
 			</Table>
@@ -736,7 +843,6 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					})}
 				</tbody>
 			</Table>
-			// </table>
 		);
 	}
 
