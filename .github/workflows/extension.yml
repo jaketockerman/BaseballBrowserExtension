@@ -10,6 +10,27 @@ on:
     branches: [ main ]
 
 jobs:
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: CycloneDX Node.js Generate SBOM
+      # You may pin to the exact commit or the version.
+      # uses: CycloneDX/gh-node-module-generatebom@b5753d516608ed84f7a40eb19b7687b5828b9b2d
+        uses: CycloneDX/gh-node-module-generatebom@v1.0.0
+        with:
+          path: ./extension
+          output: ./extension_bom.xml
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          # Artifact name
+          name: SBOM_EXTENSION
+          # A file, directory or wildcard pattern that describes what to upload
+          # upload-artifact does NOT use working-directory
+          path: ./extension_bom.xml
+          if-no-files-found: warn
+
   build:
 
     runs-on: ubuntu-latest
