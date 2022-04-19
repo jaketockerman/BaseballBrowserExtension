@@ -6,15 +6,15 @@ RUN mkdir app
 
 WORKDIR /app
 
-ADD docker/pybaseball/requirements.txt /app
+ADD docker/mlbstats/requirements.txt /app
 
-ADD src/pybaseball_api.py /app
+ADD src/mlbstats_api.py /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5001
+EXPOSE 5000
 
 ENTRYPOINT [ "python" ]
 
-CMD [ "pybaseball_api.py" ]
+CMD [ "mlbstats_api.py" ]
 
