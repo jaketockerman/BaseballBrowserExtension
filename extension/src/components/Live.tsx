@@ -27,7 +27,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("634198"); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
@@ -106,7 +106,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		team: keyof team_Type
 	) {
 		return (
-			<div className="tw-text-left tw-pl-2">
+			<div className="tw-text-left tw-pl-2" key={playerIDNum}>
 				{index + 1}:
 				<Link
 					to={"/player"}
@@ -142,7 +142,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bench_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div className="tw-text-left tw-pl-2">
+			<div className="tw-text-left tw-pl-2" key={playerIDNum}>
 				{" "}
 				<Link
 					to={"/player"}
@@ -178,7 +178,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	function display_Bullpen_Name(playerIDNum: number, team: keyof team_Type) {
 		return (
-			<div className="tw-text-left tw-pl-2">
+			<div className="tw-text-left tw-pl-2" key={playerIDNum}>
 				{" "}
 				<Link
 					to={"/player"}
@@ -551,44 +551,41 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Lineup
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_batting_order(
 							liveData?.boxscore?.teams?.away?.battingOrder
 								? liveData?.boxscore?.teams?.away?.battingOrder
 								: [],
 							"away" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Bench
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_bench(
 							liveData?.boxscore?.teams?.away?.bench
 								? liveData?.boxscore?.teams?.away?.bench
 								: [],
 							"away" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Bullpen
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_bullpen(
 							liveData?.boxscore?.teams?.away?.bullpen
 								? liveData?.boxscore?.teams?.away?.bullpen
 								: [],
 							"away" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 			</div>
 			<div
@@ -644,44 +641,41 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Lineup
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_batting_order(
 							liveData?.boxscore?.teams?.home?.battingOrder
 								? liveData?.boxscore?.teams?.home?.battingOrder
 								: [],
 							"home" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Bench
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_bench(
 							liveData?.boxscore?.teams?.home?.bench
 								? liveData?.boxscore?.teams?.home?.bench
 								: [],
 							"home" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 				<details>
 					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
 						Bullpen
-						<span></span>
 					</summary>
-					<p className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
 						{display_bullpen(
 							liveData?.boxscore?.teams?.home?.bullpen
 								? liveData?.boxscore?.teams?.home?.bullpen
 								: [],
 							"home" as keyof team_Type
 						)}
-					</p>
+					</div>
 				</details>
 			</div>
 		</div>
