@@ -2,138 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
-import { player_Type } from "../types/Live_Types";
+import {
+	stateType,
+	PlayerStatsType,
+	FGResponseType,
+	FGBattingStatsType,
+	FGPitchingStatsType,
+	FGFieldingStatsType,
+} from "../types/Player_Types";
 import { useLocation } from "react-router-dom";
 import { Spinner, Table } from "react-bootstrap";
 
 Player.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
 };
-
-interface stateType {
-	mlbamID: number;
-	playerInfo: player_Type;
-}
-
-interface FGBattingStatsType {
-	//REGULAR
-	Season: number;
-	Age?: number;
-	Team?: string;
-	G?: number;
-	AB?: number;
-	PA?: number;
-	H?: number;
-	"1B"?: number;
-	"2B"?: number;
-	"3B"?: number;
-	HR?: number;
-	R?: number;
-	RBI?: number;
-	BB?: number;
-	SO?: number;
-	HBP?: number;
-	SF?: number;
-	GDP?: number;
-	SB?: number;
-	CS?: number;
-	AVG?: number;
-	OBP?: number;
-	OPS?: number;
-	SLG?: number;
-	WAR?: number;
-	//ADVANCED
-	"BB%"?: number;
-	"K%"?: number;
-	ISO?: number;
-	BABIP?: number;
-	"GB%"?: number;
-	"FB%"?: number;
-	wOBA?: number;
-	wRAA?: number;
-	wRC?: number;
-	"wRC+"?: number;
-	WPA?: number;
-	UBR?: number;
-	BsR?: number;
-	"Pull%"?: number;
-	"Cent%"?: number;
-	"Oppo%"?: number;
-	"Soft%"?: number;
-	"Med%"?: number;
-	"Hard%"?: number;
-	"TTO%"?: number;
-}
-
-interface FGPitchingStatsType {
-	//REGULAR
-	Season: number;
-	Age: number;
-	Team: string;
-	W: number;
-	L: number;
-	ERA: number;
-	G: number;
-	GS: number;
-	GF: number;
-	CG: number;
-	ShO: number;
-	SV: number;
-	IP: number;
-	H: number;
-	R: number;
-	ER: number;
-	HR: number;
-	BB: number;
-	IBB: number;
-	HBP: number;
-	WP: number;
-	BK: number;
-	SO: number;
-	WAR: number;
-	//ADVANCED
-	GB: number;
-	FB: number;
-	LD: number;
-	IFFB: number;
-	Balls: number;
-	Strikes: number;
-	Pitches: number;
-	"K/9": number;
-	"BB/9": number;
-	"K/BB": number;
-	"H/9": number;
-	"HR/9": number;
-	WHIP: number;
-	BABIP: number;
-	FIP: number;
-	"GB/FB": number;
-	xFIP: number;
-	WPA: number;
-}
-
-interface FGFieldingStatsType {
-	//REGULAR
-	Season: number;
-	Age: number;
-	Team: string;
-}
-
-interface PlayerStatsType {
-	batting: Array<FGBattingStatsType>;
-	pitching: Array<FGPitchingStatsType>;
-	fielding: Array<FGFieldingStatsType>;
-}
-
-interface FGResultType {
-	batting?: string;
-	pitching?: string;
-	fielding?: string;
-}
-
-interface FGResponseType {
-	result: FGResultType;
-}
 
 function Player(props: InferProps<typeof Player.propTypes>) {
 	const location = useLocation();
@@ -153,7 +35,6 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 		axios
 			.get<FGResponseType>(props.servers.pybaseball + "player/" + mlbamID)
 			.then((response) => {
-				console.log(response.data.result);
 				const batting = response.data.result.batting
 					? JSON.parse(response.data.result.batting)
 					: [];
@@ -642,27 +523,27 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			<thead className={tableHeadTailwind}>
 				<tr>
 					<th>Season</th>
-					<th>Age</th>
 					<th>Tm</th>
+					<th>Pos</th>
 					<th>G</th>
-					<th>PA</th>
-					<th>AB</th>
-					<th>R</th>
-					<th>H</th>
-					<th>2B</th>
-					<th>3B</th>
-					<th>HR</th>
-					<th>RBI</th>
+					<th>GS</th>
+					<th>Inn</th>
+					<th>PO</th>
+					<th>A</th>
+					<th>E</th>
+					<th>FE</th>
+					<th>TE</th>
+					<th>DP</th>
+					<th>DPS</th>
+					<th>DPT</th>
+					<th>DPF</th>
+					<th>SCP</th>
 					<th>SB</th>
 					<th>CS</th>
-					<th>BB</th>
-					<th>SO</th>
-					<th>AVG</th>
-					<th>OBP</th>
-					<th>OPS</th>
-					<th>GDP</th>
-					<th>HBP</th>
-					<th>WAR</th>
+					<th>PB</th>
+					<th>WP</th>
+					<th>FP</th>
+					<th>TZ</th>
 				</tr>
 			</thead>
 		);
@@ -671,26 +552,24 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			<thead className={tableHeadTailwind}>
 				<tr>
 					<th>Season</th>
-					<th>Age</th>
 					<th>Tm</th>
-					<th>GB</th>
-					<th>FB</th>
-					<th>LD</th>
-					<th>IFFB</th>
-					<th>GB/FB</th>
-					<th>B</th>
-					<th>S</th>
-					<th>P</th>
-					<th>K/9</th>
-					<th>BB/9</th>
-					<th>K/BB</th>
-					<th>H/9</th>
-					<th>HR/9</th>
-					<th>WHIP</th>
-					<th>BABIP</th>
-					<th>FIP</th>
-					<th>xFIP</th>
-					<th>WPA</th>
+					<th>Pos</th>
+					<th>Inn</th>
+					<th>rSZ</th>
+					<th>rCERA</th>
+					<th>rSB</th>
+					<th>rGDP</th>
+					<th>rARM</th>
+					<th>rGFP</th>
+					<th>rPM</th>
+					<th>DRS</th>
+					<th>ARM</th>
+					<th>DPR</th>
+					<th>RngR</th>
+					<th>ErrR</th>
+					<th>UZR</th>
+					<th>UZR/150</th>
+					<th>FRM</th>
 				</tr>
 			</thead>
 		);
@@ -704,63 +583,61 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 			>
 				{advancedToggle ? advancedHead : standardHead}
 				<tbody>
-					{fgStats?.batting.map((season: FGBattingStatsType) => {
+					{fgStats?.fielding.map((season: FGFieldingStatsType) => {
 						const standardRow = (
 							<tr
 								className={tableRowTailwind}
-								key={season.Season}
+								key={season.Season + season.Pos}
 							>
 								<td>{season.Season}</td>
-								<td>{season.Age}</td>
 								<td>{season.Team}</td>
+								<td>{season.Pos}</td>
 								<td>{season.G}</td>
-								<td>{season.PA}</td>
-								<td>{season.AB}</td>
-								<td>{season.R}</td>
-								<td>{season.H}</td>
-								<td>{season["2B"]}</td>
-								<td>{season["3B"]}</td>
-								<td>{season.HR}</td>
-								<td>{season.RBI}</td>
+								<td>{season.GS}</td>
+								<td>{season.Inn?.toFixed(1)}</td>
+								<td>{season.PO}</td>
+								<td>{season.A}</td>
+								<td>{season.E}</td>
+								<td>{season.FE}</td>
+								<td>{season.TE}</td>
+								<td>{season.DP}</td>
+								<td>{season.DPS}</td>
+								<td>{season.DPT}</td>
+								<td>{season.DPF}</td>
+								<td>{season.Scp}</td>
 								<td>{season.SB}</td>
 								<td>{season.CS}</td>
-								<td>{season.BB}</td>
-								<td>{season.SO}</td>
-								<td>{season.AVG?.toFixed(3)}</td>
-								<td>{season.OBP?.toFixed(3)}</td>
-								<td>{season.OPS?.toFixed(3)}</td>
-								<td>{season.GDP}</td>
-								<td>{season.HBP}</td>
-								<td>{season.WAR?.toFixed(1)}</td>
+								<td>{season.PB}</td>
+								<td>{season.WP}</td>
+								<td>{season.FP?.toFixed(3)}</td>
+								<td>{season.TZ}</td>
 							</tr>
 						);
 
 						const advancedRow = (
 							<tr
 								className={tableRowTailwind}
-								key={season.Season}
+								key={season.Season + season.Pos}
 							>
-								{/* <td>{season.Season}</td>
-								<td>{season.Age}</td>
+								<td>{season.Season}</td>
 								<td>{season.Team}</td>
-								<td>{season.GB}</td>
-								<td>{season.FB}</td>
-								<td>{season.LD}</td>
-								<td>{season.IFFB}</td>
-								<td>{season["GB/FB"].toFixed(2)}</td>
-								<td>{season.Balls}</td>
-								<td>{season.Strikes}</td>
-								<td>{season.Pitches}</td>
-								<td>{season["K/9"].toFixed(2)}</td>
-								<td>{season["BB/9"].toFixed(2)}</td>
-								<td>{season["K/BB"].toFixed(2)}</td>
-								<td>{season["H/9"].toFixed(2)}</td>
-								<td>{season["HR/9"].toFixed(2)}</td>
-								<td>{season.WHIP.toFixed(2)}</td>
-								<td>{season.BABIP.toFixed(3)}</td>
-								<td>{season.FIP.toFixed(2)}</td>
-								<td>{season.xFIP.toFixed(2)}</td>
-								<td>{season.WPA.toFixed(2)}</td> */}
+								<td>{season.Pos}</td>
+								<td>{season.Inn?.toFixed(1)}</td>
+								<td>{season.rSZ}</td>
+								<td>{season.rCERA}</td>
+								<td>{season.rSB}</td>
+								<td>{season.rGDP}</td>
+								<td>{season.rARM}</td>
+								<td>{season.rGFP}</td>
+								<td>{season.rPM}</td>
+								<td>{season.DRS}</td>
+								<td>{season.ARM?.toFixed(1)}</td>
+								<td>{season.DPR?.toFixed(1)}</td>
+								<td>{season.RngR?.toFixed(1)}</td>
+								<td>{season.ErrR?.toFixed(1)}</td>
+								<td>{season.UZR?.toFixed(1)}</td>
+								<td>{season["UZR/150"]?.toFixed(1)}</td>
+								<td>{season.FRM?.toFixed(1)}</td>
 							</tr>
 						);
 						return advancedToggle ? advancedRow : standardRow;
@@ -792,13 +669,6 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 	}
 
 	function display_player() {
-		console.log("batting");
-		console.log(fgStats?.batting ? fgStats?.batting : "no batting data");
-		console.log("pitching");
-		console.log(fgStats?.pitching ? fgStats?.pitching : "no pitching data");
-		console.log("fielding");
-		console.log(fgStats?.fielding ? fgStats?.fielding : "no fielding data");
-
 		return (
 			<React.Fragment>
 				<React.Fragment>{player_info()}</React.Fragment>
