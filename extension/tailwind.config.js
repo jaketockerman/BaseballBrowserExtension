@@ -6,9 +6,15 @@ module.exports = {
 			colors: {
 				"app-dark": "#282c34",
 				"nav-blue": "#002774",
+				"nav-blue-light": "#00308F",
+				"nav-blue-extra-light": "#0036A3",
+				"player-advanced-green": "#36a832",
+				"border-grey": "#525252",
 			},
 			fontSize: {
-				"app-text": "calc(10px + 2vmin)",
+				"app-text": "18px",
+				"player-info": "16px",
+				"stats-table-text": "15px",
 			},
 		},
 	},
