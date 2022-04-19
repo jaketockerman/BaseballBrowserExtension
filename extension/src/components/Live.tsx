@@ -229,18 +229,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	}
 
 	function pitchInfo(index: number) {
+		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
+		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
+		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
+		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
+
 		console.log(index);
-		return (
-			<Rect
-				width={70}
-				height={70}
-				x={20}
-				y={20}
-				stroke="red"
-				strokeWidth={2}
-				fill="red"
-			/>
-		);
 	}
 
 	function display_Pitch(
@@ -252,13 +246,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		pitchNum: number
 	) {
 		const plateWidth = 17 / 12;
-		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
-		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
-		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
-		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-
 		const strikezoneTop =
 			liveData?.plays.currentPlay.playEvents[index].pitchData
 				?.strikeZoneTop;
@@ -444,14 +433,14 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			? {
 					mlbamID: secondRunner,
 					playerInfo:
-						gameData?.players[("ID" + firstRunner) as playerID],
+						gameData?.players[("ID" + secondRunner) as playerID],
 			  }
 			: {};
 		const s3 = thirdRunner
 			? {
 					mlbamID: thirdRunner,
 					playerInfo:
-						gameData?.players[("ID" + firstRunner) as playerID],
+						gameData?.players[("ID" + thirdRunner) as playerID],
 			  }
 			: {};
 		const first = liveData?.linescore.offense.first ? (
