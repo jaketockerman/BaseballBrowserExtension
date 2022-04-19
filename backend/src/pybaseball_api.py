@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, json
-from pybaseball import playerid_reverse_lookup, batting_stats, pitching_stats, cache
+from pybaseball import playerid_reverse_lookup, batting_stats, pitching_stats, fielding_stats, cache
 
 app = Flask(__name__)
 
@@ -19,10 +19,14 @@ def get_player(mlbamID: str):
     except:
         batting = ""
     try:
-        pitching = pitching_stats(start_season=1871, end_season=datetime.now().year, players=player_ids["key_fangraphs"][0], position='P', qual=1).sort_values(["Season"]).to_json(orient="records")
+        pitching = pitching_stats(start_season=1871, end_season=datetime.now().year, players=player_ids["key_fangraphs"][0], position='P', qual='n').sort_values(["Season"]).to_json(orient="records")
     except:
         pitching = ""
-    response = json.jsonify({"result": {"batting": batting, "pitching": pitching}})
+    try:
+        fielding = fielding_stats(start_season=1871, end_season=datetime.now().year, players=player_ids["key_fangraphs"][0], qual='n').sort_values(["Season"]).to_json(orient="records")
+    except:
+        fielding = ""
+    response = json.jsonify({"result": {"batting": batting, "pitching": pitching, "fielding": fielding}})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
