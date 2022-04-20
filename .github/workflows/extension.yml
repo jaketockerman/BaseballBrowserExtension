@@ -68,10 +68,16 @@ jobs:
       uses: montudor/action-zip@v1.0.0
       with:
         args: zip build ./extension/build
-    - name: Upload & release to Chrome Webstore
-      uses: mnao305/chrome-extension-upload@2.2.0
+    - name: Upload an extension to Chrome Web Store
+      uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
       with:
-        file-path: ./build.zip
-        extension-id: pjgfdnmlgnbldfgfmneimommafcobhlk
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        # Path to WebExtension directory
+        zipFilePath: ./build.zip
+        # Your extension id in Chrome Web Store
+        extensionId: pjgfdnmlgnbldfgfmneimommafcobhlk
+        # Web Store API Client Id (use secrets!) required to obtain access token
+        apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+        # Web Store API Client Secret (use secrets!) required to obtain access token
+        apiClientSecret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        # Web Store API Refresh token (use secrets!) required to obtain access token
+        apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}
