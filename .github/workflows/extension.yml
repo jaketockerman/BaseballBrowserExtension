@@ -64,3 +64,14 @@ jobs:
         # upload-artifact does NOT use working-directory
         path: ./extension/build/
         if-no-files-found: error
+    - name: Zip build folder
+      uses: montudor/action-zip@v1.0.0
+      with:
+        args: zip ./build/
+    - name: Upload & release to Chrome Webstore
+      uses: mnao305/chrome-extension-upload@2.2.0
+      with:
+        file-path: ./build.zip
+        extension-id: pjgfdnmlgnbldfgfmneimommafcobhlk
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
