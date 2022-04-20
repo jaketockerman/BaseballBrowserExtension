@@ -68,14 +68,14 @@ jobs:
       if: github.event_name != 'pull_request'
       uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
       with:
-        extensionDir: 'extension'
-        zipFilePath: 'build/extension.zip'
+        extensionDir: 'extension/build'
+        zipFilePath: 'extension/build/extension.zip'
     - name: Upload an extension to Chrome Web Store
       if: github.event_name != 'pull_request'
       uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
       with:
         # Path to WebExtension directory
-        zipFilePath: build/extension.zip
+        zipFilePath: extension/build/extension.zip
         # Your extension id in Chrome Web Store
         extensionId: pjgfdnmlgnbldfgfmneimommafcobhlk
         # Web Store API Client Id (use secrets!) required to obtain access token
