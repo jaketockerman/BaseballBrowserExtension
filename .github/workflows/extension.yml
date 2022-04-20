@@ -68,14 +68,14 @@ jobs:
       uses: actions/download-artifact@v3.0.0
       with:
         # Artifact name
-        name: build
+        name: extension
         # Destination path
-        path: ./build.zip
+        path: ./extension.zip
     - name: Upload an extension to Chrome Web Store
       uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
       with:
         # Path to WebExtension directory
-        zipFilePath: ./build.zip
+        zipFilePath: ./extension.zip
         # Your extension id in Chrome Web Store
         extensionId: pjgfdnmlgnbldfgfmneimommafcobhlk
         # Web Store API Client Id (use secrets!) required to obtain access token
