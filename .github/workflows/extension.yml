@@ -66,15 +66,15 @@ jobs:
         # upload-artifact does NOT use working-directory
         path: ./extension/build/
         if-no-files-found: error
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v18.7
     - name: Pack extension
-      if: github.event_name != 'pull_request'
+      if: github.event_name != 'pull_request' && contains(steps.changed-files.outputs.modified_files, 'manifest.json')
       uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
       with:
         extensionDir: 'extension/build'
         zipFilePath: 'extension/build/extension.zip'
-    - name: Get changed files
-      id: changed-files
-      uses: tj-actions/changed-files@v18.7
     - name: Upload an extension to Chrome Web Store
       if: github.event_name != 'pull_request' && contains(steps.changed-files.outputs.modified_files, 'manifest.json')
       uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
