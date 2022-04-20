@@ -64,10 +64,13 @@ jobs:
         # upload-artifact does NOT use working-directory
         path: ./extension/build/
         if-no-files-found: error
-    - name: Zip build folder
-      uses: montudor/action-zip@v1.0.0
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.0
       with:
-        args: zip build ./extension/build
+        # Artifact name
+        name: build
+        # Destination path
+        path: ./build.zip
     - name: Upload an extension to Chrome Web Store
       uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
       with:
