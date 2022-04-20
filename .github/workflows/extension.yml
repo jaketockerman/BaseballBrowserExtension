@@ -64,18 +64,18 @@ jobs:
         # upload-artifact does NOT use working-directory
         path: ./extension/build/
         if-no-files-found: error
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
+    - name: Pack extension
+      if: github.event_name != 'pull_request'
+      uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
       with:
-        # Artifact name
-        name: extension
-        # Destination path
-        path: ./extension.zip
+        extensionDir: 'extension'
+        zipFilePath: 'build/extension.zip'
     - name: Upload an extension to Chrome Web Store
+      if: github.event_name != 'pull_request'
       uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
       with:
         # Path to WebExtension directory
-        zipFilePath: ./extension.zip
+        zipFilePath: build/extension.zip
         # Your extension id in Chrome Web Store
         extensionId: pjgfdnmlgnbldfgfmneimommafcobhlk
         # Web Store API Client Id (use secrets!) required to obtain access token
