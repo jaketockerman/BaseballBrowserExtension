@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
+import { useNavigate } from "react-router";
 
 import {
 	gameData_Response,
@@ -30,6 +31,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [liveDelay, setLiveDelay] = useState(100);
 	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (gameID) {
@@ -266,13 +268,13 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			return (
 				<Group
 					x={x}
-					y={299}
+					y={297}
 					key={index}
 					onMouseOver={() => {
 						setPitchHover({
 							index: index,
 							pitchXPixels: x,
-							pitchYPixels: 299,
+							pitchYPixels: 297,
 							pitch: liveData?.plays.currentPlay.playEvents[
 								index
 							],
@@ -471,7 +473,106 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	}
 
 	function drawBaseRunners() {
-		return;
+		const firstRunner = liveData?.linescore.offense.first?.id;
+		const secondRunner = liveData?.linescore.offense.second?.id;
+		const thirdRunner = liveData?.linescore.offense.third?.id;
+		const s1 = firstRunner
+			? {
+					mlbamID: firstRunner,
+					playerInfo:
+						gameData?.players[("ID" + firstRunner) as playerID],
+			  }
+			: {};
+		const s2 = secondRunner
+			? {
+					mlbamID: secondRunner,
+					playerInfo:
+						gameData?.players[("ID" + secondRunner) as playerID],
+			  }
+			: {};
+		const s3 = thirdRunner
+			? {
+					mlbamID: thirdRunner,
+					playerInfo:
+						gameData?.players[("ID" + thirdRunner) as playerID],
+			  }
+			: {};
+		const first = liveData?.linescore.offense.first ? (
+			<Rect
+				height={10}
+				width={10}
+				x={30}
+				y={20}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s1 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={30}
+				y={20}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		const second = liveData?.linescore.offense.second ? (
+			<Rect
+				height={10}
+				width={10}
+				x={20}
+				y={6}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s2 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={20}
+				y={8}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		const third = liveData?.linescore.offense.third ? (
+			<Rect
+				height={10}
+				width={10}
+				x={10}
+				y={20}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s3 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={10}
+				y={20}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		return (
+			<Group>
+				{first}
+				{second}
+				{third}
+			</Group>
+		);
 	}
 
 	function drawHover(stageWidth: number, stageHeight: number) {
@@ -597,8 +698,15 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							stroke="white"
 							strokeWidth={1}
 						/>
-						{drawBaseRunners()}
+						<Text
+							text={strikes?.toString()}
+							x={strikezoneOffsetX + 25}
+							y={7}
+							stroke="white"
+							strokeWidth={1}
+						/>
 						{drawOuts(strikezoneOffsetX)}
+						{drawBaseRunners()}
 						<Rect
 							width={width}
 							height={height}
