@@ -259,7 +259,7 @@ interface details_Type {
 
 interface type_Type {
 	code: string;
-	description: string; //Type Of Pitch ?
+	description: string;
 }
 
 interface call_Type {
@@ -415,6 +415,12 @@ interface batting_Type {
 	triples: number;
 }
 
+interface pitchHover_Type {
+	pitch: playEvents_Type | undefined;
+	pitchXPixels: number;
+	pitchYPixels: number;
+}
+
 export type {
 	gameData_Response,
 	gameData_Type,
@@ -462,4 +468,5 @@ export type {
 	playerID,
 	live_Player_Type,
 	position_Type,
+	pitchHover_Type,
 };

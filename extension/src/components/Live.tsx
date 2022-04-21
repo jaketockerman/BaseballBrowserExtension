@@ -4,7 +4,6 @@ import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
-// import { NumberLiteralType } from "typescript";
 
 import {
 	gameData_Response,
@@ -13,13 +12,10 @@ import {
 	liveData_Type,
 	playerID,
 	team_Type,
+	pitchHover_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
-// import { render } from "react-dom";
-// import { isAbsolute } from "path/posix";
-
-// import { Accordion } from "react-bootstrap";
 
 Live.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -27,7 +23,8 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("634202"); //634198 Example Game
+	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
@@ -226,9 +223,11 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function pitchInfo(index: number) {
-		console.log(index);
-	}
+	// function pitchInfo(e: Konva.KonvaEventObject<MouseEvent>, index: number) {
+	// 	console.log(e.target.parent?.parent);
+	// 	console.log(liveData?.plays.currentPlay.playEvents[index]);
+	// 	console.log(e);
+	// }
 
 	function display_Pitch(
 		index: number,
@@ -281,8 +280,17 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						radius={5}
 						stroke={ballColor}
 						fill={ballColor}
-						onClick={() => {
-							pitchInfo(index);
+						onMouseOver={() => {
+							setPitchHover({
+								pitchXPixels: x,
+								pitchYPixels: 299,
+								pitch: liveData?.plays.currentPlay.playEvents[
+									index
+								],
+							});
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
 						}}
 					/>
 					<Text
@@ -299,8 +307,17 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					radius={5}
 					stroke={ballColor}
 					fill={ballColor}
-					onClick={() => {
-						pitchInfo(index);
+					onMouseOver={() => {
+						setPitchHover({
+							pitchXPixels: x,
+							pitchYPixels: z,
+							pitch: liveData?.plays.currentPlay.playEvents[
+								index
+							],
+						});
+					}}
+					onMouseOut={() => {
+						setPitchHover(null);
 					}}
 				/>
 				<Text
@@ -420,6 +437,49 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		return;
 	}
 
+	function drawHover(width: number, height: number) {
+		if (pitchHover && pitchHover.pitch) {
+			const boxWidth =
+				pitchHover.pitch.details.type.description.length * 7;
+			const boxHeight = 80;
+			const drawX =
+				pitchHover.pitchXPixels + boxWidth > width
+					? pitchHover.pitchXPixels - boxWidth
+					: pitchHover.pitchXPixels;
+			console.log(pitchHover.pitchXPixels + boxWidth, width);
+			console.log(pitchHover.pitch.details.type.description);
+			console.log(height);
+			return (
+				<Group>
+					<Rect
+						width={boxWidth}
+						height={(3 * boxHeight) / 8}
+						x={drawX}
+						y={pitchHover.pitchYPixels}
+						stroke="#002774"
+						strokeWidth={2}
+						fill={"#002774"}
+					/>
+					<Text
+						text={pitchHover.pitch.details.type.description}
+						x={drawX + 4}
+						y={pitchHover.pitchYPixels + 2}
+						stroke="white"
+						strokeWidth={1}
+					/>
+					<Text
+						text={pitchHover.pitch.pitchData.startSpeed + " mph"}
+						x={drawX + 4}
+						y={pitchHover.pitchYPixels + 15}
+						stroke="white"
+						strokeWidth={1}
+					/>
+				</Group>
+			);
+		}
+		return;
+	}
+
 	function display_Strikezone() {
 		const balls = liveData?.plays.currentPlay.count.balls;
 		const strikes = liveData?.plays.currentPlay.count.strikes;
@@ -444,28 +504,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							fill={"#002774"}
 						/>
 						<Text
-							text={balls?.toString() + " - "}
+							text={
+								balls?.toString() + " - " + strikes?.toString()
+							}
 							x={strikezoneOffsetX + 8}
 							y={7}
 							stroke="white"
 							strokeWidth={1}
 						/>
-						<Text
-							text={strikes?.toString()}
-							x={strikezoneOffsetX + 25}
-							y={7}
-							stroke="white"
-							strokeWidth={1}
-						/>
-						{/* <Text
-							text={outs?.toString() + " outs"}
-							x={strikezoneOffsetX + 48}
-							y={7}
-							stroke="white"
-							strokeWidth={1}
-						/> */}
-						{drawOuts(strikezoneOffsetX)}
 						{drawBaseRunners()}
+						{drawOuts(strikezoneOffsetX)}
 						<Rect
 							width={width}
 							height={height}
@@ -530,6 +578,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 									pitchNum++
 								);
 							})}
+						{drawHover(stageWidth, stageHeight)}
 					</Layer>
 				</Stage>
 			</div>
