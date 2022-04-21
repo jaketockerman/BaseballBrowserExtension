@@ -61,5 +61,9 @@ def get_liveData(gameID):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/')
+def is_healthy():
+    return ''
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)
