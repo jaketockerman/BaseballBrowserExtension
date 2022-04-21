@@ -44,6 +44,8 @@ jobs:
         working-directory: ./extension
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -64,3 +66,26 @@ jobs:
         # upload-artifact does NOT use working-directory
         path: ./extension/build/
         if-no-files-found: error
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v18.7
+    - name: Pack extension
+      if: github.event_name != 'pull_request' && contains(steps.changed-files.outputs.modified_files, 'manifest.json')
+      uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
+      with:
+        extensionDir: 'extension/build'
+        zipFilePath: 'extension/build/extension.zip'
+    - name: Upload an extension to Chrome Web Store
+      if: github.event_name != 'pull_request' && contains(steps.changed-files.outputs.modified_files, 'manifest.json')
+      uses: cardinalby/webext-buildtools-chrome-webstore-upload-action@1.0.8
+      with:
+        # Path to WebExtension directory
+        zipFilePath: extension/build/extension.zip
+        # Your extension id in Chrome Web Store
+        extensionId: pjgfdnmlgnbldfgfmneimommafcobhlk
+        # Web Store API Client Id (use secrets!) required to obtain access token
+        apiClientId: ${{ secrets.CHROME_CLIENT_ID }}
+        # Web Store API Client Secret (use secrets!) required to obtain access token
+        apiClientSecret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        # Web Store API Refresh token (use secrets!) required to obtain access token
+        apiRefreshToken: ${{ secrets.CHROME_REFRESH_TOKEN }}

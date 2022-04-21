@@ -11,6 +11,8 @@ test("renders navbar", () => {
 	);
 	const liveElement = screen.getByAltText("live");
 	const standingsElement = screen.getByAltText("standings");
+	const settingsElement = screen.getByAltText("settings");
 	expect(liveElement).toBeInTheDocument();
 	expect(standingsElement).toBeInTheDocument();
+	expect(settingsElement).toBeInTheDocument();
 });

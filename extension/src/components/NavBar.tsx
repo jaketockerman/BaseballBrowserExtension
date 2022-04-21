@@ -8,37 +8,28 @@ import gear from "../images/gear.svg";
 class Navigation extends React.Component {
 	render() {
 		//Unfortunately tailwind borders are broken without @tailwind base
-		const style = {
-			borderRight: "1px solid",
-			borderTop: "1px solid",
-			borderColor: "#525252",
-		};
-
 		return (
 			<nav className="tw-bg-nav-blue tw-flex tw-flex-row tw-w-full tw-h-1/10">
 				<Nav.Link
 					as={Link}
 					to="/Standings"
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white"
-					style={style}
+					className="tw-flex-1 tw-w-0 tw-border-t tw-border-border-grey tw-border-r "
 				>
-					<img src={flag} className="flag-logo" alt="standings" />
+					<img src={flag} className="tw-mx-auto" alt="standings" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
 					to="/"
-					className="tw-flex-1 tw-w-0 tw-border-r tw-border-white tw-items-center"
-					style={style}
+					className="tw-flex-1 tw-w-0 tw-border-t tw-border-border-grey tw-border-r  tw-items-center"
 				>
-					<img src={home} className="home-logo" alt="live" />
+					<img src={home} className="tw-mx-auto" alt="live" />
 				</Nav.Link>
 				<Nav.Link
 					as={Link}
 					to="/settings"
-					className="tw-flex-1 tw-w-0"
-					style={{ borderTop: "1px solid", borderColor: "#525252" }}
+					className="tw-flex-1 tw-w-0 tw-border-t tw-border-border-grey"
 				>
-					<img src={gear} className="gear-logo" alt="settings" />
+					<img src={gear} className="tw-mx-auto" alt="settings" />
 				</Nav.Link>
 			</nav>
 		);
