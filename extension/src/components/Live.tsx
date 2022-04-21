@@ -23,7 +23,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("634208"); //634198 Example Game
+	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
