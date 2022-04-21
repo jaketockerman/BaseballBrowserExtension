@@ -228,15 +228,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function pitchInfo(index: number) {
-		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
-		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
-		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
-		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-
-		console.log(index);
-	}
-
 	function display_Pitch(
 		index: number,
 		height: number,
@@ -279,14 +270,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			//DEALING WITH BALLS IN THE DIRT
 			return (
 				<Group x={x} y={297} key={index}>
-					<Circle
-						radius={5}
-						stroke={ballColor}
-						fill={ballColor}
-						onClick={() => {
-							pitchInfo(index);
-						}}
-					/>
+					<Circle radius={5} stroke={ballColor} fill={ballColor} />
 					<Text
 						text={pitchNum.toString()}
 						stroke="white"
@@ -297,14 +281,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		}
 		return (
 			<Group x={x} y={z} key={index}>
-				<Circle
-					radius={5}
-					stroke={ballColor}
-					fill={ballColor}
-					onClick={() => {
-						pitchInfo(index);
-					}}
-				/>
+				<Circle radius={5} stroke={ballColor} fill={ballColor} />
 				<Text
 					text={pitchNum.toString()}
 					stroke="white"
