@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
+import { useNavigate } from "react-router";
 // import { NumberLiteralType } from "typescript";
 
 import {
@@ -33,6 +34,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const [liveDelay, setLiveDelay] = useState(100);
 	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (gameID) {
@@ -226,10 +228,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	function pitchInfo(index: number) {
-		console.log(index);
-	}
-
 	function display_Pitch(
 		index: number,
 		height: number,
@@ -239,13 +237,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		pitchNum: number
 	) {
 		const plateWidth = 17 / 12;
-		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
-		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
-		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
-		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-
 		const strikezoneTop =
 			liveData?.plays.currentPlay.playEvents[index].pitchData
 				?.strikeZoneTop;
@@ -276,15 +269,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
 			return (
-				<Group x={x} y={299} key={index}>
-					<Circle
-						radius={5}
-						stroke={ballColor}
-						fill={ballColor}
-						onClick={() => {
-							pitchInfo(index);
-						}}
-					/>
+				<Group x={x} y={297} key={index}>
+					<Circle radius={5} stroke={ballColor} fill={ballColor} />
 					<Text
 						text={pitchNum.toString()}
 						stroke="white"
@@ -295,14 +281,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		}
 		return (
 			<Group x={x} y={z} key={index}>
-				<Circle
-					radius={5}
-					stroke={ballColor}
-					fill={ballColor}
-					onClick={() => {
-						pitchInfo(index);
-					}}
-				/>
+				<Circle radius={5} stroke={ballColor} fill={ballColor} />
 				<Text
 					text={pitchNum.toString()}
 					stroke="white"
@@ -417,7 +396,106 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	}
 
 	function drawBaseRunners() {
-		return;
+		const firstRunner = liveData?.linescore.offense.first?.id;
+		const secondRunner = liveData?.linescore.offense.second?.id;
+		const thirdRunner = liveData?.linescore.offense.third?.id;
+		const s1 = firstRunner
+			? {
+					mlbamID: firstRunner,
+					playerInfo:
+						gameData?.players[("ID" + firstRunner) as playerID],
+			  }
+			: {};
+		const s2 = secondRunner
+			? {
+					mlbamID: secondRunner,
+					playerInfo:
+						gameData?.players[("ID" + secondRunner) as playerID],
+			  }
+			: {};
+		const s3 = thirdRunner
+			? {
+					mlbamID: thirdRunner,
+					playerInfo:
+						gameData?.players[("ID" + thirdRunner) as playerID],
+			  }
+			: {};
+		const first = liveData?.linescore.offense.first ? (
+			<Rect
+				height={10}
+				width={10}
+				x={30}
+				y={20}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s1 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={30}
+				y={20}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		const second = liveData?.linescore.offense.second ? (
+			<Rect
+				height={10}
+				width={10}
+				x={20}
+				y={6}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s2 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={20}
+				y={8}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		const third = liveData?.linescore.offense.third ? (
+			<Rect
+				height={10}
+				width={10}
+				x={10}
+				y={20}
+				rotation={45}
+				stroke="white"
+				fill="white"
+				onClick={() => {
+					navigate("/player", { replace: true, state: s3 });
+				}}
+			/>
+		) : (
+			<Rect
+				height={10}
+				width={10}
+				x={10}
+				y={20}
+				rotation={45}
+				stroke="white"
+			/>
+		);
+		return (
+			<Group>
+				{first}
+				{second}
+				{third}
+			</Group>
+		);
 	}
 
 	function display_Strikezone() {
@@ -457,13 +535,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							stroke="white"
 							strokeWidth={1}
 						/>
-						{/* <Text
-							text={outs?.toString() + " outs"}
-							x={strikezoneOffsetX + 48}
-							y={7}
-							stroke="white"
-							strokeWidth={1}
-						/> */}
 						{drawOuts(strikezoneOffsetX)}
 						{drawBaseRunners()}
 						<Rect
