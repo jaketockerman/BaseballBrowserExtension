@@ -78,22 +78,22 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 				</div>
 				<div className="tw-w-full tw-h-full tw-flex tw-flex-col tw-justify-center">
 					<div className="tw-w-full">
-						{playerInfo.fullName} #{playerInfo.primaryNumber}
+						{playerInfo?.fullName} #{playerInfo?.primaryNumber}
 					</div>
 					<div className="tw-w-full">
-						{playerInfo.primaryPosition?.abbreviation} | B/T:{" "}
-						{playerInfo.batSide?.code}/{playerInfo.pitchHand?.code}{" "}
-						| {playerInfo.height}/{playerInfo.weight} | Age:{" "}
-						{playerInfo.currentAge}
+						{playerInfo?.primaryPosition?.abbreviation} | B/T:{" "}
+						{playerInfo?.batSide?.code}/
+						{playerInfo?.pitchHand?.code} | {playerInfo?.height}/
+						{playerInfo?.weight} | Age: {playerInfo?.currentAge}
 					</div>
 					<div className="tw-w-full">
-						{playerInfo.mlbDebutDate
-							? `MLB Debut: ${playerInfo.mlbDebutDate}`
+						{playerInfo?.mlbDebutDate
+							? `MLB Debut: ${playerInfo?.mlbDebutDate}`
 							: ""}
 					</div>
 					<div className="tw-w-full">
-						{playerInfo.nickName
-							? `Nickname: ${playerInfo.nickName}`
+						{playerInfo?.nickName
+							? `Nickname: ${playerInfo?.nickName}`
 							: ""}
 					</div>
 					<div className="tw-flex tw-justify-center tw-items-center tw-py-1">

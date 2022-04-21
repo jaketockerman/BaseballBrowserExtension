@@ -208,6 +208,7 @@ interface playEvents_Type {
 }
 
 interface pitchData_Type {
+	breaks: breaks_Type;
 	coordinates: coordinates_Type;
 	endSpeed: number;
 	extension: number;
@@ -416,6 +417,7 @@ interface batting_Type {
 }
 
 interface pitchHover_Type {
+	index: number;
 	pitch: playEvents_Type | undefined;
 	pitchXPixels: number;
 	pitchYPixels: number;

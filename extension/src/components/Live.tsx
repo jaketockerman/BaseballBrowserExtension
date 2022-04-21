@@ -23,7 +23,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("634202"); //634198 Example Game
+	const [gameID, setGameID] = useState("634208"); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
@@ -56,7 +56,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						props.servers.mlbstats + "liveData/" + gameID
 					)
 					.then((response) => {
-						//console.log(response.data);
 						setLiveData(response.data.result);
 						setLiveDelay(10000);
 					})
@@ -116,7 +115,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -152,7 +151,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -188,7 +187,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -223,12 +222,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
-	// function pitchInfo(e: Konva.KonvaEventObject<MouseEvent>, index: number) {
-	// 	console.log(e.target.parent?.parent);
-	// 	console.log(liveData?.plays.currentPlay.playEvents[index]);
-	// 	console.log(e);
-	// }
-
 	function display_Pitch(
 		index: number,
 		height: number,
@@ -238,13 +231,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		pitchNum: number
 	) {
 		const plateWidth = 17 / 12;
-		// const call = liveData?.plays.currentPlay.playEvents[index].details.call?.description;
-		// const strike = liveData?.plays.currentPlay.playEvents[index].details?.isStrike;
-		// const pitchType = liveData?.plays.currentPlay.playEvents[index].details.type?.description;
 		const ballColor =
 			liveData?.plays.currentPlay.playEvents[index].details?.ballColor;
-		// const pitchSpeed = liveData?.plays.currentPlay.playEvents[index].pitchData?.startSpeed;
-
 		const strikezoneTop =
 			liveData?.plays.currentPlay.playEvents[index].pitchData
 				?.strikeZoneTop;
@@ -272,45 +260,19 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				: 0;
 		const x = xLoc + strikezoneZeroX;
 		const z = zLoc + strikezoneZeroZ;
+		const scaleHoverFactor = 1.5;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
 			return (
-				<Group x={x} y={299} key={index}>
-					<Circle
-						radius={5}
-						stroke={ballColor}
-						fill={ballColor}
-						onMouseOver={() => {
-							setPitchHover({
-								pitchXPixels: x,
-								pitchYPixels: 299,
-								pitch: liveData?.plays.currentPlay.playEvents[
-									index
-								],
-							});
-						}}
-						onMouseOut={() => {
-							setPitchHover(null);
-						}}
-					/>
-					<Text
-						text={pitchNum.toString()}
-						stroke="white"
-						strokeWidth={1}
-					/>
-				</Group>
-			);
-		}
-		return (
-			<Group x={x} y={z} key={index}>
-				<Circle
-					radius={5}
-					stroke={ballColor}
-					fill={ballColor}
+				<Group
+					x={x}
+					y={299}
+					key={index}
 					onMouseOver={() => {
 						setPitchHover({
+							index: index,
 							pitchXPixels: x,
-							pitchYPixels: z,
+							pitchYPixels: 299,
 							pitch: liveData?.plays.currentPlay.playEvents[
 								index
 							],
@@ -319,11 +281,86 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					onMouseOut={() => {
 						setPitchHover(null);
 					}}
+				>
+					<Circle
+						radius={5}
+						stroke={ballColor}
+						fill={ballColor}
+						scaleX={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+						scaleY={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+					/>
+					<Text
+						text={pitchNum.toString()}
+						stroke="white"
+						strokeWidth={1}
+						scaleX={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+						scaleY={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+					/>
+				</Group>
+			);
+		}
+		return (
+			<Group
+				x={x}
+				y={z}
+				key={index}
+				onMouseOver={() => {
+					setPitchHover({
+						index: index,
+						pitchXPixels: x,
+						pitchYPixels: z,
+						pitch: liveData?.plays.currentPlay.playEvents[index],
+					});
+				}}
+				onMouseOut={() => {
+					setPitchHover(null);
+				}}
+			>
+				<Circle
+					radius={5}
+					stroke={ballColor}
+					fill={ballColor}
+					scaleX={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
+					scaleY={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
 				/>
 				<Text
 					text={pitchNum.toString()}
 					stroke="white"
 					strokeWidth={1}
+					scaleX={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
+					scaleY={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
 				/>
 			</Group>
 		);
@@ -437,42 +474,90 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		return;
 	}
 
-	function drawHover(width: number, height: number) {
+	function drawHover(stageWidth: number, stageHeight: number) {
 		if (pitchHover && pitchHover.pitch) {
 			const boxWidth =
-				pitchHover.pitch.details.type.description.length * 7;
-			const boxHeight = 80;
+				Math.max(
+					pitchHover.pitch.details.type.description.length,
+					(pitchHover.pitch.pitchData.startSpeed + " mph").length
+				) * 8;
+			const boxHeight = pitchHover.pitch.pitchData.breaks.spinRate
+				? 45
+				: 30;
 			const drawX =
-				pitchHover.pitchXPixels + boxWidth > width
+				pitchHover.pitchXPixels + boxWidth > stageWidth
 					? pitchHover.pitchXPixels - boxWidth
 					: pitchHover.pitchXPixels;
-			console.log(pitchHover.pitchXPixels + boxWidth, width);
-			console.log(pitchHover.pitch.details.type.description);
-			console.log(height);
+			const drawY =
+				pitchHover.pitchYPixels + boxHeight > stageHeight
+					? pitchHover.pitchYPixels - boxHeight
+					: pitchHover.pitchYPixels;
 			return (
 				<Group>
 					<Rect
 						width={boxWidth}
-						height={(3 * boxHeight) / 8}
+						height={boxHeight}
 						x={drawX}
-						y={pitchHover.pitchYPixels}
-						stroke="#002774"
-						strokeWidth={2}
-						fill={"#002774"}
+						y={drawY}
+						cornerRadius={5}
+						stroke="#FFFFFF"
+						strokeWidth={1}
+						fill="#002774"
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
 					/>
 					<Text
 						text={pitchHover.pitch.details.type.description}
-						x={drawX + 4}
-						y={pitchHover.pitchYPixels + 2}
-						stroke="white"
-						strokeWidth={1}
+						fill="white"
+						x={drawX}
+						y={drawY + 3}
+						width={boxWidth}
+						align="center"
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
 					/>
 					<Text
 						text={pitchHover.pitch.pitchData.startSpeed + " mph"}
-						x={drawX + 4}
-						y={pitchHover.pitchYPixels + 15}
-						stroke="white"
+						x={drawX}
+						y={drawY + 15}
+						fill="white"
 						strokeWidth={1}
+						width={boxWidth}
+						align="center"
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
+					/>
+					<Text
+						text={
+							pitchHover.pitch.pitchData.breaks.spinRate
+								? pitchHover.pitch.pitchData.breaks.spinRate +
+								  " rpm"
+								: ""
+						}
+						x={drawX}
+						y={drawY + 28}
+						fill="white"
+						strokeWidth={1}
+						width={boxWidth}
+						align="center"
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
 					/>
 				</Group>
 			);
