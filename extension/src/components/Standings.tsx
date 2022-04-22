@@ -45,8 +45,8 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 
 	function display_division(division: Division) {
 		return (
-			<div className="tw-px-5 tw-pt-3 tw-w-full">
-				<Table bordered size="sm" key={division.div_name}>
+			<div className="tw-px-5 tw-pt-3 tw-w-full" key={division.div_name}>
+				<Table bordered size="sm" key={division.div_name + "table"}>
 					<thead>
 						<tr className="tw-text-white tw-bg-nav-blue tw-border-[#041e42]">
 							<th>{division.div_name}</th>
