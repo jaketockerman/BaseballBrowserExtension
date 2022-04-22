@@ -884,10 +884,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							}
 						</Link>
 					</div>
-					{/* <div>
-						Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
-					</div> */}
-					{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
 				</div>
 				<div className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-h-full tw-overflow-y-auto">
 					{" "}
