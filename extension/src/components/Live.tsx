@@ -25,7 +25,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState("662853"); //634198 Example Game
+	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
@@ -678,39 +678,39 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		strikezoneHeight: number
 	) {
 		const zone1color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[0].color
+			.batterHotColdZones[0]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[0].color
 			: "";
 		const zone2color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[1].color
+			.batterHotColdZones[1]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[1].color
 			: "";
 		const zone3color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[2].color
+			.batterHotColdZones[2]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[2].color
 			: "";
 		const zone4color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[3].color
+			.batterHotColdZones[3]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[3].color
 			: "";
 		const zone5color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[4].color
+			.batterHotColdZones[4]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[4].color
 			: "";
 		const zone6color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[5].color
+			.batterHotColdZones[5]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[5].color
 			: "";
 		const zone7color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[6].color
+			.batterHotColdZones[6]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[6].color
 			: "";
 		const zone8color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[7].color
+			.batterHotColdZones[7]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[7].color
 			: "";
 		const zone9color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[8].color
+			.batterHotColdZones[8]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[8].color
 			: "";
 		return (
