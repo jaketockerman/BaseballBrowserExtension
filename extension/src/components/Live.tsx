@@ -25,7 +25,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("662853"); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
@@ -586,6 +586,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				type: pitchHover.pitch.details.type.description,
 				velocity: pitchHover.pitch.pitchData.startSpeed,
 				spinRate: pitchHover.pitch.pitchData.breaks.spinRate,
+				breakAngle: pitchHover.pitch.pitchData.breaks.breakAngle,
+				breakY: pitchHover.pitch.pitchData.breaks.breakY,
 			};
 
 			const convertText = () => {
@@ -595,6 +597,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					result.push(displayItems.velocity + " mph");
 				displayItems.spinRate &&
 					result.push(displayItems.spinRate + " rpm");
+				(displayItems.breakAngle || displayItems.breakY) &&
+					result.push("Break:");
+				displayItems.breakAngle &&
+					result.push(displayItems.breakAngle + " degrees");
+				displayItems.breakY &&
+					result.push(displayItems.breakY + " inches ↓");
 				return result;
 			};
 
