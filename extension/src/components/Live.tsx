@@ -595,10 +595,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				result.push(displayItems.call, displayItems.type);
 				displayItems.velocity &&
 					result.push(displayItems.velocity + " mph");
+				(displayItems.breakAngle ||
+					displayItems.breakY ||
+					displayItems.spinRate) &&
+					result.push("Break:");
 				displayItems.spinRate &&
 					result.push(displayItems.spinRate + " rpm");
-				(displayItems.breakAngle || displayItems.breakY) &&
-					result.push("Break:");
 				displayItems.breakAngle &&
 					result.push(displayItems.breakAngle + " degrees");
 				displayItems.breakY &&
