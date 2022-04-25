@@ -293,6 +293,14 @@ interface matchup_Type {
 	batter: batter_Type;
 	pitchHand: pitchHand_Type;
 	pitcher: pitcher_Type;
+	batterHotColdZones: Array<batterHotColdZones_Type>;
+}
+
+interface batterHotColdZones_Type {
+	zone?: string;
+	color?: string;
+	temp?: string;
+	value?: string;
 }
 
 interface pitcher_Type {
