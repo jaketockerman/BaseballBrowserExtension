@@ -498,6 +498,135 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
+	function display_hotColdZones(
+		strikezoneOffsetX: number,
+		strikezoneOffsetY: number,
+		strikezoneWidth: number,
+		strikezoneHeight: number
+	) {
+		const zone1color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[0].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[0].color
+			: "";
+		const zone2color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[1].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[1].color
+			: "";
+		const zone3color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[2].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[2].color
+			: "";
+		const zone4color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[3].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[3].color
+			: "";
+		const zone5color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[4].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[4].color
+			: "";
+		const zone6color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[5].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[5].color
+			: "";
+		const zone7color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[6].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[6].color
+			: "";
+		const zone8color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[7].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[7].color
+			: "";
+		const zone9color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[8].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[8].color
+			: "";
+		return (
+			<Group>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX}
+					y={strikezoneOffsetY}
+					strokeWidth={0}
+					fill={zone1color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + strikezoneWidth / 3}
+					y={strikezoneOffsetY}
+					strokeWidth={0}
+					fill={zone2color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + (strikezoneWidth / 3) * 2}
+					y={strikezoneOffsetY}
+					strokeWidth={0}
+					fill={zone3color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX}
+					y={strikezoneOffsetY + strikezoneHeight / 3}
+					strokeWidth={0}
+					fill={zone4color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + strikezoneWidth / 3}
+					y={strikezoneOffsetY + strikezoneHeight / 3}
+					strokeWidth={0}
+					fill={zone5color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + (strikezoneWidth / 3) * 2}
+					y={strikezoneOffsetY + strikezoneHeight / 3}
+					strokeWidth={0}
+					fill={zone6color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX}
+					y={strikezoneOffsetY + (strikezoneHeight / 3) * 2}
+					strokeWidth={0}
+					fill={zone7color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + strikezoneWidth / 3}
+					y={strikezoneOffsetY + (strikezoneHeight / 3) * 2}
+					strokeWidth={0}
+					fill={zone8color}
+					opacity={0.5}
+				/>
+				<Rect
+					width={strikezoneWidth / 3}
+					height={strikezoneHeight / 3}
+					x={strikezoneOffsetX + (strikezoneWidth / 3) * 2}
+					y={strikezoneOffsetY + (strikezoneHeight / 3) * 2}
+					strokeWidth={0}
+					fill={zone9color}
+					opacity={0.5}
+				/>
+			</Group>
+		);
+	}
+
 	function display_Strikezone() {
 		const balls = liveData?.plays.currentPlay.count.balls;
 		const strikes = liveData?.plays.currentPlay.count.strikes;
@@ -512,6 +641,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			<div>
 				<Stage width={stageWidth} height={stageHeight}>
 					<Layer>
+						{display_hotColdZones(
+							strikezoneOffsetX,
+							strikezoneOffsetY,
+							width,
+							height
+						)}
 						<Rect
 							width={width}
 							height={height / 8}
@@ -552,8 +687,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width,
 								strikezoneOffsetY + height / 3,
 							]}
-							strokeWidth={2}
-							stroke="#525252"
+							strokeWidth={1}
+							stroke="black"
 						/>
 						<Line
 							points={[
@@ -562,8 +697,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width,
 								strikezoneOffsetY + (2 * height) / 3,
 							]}
-							strokeWidth={2}
-							stroke="#525252"
+							strokeWidth={1}
+							stroke="black"
 						/>
 						<Line
 							points={[
@@ -572,8 +707,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + width / 3,
 								strikezoneOffsetY + height,
 							]}
-							strokeWidth={2}
-							stroke="#525252"
+							strokeWidth={1}
+							stroke="black"
 						/>
 						<Line
 							points={[
@@ -582,8 +717,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 								strikezoneOffsetX + (2 * width) / 3,
 								strikezoneOffsetY + height,
 							]}
-							strokeWidth={2}
-							stroke="#525252"
+							strokeWidth={1}
+							stroke="black"
 						/>
 						{liveData?.plays.currentPlay.pitchIndex
 							.filter((pitchIndex) => {
