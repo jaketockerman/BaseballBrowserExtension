@@ -610,7 +610,9 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			const boxHeight = textArray.length * 15;
 			const drawX =
 				pitchHover.pitchXPixels + boxWidth > stageWidth
-					? pitchHover.pitchXPixels - boxWidth
+					? pitchHover.pitchXPixels - boxWidth > 0
+						? pitchHover.pitchXPixels - boxWidth
+						: pitchHover.pitchXPixels - boxWidth / 2
 					: pitchHover.pitchXPixels;
 			const drawY =
 				pitchHover.pitchYPixels + boxHeight > stageHeight
@@ -637,7 +639,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						opacity={0.7}
 					/>
 					<Text
-						fontFamily="serif"
+						fontFamily="monospace"
 						text={textArray.join("\n").toUpperCase()}
 						fill="white"
 						x={drawX}
