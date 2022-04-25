@@ -28,7 +28,7 @@ Live.propTypes = {
 
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
-	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [gameID, setGameID] = useState("661640"); //634198 Example Game
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
@@ -643,8 +643,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				{/* Bottom Left Side one */}
 				<Rect
 					width={strikezoneWidth / 9}
-					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 2}
-					x={strikezoneOffsetX - strikezoneWidth / 9 - 2}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 1}
+					x={strikezoneOffsetX - strikezoneWidth / 9 - 1}
 					y={strikezoneOffsetY + strikezoneHeight / 2}
 					strokeWidth={0}
 					fill={zone12color}
@@ -654,8 +654,8 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<Rect
 					width={strikezoneWidth / 2}
 					height={strikezoneWidth / 9}
-					x={strikezoneOffsetX - 2}
-					y={strikezoneOffsetY + strikezoneHeight + 2}
+					x={strikezoneOffsetX - 1}
+					y={strikezoneOffsetY + strikezoneHeight + 1}
 					strokeWidth={0}
 					fill={zone12color}
 					opacity={0.5}
@@ -664,7 +664,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				<Rect
 					width={strikezoneWidth / 9}
 					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 1}
-					x={strikezoneOffsetX - strikezoneWidth / 9 - 2}
+					x={strikezoneOffsetX - strikezoneWidth / 9 - 1}
 					y={strikezoneOffsetY - strikezoneWidth / 9}
 					strokeWidth={0}
 					fill={zone10color}
@@ -683,7 +683,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				{/* Top Right Side One */}
 				<Rect
 					width={strikezoneWidth / 9}
-					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 2}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 1}
 					x={strikezoneOffsetX + strikezoneWidth}
 					y={strikezoneOffsetY - strikezoneWidth / 9}
 					strokeWidth={0}
@@ -692,7 +692,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				/>
 				{/* Top Right Top One */}
 				<Rect
-					width={strikezoneWidth / 2}
+					width={strikezoneWidth / 2 + 1}
 					height={strikezoneWidth / 9}
 					x={strikezoneOffsetX + strikezoneWidth / 2 - 1}
 					y={strikezoneOffsetY - strikezoneWidth / 9}
@@ -712,10 +712,10 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				/>
 				{/* Bottom Right Bottom One*/}
 				<Rect
-					width={strikezoneWidth / 2}
+					width={strikezoneWidth / 2 + 1}
 					height={strikezoneWidth / 9}
-					x={strikezoneOffsetX + strikezoneWidth / 2}
-					y={strikezoneOffsetY + strikezoneHeight + 2}
+					x={strikezoneOffsetX + strikezoneWidth / 2 - 1}
+					y={strikezoneOffsetY + strikezoneHeight + 1}
 					strokeWidth={0}
 					fill={zone13color}
 					opacity={0.5}
