@@ -540,6 +540,22 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 			.batterHotColdZones[8].color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[8].color
 			: "";
+		const zone10color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[9].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[9].color
+			: "";
+		const zone11color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[10].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[10].color
+			: "";
+		const zone12color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[11].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[11].color
+			: "";
+		const zone13color = liveData?.plays.currentPlay.matchup
+			.batterHotColdZones[12].color
+			? liveData?.plays.currentPlay.matchup.batterHotColdZones[12].color
+			: "";
 		return (
 			<Group>
 				<Rect
@@ -621,6 +637,87 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					y={strikezoneOffsetY + (strikezoneHeight / 3) * 2}
 					strokeWidth={0}
 					fill={zone9color}
+					opacity={0.5}
+				/>
+				{/* Outer Zones */}
+				{/* Bottom Left Side one */}
+				<Rect
+					width={strikezoneWidth / 9}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 2}
+					x={strikezoneOffsetX - strikezoneWidth / 9 - 2}
+					y={strikezoneOffsetY + strikezoneHeight / 2}
+					strokeWidth={0}
+					fill={zone12color}
+					opacity={0.5}
+				/>
+				{/* Bottom Left Bottom one */}
+				<Rect
+					width={strikezoneWidth / 2}
+					height={strikezoneWidth / 9}
+					x={strikezoneOffsetX - 2}
+					y={strikezoneOffsetY + strikezoneHeight + 2}
+					strokeWidth={0}
+					fill={zone12color}
+					opacity={0.5}
+				/>
+				{/* Top Left Side One*/}
+				<Rect
+					width={strikezoneWidth / 9}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 1}
+					x={strikezoneOffsetX - strikezoneWidth / 9 - 2}
+					y={strikezoneOffsetY - strikezoneWidth / 9}
+					strokeWidth={0}
+					fill={zone10color}
+					opacity={0.5}
+				/>
+				{/* Top Left Top One*/}
+				<Rect
+					width={strikezoneWidth / 2}
+					height={strikezoneWidth / 9}
+					x={strikezoneOffsetX - 2 + 1}
+					y={strikezoneOffsetY - strikezoneWidth / 9}
+					strokeWidth={0}
+					fill={zone10color}
+					opacity={0.5}
+				/>
+				{/* Top Right Side One */}
+				<Rect
+					width={strikezoneWidth / 9}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 2}
+					x={strikezoneOffsetX + strikezoneWidth}
+					y={strikezoneOffsetY - strikezoneWidth / 9}
+					strokeWidth={0}
+					fill={zone11color}
+					opacity={0.5}
+				/>
+				{/* Top Right Top One */}
+				<Rect
+					width={strikezoneWidth / 2}
+					height={strikezoneWidth / 9}
+					x={strikezoneOffsetX + strikezoneWidth / 2 - 1}
+					y={strikezoneOffsetY - strikezoneWidth / 9}
+					strokeWidth={0}
+					fill={zone11color}
+					opacity={0.5}
+				/>
+				{/* Bottom Right Side One*/}
+				<Rect
+					width={strikezoneWidth / 9}
+					height={strikezoneHeight / 2 + strikezoneWidth / 9 + 1}
+					x={strikezoneOffsetX + strikezoneWidth}
+					y={strikezoneOffsetY + strikezoneHeight / 2}
+					strokeWidth={0}
+					fill={zone13color}
+					opacity={0.5}
+				/>
+				{/* Bottom Right Bottom One*/}
+				<Rect
+					width={strikezoneWidth / 2}
+					height={strikezoneWidth / 9}
+					x={strikezoneOffsetX + strikezoneWidth / 2}
+					y={strikezoneOffsetY + strikezoneHeight + 2}
+					strokeWidth={0}
+					fill={zone13color}
 					opacity={0.5}
 				/>
 			</Group>
