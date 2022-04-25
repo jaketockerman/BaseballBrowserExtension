@@ -223,8 +223,18 @@ interface playEvents_Type {
 	index: number;
 	isPitch: boolean;
 	pitchData: pitchData_Type;
+	hitData?: hitData_Type;
 	pitchNumber: number;
 	type: string;
+}
+
+interface hitData_Type {
+	launchSpeed: number;
+	launchAngle: number;
+	totalDistance: number;
+	trajectory: string;
+	hardness: string;
+	location: string;
 }
 
 interface pitchData_Type {

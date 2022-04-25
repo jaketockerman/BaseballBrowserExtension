@@ -588,23 +588,38 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				spinRate: pitchHover.pitch.pitchData.breaks.spinRate,
 				breakAngle: pitchHover.pitch.pitchData.breaks.breakAngle,
 				breakY: pitchHover.pitch.pitchData.breaks.breakY,
+				exitVelocity: pitchHover.pitch.hitData?.launchSpeed,
+				launchAngle: pitchHover.pitch.hitData?.launchAngle,
+				hitDistance: pitchHover.pitch.hitData?.totalDistance,
 			};
 
 			const convertText = () => {
 				const result = [];
 				result.push(displayItems.call, displayItems.type);
 				displayItems.velocity &&
-					result.push(displayItems.velocity + " mph");
-				(displayItems.breakAngle ||
-					displayItems.breakY ||
-					displayItems.spinRate) &&
-					result.push("Break:");
+					result.push("PV: " + displayItems.velocity + " mph");
+				// (displayItems.breakAngle ||
+				// 	displayItems.breakY ||
+				// 	displayItems.spinRate) &&
+				// 	result.push("Break:");
 				displayItems.spinRate &&
-					result.push(displayItems.spinRate + " rpm");
+					result.push("SR: " + displayItems.spinRate + " rpm");
 				displayItems.breakAngle &&
-					result.push(displayItems.breakAngle + " degrees");
+					result.push("BA: " + displayItems.breakAngle + " degrees");
 				displayItems.breakY &&
-					result.push(displayItems.breakY + " inches ↓");
+					result.push("VBreak: " + displayItems.breakY + " inches ↓");
+				// (displayItems.exitVelocity ||
+				// 	displayItems.launchAngle ||
+				// 	displayItems.hitDistance) &&
+				// 	result.push("Hit:");
+				displayItems.exitVelocity &&
+					result.push("EV: " + displayItems.exitVelocity + " mph");
+				displayItems.launchAngle &&
+					result.push("LA: " + displayItems.launchAngle + " degrees");
+				displayItems.hitDistance &&
+					result.push(
+						"Distance " + displayItems.hitDistance + " feet"
+					);
 				return result;
 			};
 
@@ -618,6 +633,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				) * 8;
 
 			const boxHeight = textArray.length * 15;
+			console.log(boxHeight);
 			const drawX =
 				pitchHover.pitchXPixels + boxWidth > stageWidth
 					? pitchHover.pitchXPixels - boxWidth > 0
