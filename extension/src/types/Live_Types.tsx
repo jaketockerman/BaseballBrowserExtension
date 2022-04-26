@@ -223,11 +223,22 @@ interface playEvents_Type {
 	index: number;
 	isPitch: boolean;
 	pitchData: pitchData_Type;
+	hitData?: hitData_Type;
 	pitchNumber: number;
 	type: string;
 }
 
+interface hitData_Type {
+	launchSpeed: number;
+	launchAngle: number;
+	totalDistance: number;
+	trajectory: string;
+	hardness: string;
+	location: string;
+}
+
 interface pitchData_Type {
+	breaks: breaks_Type;
 	coordinates: coordinates_Type;
 	endSpeed: number;
 	extension: number;
@@ -279,7 +290,7 @@ interface details_Type {
 
 interface type_Type {
 	code: string;
-	description: string; //Type Of Pitch ?
+	description: string;
 }
 
 interface call_Type {
@@ -443,6 +454,13 @@ interface batting_Type {
 	triples: number;
 }
 
+interface pitchHover_Type {
+	index: number;
+	pitch: playEvents_Type | undefined;
+	pitchXPixels: number;
+	pitchYPixels: number;
+}
+
 export type {
 	gameData_Response,
 	gameData_Type,
@@ -490,4 +508,5 @@ export type {
 	playerID,
 	live_Player_Type,
 	position_Type,
+	pitchHover_Type,
 };

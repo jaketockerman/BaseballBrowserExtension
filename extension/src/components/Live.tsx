@@ -5,7 +5,6 @@ import { ServersType } from "../types/App_Types";
 import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 import { useNavigate } from "react-router";
-// import { NumberLiteralType } from "typescript";
 
 import {
 	gameData_Response,
@@ -14,13 +13,11 @@ import {
 	liveData_Type,
 	playerID,
 	team_Type,
+	pitchHover_Type,
 } from "../types/Live_Types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
-// import { render } from "react-dom";
-// import { isAbsolute } from "path/posix";
-
-// import { Accordion } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 
 Live.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
@@ -29,9 +26,11 @@ Live.propTypes = {
 function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
 	const [gameID, setGameID] = useState(""); //634198 Example Game
+	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
 	const [gameData, setGameData] = useState<gameData_Type>();
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
+	const [error, setError] = useState<string>();
 	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 	const navigate = useNavigate();
@@ -47,6 +46,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				})
 				.catch((error: AxiosError<{ additionalInfo: string }>) => {
 					if (error.response?.status != 200) {
+						setError(error.message);
 						console.log(error.message);
 					}
 				});
@@ -61,12 +61,12 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 						props.servers.mlbstats + "liveData/" + gameID
 					)
 					.then((response) => {
-						//console.log(response.data);
 						setLiveData(response.data.result);
 						setLiveDelay(10000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {
 						if (error.response?.status != 200) {
+							setError(error.message);
 							console.log(error.message);
 						}
 					});
@@ -121,7 +121,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -157,7 +157,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -193,7 +193,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 					{" "}
 					{
 						gameData?.players[("ID" + playerIDNum) as playerID]
-							.lastInitName
+							?.lastInitName
 					}{" "}
 				</Link>
 				{"   "}
@@ -266,26 +266,107 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				: 0;
 		const x = xLoc + strikezoneZeroX;
 		const z = zLoc + strikezoneZeroZ;
+		const scaleHoverFactor = 1.5;
 		if (pitchZ && pitchZ < 0) {
 			//DEALING WITH BALLS IN THE DIRT
 			return (
-				<Group x={x} y={297} key={index}>
-					<Circle radius={5} stroke={ballColor} fill={ballColor} />
+				<Group
+					x={x}
+					y={297}
+					key={index}
+					onMouseOver={() => {
+						setPitchHover({
+							index: index,
+							pitchXPixels: x,
+							pitchYPixels: 297,
+							pitch: liveData?.plays.currentPlay.playEvents[
+								index
+							],
+						});
+					}}
+					onMouseOut={() => {
+						setPitchHover(null);
+					}}
+				>
+					<Circle
+						radius={5}
+						stroke={ballColor}
+						fill={ballColor}
+						scaleX={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+						scaleY={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+					/>
 					<Text
 						text={pitchNum.toString()}
 						stroke="white"
 						strokeWidth={1}
+						scaleX={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
+						scaleY={
+							pitchHover && pitchHover.index === index
+								? scaleHoverFactor
+								: 1
+						}
 					/>
 				</Group>
 			);
 		}
 		return (
-			<Group x={x} y={z} key={index}>
-				<Circle radius={5} stroke={ballColor} fill={ballColor} />
+			<Group
+				x={x}
+				y={z}
+				key={index}
+				onMouseOver={() => {
+					setPitchHover({
+						index: index,
+						pitchXPixels: x,
+						pitchYPixels: z,
+						pitch: liveData?.plays.currentPlay.playEvents[index],
+					});
+				}}
+				onMouseOut={() => {
+					setPitchHover(null);
+				}}
+			>
+				<Circle
+					radius={5}
+					stroke={ballColor}
+					fill={ballColor}
+					scaleX={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
+					scaleY={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
+				/>
 				<Text
 					text={pitchNum.toString()}
 					stroke="white"
 					strokeWidth={1}
+					scaleX={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
+					scaleY={
+						pitchHover && pitchHover.index === index
+							? scaleHoverFactor
+							: 1
+					}
 				/>
 			</Group>
 		);
@@ -498,6 +579,114 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		);
 	}
 
+	function drawHover(stageWidth: number, stageHeight: number) {
+		if (pitchHover && pitchHover.pitch) {
+			const displayItems = {
+				call: pitchHover.pitch.details.description,
+				type: pitchHover.pitch.details.type.description,
+				velocity: pitchHover.pitch.pitchData.startSpeed,
+				spinRate: pitchHover.pitch.pitchData.breaks.spinRate,
+				breakAngle: pitchHover.pitch.pitchData.breaks.breakAngle,
+				breakY: pitchHover.pitch.pitchData.breaks.breakY,
+				exitVelocity: pitchHover.pitch.hitData?.launchSpeed,
+				launchAngle: pitchHover.pitch.hitData?.launchAngle,
+				hitDistance: pitchHover.pitch.hitData?.totalDistance,
+			};
+
+			const convertText = () => {
+				const result = [];
+				result.push(displayItems.call, displayItems.type);
+				displayItems.velocity &&
+					result.push("PV: " + displayItems.velocity + " mph");
+				// (displayItems.breakAngle ||
+				// 	displayItems.breakY ||
+				// 	displayItems.spinRate) &&
+				// 	result.push("Break:");
+				displayItems.spinRate &&
+					result.push("SR: " + displayItems.spinRate + " rpm");
+				displayItems.breakAngle &&
+					result.push("BA: " + displayItems.breakAngle + " degrees");
+				displayItems.breakY &&
+					result.push("VBreak: " + displayItems.breakY + " inches ↓");
+				// (displayItems.exitVelocity ||
+				// 	displayItems.launchAngle ||
+				// 	displayItems.hitDistance) &&
+				// 	result.push("Hit:");
+				displayItems.exitVelocity &&
+					result.push("EV: " + displayItems.exitVelocity + " mph");
+				displayItems.launchAngle &&
+					result.push("LA: " + displayItems.launchAngle + " degrees");
+				displayItems.hitDistance &&
+					result.push(
+						"Distance " + displayItems.hitDistance + " feet"
+					);
+				return result;
+			};
+
+			const textArray = convertText();
+
+			const boxWidth =
+				Math.max(
+					...textArray.map((item) => {
+						return item?.length;
+					})
+				) * 8;
+
+			const boxHeight = textArray.length * 15;
+			console.log(boxHeight);
+			const drawX =
+				pitchHover.pitchXPixels + boxWidth > stageWidth
+					? pitchHover.pitchXPixels - boxWidth > 0
+						? pitchHover.pitchXPixels - boxWidth
+						: pitchHover.pitchXPixels - boxWidth / 2
+					: pitchHover.pitchXPixels;
+			const drawY =
+				pitchHover.pitchYPixels + boxHeight > stageHeight
+					? pitchHover.pitchYPixels - boxHeight
+					: pitchHover.pitchYPixels;
+
+			return (
+				<Group>
+					<Rect
+						width={boxWidth}
+						height={boxHeight}
+						x={drawX}
+						y={drawY}
+						cornerRadius={5}
+						stroke="#FFFFFF"
+						strokeWidth={1}
+						fill="#002774"
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
+						opacity={0.7}
+					/>
+					<Text
+						fontFamily="monospace"
+						text={textArray.join("\n").toUpperCase()}
+						fill="white"
+						x={drawX}
+						y={drawY}
+						width={boxWidth}
+						height={boxHeight}
+						align="center"
+						verticalAlign="middle"
+						lineHeight={1.1}
+						onMouseOver={() => {
+							setPitchHover(pitchHover);
+						}}
+						onMouseOut={() => {
+							setPitchHover(null);
+						}}
+					/>
+				</Group>
+			);
+		}
+		return;
+	}
 	function display_hotColdZones(
 		strikezoneOffsetX: number,
 		strikezoneOffsetY: number,
@@ -505,39 +694,39 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		strikezoneHeight: number
 	) {
 		const zone1color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[0].color
+			.batterHotColdZones[0]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[0].color
 			: "";
 		const zone2color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[1].color
+			.batterHotColdZones[1]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[1].color
 			: "";
 		const zone3color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[2].color
+			.batterHotColdZones[2]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[2].color
 			: "";
 		const zone4color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[3].color
+			.batterHotColdZones[3]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[3].color
 			: "";
 		const zone5color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[4].color
+			.batterHotColdZones[4]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[4].color
 			: "";
 		const zone6color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[5].color
+			.batterHotColdZones[5]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[5].color
 			: "";
 		const zone7color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[6].color
+			.batterHotColdZones[6]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[6].color
 			: "";
 		const zone8color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[7].color
+			.batterHotColdZones[7]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[7].color
 			: "";
 		const zone9color = liveData?.plays.currentPlay.matchup
-			.batterHotColdZones[8].color
+			.batterHotColdZones[8]?.color
 			? liveData?.plays.currentPlay.matchup.batterHotColdZones[8].color
 			: "";
 		return (
@@ -657,7 +846,9 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 							fill={"#002774"}
 						/>
 						<Text
-							text={balls?.toString() + " - "}
+							text={
+								balls?.toString() + " - " + strikes?.toString()
+							}
 							x={strikezoneOffsetX + 8}
 							y={7}
 							stroke="white"
@@ -736,156 +927,177 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 									pitchNum++
 								);
 							})}
+						{drawHover(stageWidth, stageHeight)}
 					</Layer>
 				</Stage>
 			</div>
 		);
 	}
 
-	return (
-		<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
-			<div
-				className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
-				style={style}
-			>
-				{" "}
-				Away Team{" "}
-				{
-					/* prettier-ignore */
-					gameData?.teams.away.id ? display_logo(gameData?.teams.away.id, gameData?.teams.away.name) : ""
-				}
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Lineup
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_batting_order(
-							liveData?.boxscore?.teams?.away?.battingOrder
-								? liveData?.boxscore?.teams?.away?.battingOrder
-								: [],
-							"away" as keyof team_Type
-						)}
-					</div>
-				</details>
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Bench
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_bench(
-							liveData?.boxscore?.teams?.away?.bench
-								? liveData?.boxscore?.teams?.away?.bench
-								: [],
-							"away" as keyof team_Type
-						)}
-					</div>
-				</details>
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Bullpen
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_bullpen(
-							liveData?.boxscore?.teams?.away?.bullpen
-								? liveData?.boxscore?.teams?.away?.bullpen
-								: [],
-							"away" as keyof team_Type
-						)}
-					</div>
-				</details>
+	if (error) {
+		return (
+			<div className="tw-flex tw-flex-row tw-w-full tw-h-full tw-items-center tw-justify-center">
+				{"unable to connect to mlbstats server: " + error}
 			</div>
-			<div
-				className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-h-full"
-				style={style}
-			>
-				{" "}
-				{display_Strikezone()}
-				<div className="tw-text-sm">
-					Batter:{" "}
-					<Link
-						to={"/player"}
-						state={{
-							mlbamID: currBatterID,
-							playerInfo:
-								gameData?.players[
-									("ID" + currBatterID) as playerID
-								],
-						}}
-						className="tw-text-white"
-					>
-						{liveData?.plays.currentPlay.matchup.batter.fullName}
-					</Link>
+		);
+	} else if (gameData === undefined && liveData === undefined) {
+		return (
+			<div className="tw-flex tw-flex-row tw-w-full tw-h-full tw-items-center tw-justify-center">
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			</div>
+		);
+	} else {
+		return (
+			<div className="tw-flex tw-flex-row tw-w-full tw-h-full">
+				<div
+					className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-border-r tw-border-neutral-600 tw-items-center tw-overflow-y-auto tw-h-full"
+					style={style}
+				>
+					{" "}
+					Away Team{" "}
+					{
+						/* prettier-ignore */
+						gameData?.teams.away.id ? display_logo(gameData?.teams.away.id, gameData?.teams.away.name) : ""
+					}
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Lineup
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_batting_order(
+								liveData?.boxscore?.teams?.away?.battingOrder
+									? liveData?.boxscore?.teams?.away
+											?.battingOrder
+									: [],
+								"away" as keyof team_Type
+							)}
+						</div>
+					</details>
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Bench
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_bench(
+								liveData?.boxscore?.teams?.away?.bench
+									? liveData?.boxscore?.teams?.away?.bench
+									: [],
+								"away" as keyof team_Type
+							)}
+						</div>
+					</details>
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Bullpen
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_bullpen(
+								liveData?.boxscore?.teams?.away?.bullpen
+									? liveData?.boxscore?.teams?.away?.bullpen
+									: [],
+								"away" as keyof team_Type
+							)}
+						</div>
+					</details>
 				</div>
-				<div className="tw-text-sm">
-					Pitcher:{" "}
-					<Link
-						to={"/player"}
-						state={{
-							mlbamID: currPitcherID,
-							playerInfo:
-								gameData?.players[
-									("ID" + currPitcherID) as playerID
-								],
-						}}
-						className="tw-text-white"
-					>
-						{liveData?.plays.currentPlay.matchup.pitcher.fullName}
-					</Link>
+				<div
+					className="tw-flex-1 tw-w-0 tw-border-r tw-border-neutral-600 tw-h-full"
+					style={style}
+				>
+					{" "}
+					{display_Strikezone()}
+					<div className="tw-text-sm">
+						Batter:{" "}
+						<Link
+							to={"/player"}
+							state={{
+								mlbamID: currBatterID,
+								playerInfo:
+									gameData?.players[
+										("ID" + currBatterID) as playerID
+									],
+							}}
+							className="tw-text-white"
+						>
+							{
+								liveData?.plays.currentPlay.matchup.batter
+									.fullName
+							}
+						</Link>
+					</div>
+					<div className="tw-text-sm">
+						Pitcher:{" "}
+						<Link
+							to={"/player"}
+							state={{
+								mlbamID: currPitcherID,
+								playerInfo:
+									gameData?.players[
+										("ID" + currPitcherID) as playerID
+									],
+							}}
+							className="tw-text-white"
+						>
+							{
+								liveData?.plays.currentPlay.matchup.pitcher
+									.fullName
+							}
+						</Link>
+					</div>
 				</div>
-				{/* <div>
-					Count: {liveData?.plays.currentPlay.count.balls} - {liveData?.plays.currentPlay.count.strikes}
-				</div> */}
-				{/* <div>Outs: {liveData?.plays.currentPlay.count.outs}</div> */}
+				<div className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-h-full tw-overflow-y-auto">
+					{" "}
+					Home Team{" "}
+					{
+						/* prettier-ignore */
+						gameData?.teams.home.id ? display_logo(gameData?.teams.home.id, gameData?.teams.away.name): ""
+					}
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Lineup
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_batting_order(
+								liveData?.boxscore?.teams?.home?.battingOrder
+									? liveData?.boxscore?.teams?.home
+											?.battingOrder
+									: [],
+								"home" as keyof team_Type
+							)}
+						</div>
+					</details>
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Bench
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_bench(
+								liveData?.boxscore?.teams?.home?.bench
+									? liveData?.boxscore?.teams?.home?.bench
+									: [],
+								"home" as keyof team_Type
+							)}
+						</div>
+					</details>
+					<details>
+						<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
+							Bullpen
+						</summary>
+						<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
+							{display_bullpen(
+								liveData?.boxscore?.teams?.home?.bullpen
+									? liveData?.boxscore?.teams?.home?.bullpen
+									: [],
+								"home" as keyof team_Type
+							)}
+						</div>
+					</details>
+				</div>
 			</div>
-			<div className="tw-flex-1 tw-w-0 tw-max-w-[27%] tw-h-full tw-overflow-y-auto">
-				{" "}
-				Home Team{" "}
-				{
-					/* prettier-ignore */
-					gameData?.teams.home.id ? display_logo(gameData?.teams.home.id, gameData?.teams.away.name): ""
-				}
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Lineup
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_batting_order(
-							liveData?.boxscore?.teams?.home?.battingOrder
-								? liveData?.boxscore?.teams?.home?.battingOrder
-								: [],
-							"home" as keyof team_Type
-						)}
-					</div>
-				</details>
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Bench
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_bench(
-							liveData?.boxscore?.teams?.home?.bench
-								? liveData?.boxscore?.teams?.home?.bench
-								: [],
-							"home" as keyof team_Type
-						)}
-					</div>
-				</details>
-				<details>
-					<summary className="tw-box-decoration-slice tw-bg-nav-blue tw-text-white">
-						Bullpen
-					</summary>
-					<div className="tw-bg-[#eceef1] tw-text-black tw-p-0 tw-m-0">
-						{display_bullpen(
-							liveData?.boxscore?.teams?.home?.bullpen
-								? liveData?.boxscore?.teams?.home?.bullpen
-								: [],
-							"home" as keyof team_Type
-						)}
-					</div>
-				</details>
-			</div>
-		</div>
-	);
+		);
+	}
 }
 
 export default Live;
