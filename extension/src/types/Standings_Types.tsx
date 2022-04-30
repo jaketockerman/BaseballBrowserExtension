@@ -1,11 +1,18 @@
 interface Standings_Response {
-	records: Array<Division>;
+	records: Array<mlbDivisionType>;
 }
 
 interface Standings_Type {
 	divisions: Array<Division>;
 	valid: boolean;
 	error?: string;
+}
+
+interface mlbTeamDivisionInfoType {
+	abbreviation: string;
+	id: number;
+	name: string;
+	nameShort: string;
 }
 
 interface mlbTeamType {
@@ -29,10 +36,15 @@ interface mlbTeamInfoType {
 	id: number;
 	name: string;
 	abbreviation: string;
+	division: mlbTeamDivisionInfoType;
+}
+
+interface mlbDivisionInfoType {
+	id: number;
 }
 
 interface mlbDivisionType {
-	division: {id: number};
+	division: mlbDivisionInfoType;
 	teamRecords: Array<mlbTeamType>;
 }
 
@@ -57,4 +69,11 @@ interface Team {
 	wc_rank: string;
 }
 
-export type { Standings_Response, Standings_Type, mlbTeamType, mlbDivisionType, Division, Team };
+export type {
+	Standings_Response,
+	Standings_Type,
+	mlbTeamType,
+	mlbDivisionType,
+	Division,
+	Team,
+};

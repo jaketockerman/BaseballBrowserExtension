@@ -1,8 +1,6 @@
 /*global chrome*/
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-import { ServersType } from "../types/App_Types";
-import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 import { useNavigate } from "react-router";
 
@@ -18,11 +16,7 @@ import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
-Live.propTypes = {
-	servers: PropTypes.object.isRequired as never as ServersType,
-};
-
-function Live(props: InferProps<typeof Live.propTypes>) {
+function Live() {
 	const [url, setUrl] = useState("");
 	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
