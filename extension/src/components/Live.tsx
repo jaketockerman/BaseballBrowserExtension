@@ -7,9 +7,8 @@ import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 import { useNavigate } from "react-router";
 
 import {
-	gameData_Response,
+	live_Response,
 	gameData_Type,
-	liveData_Response,
 	liveData_Type,
 	playerID,
 	team_Type,
@@ -35,33 +34,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (gameID) {
-			axios
-				.get<gameData_Response>(
-					props.servers.mlbstats + "gameData/" + gameID
-				)
-				.then((response) => {
-					setGameData(response.data.result);
-				})
-				.catch((error: AxiosError<{ additionalInfo: string }>) => {
-					if (error.response?.status != 200) {
-						setError(error.message);
-						console.log(error.message);
-					}
-				});
-		}
-	}, [gameID]);
-
 	useInterval(
 		() => {
 			if (gameID !== "") {
 				axios
-					.get<liveData_Response>(
-						props.servers.mlbstats + "liveData/" + gameID
+					.get<live_Response>(
+						`https://statsapi.mlb.com/api/v1.1/game/${gameID}/feed/live`
 					)
 					.then((response) => {
-						setLiveData(response.data.result);
+						setGameData(response.data.gameData);
+						setLiveData(response.data.liveData);
 						setLiveDelay(10000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {

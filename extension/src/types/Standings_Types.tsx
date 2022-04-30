@@ -1,5 +1,5 @@
 interface Standings_Response {
-	result: Array<Division>;
+	records: Array<Division>;
 }
 
 interface Standings_Type {
@@ -8,8 +8,37 @@ interface Standings_Type {
 	error?: string;
 }
 
+interface mlbTeamType {
+	clinched: boolean;
+	divisionGamesBack: string;
+	divisionRank: string;
+	eliminationNumber: string;
+	gamesBack: string;
+	leagueRank: string;
+	losses: number;
+	sportRank: string;
+	team: mlbTeamInfoType;
+	wildCardEliminationNumber: string;
+	wildCardGamesBack: string;
+	wildCardRank: string;
+	winningPercentage: string;
+	wins: number;
+}
+
+interface mlbTeamInfoType {
+	id: number;
+	name: string;
+	abbreviation: string;
+}
+
+interface mlbDivisionType {
+	division: {id: number};
+	teamRecords: Array<mlbTeamType>;
+}
+
 interface Division {
 	div_name: string;
+	id: number;
 	teams: Array<Team>;
 }
 
@@ -28,4 +57,4 @@ interface Team {
 	wc_rank: string;
 }
 
-export type { Standings_Response, Standings_Type, Division, Team };
+export type { Standings_Response, Standings_Type, mlbTeamType, mlbDivisionType, Division, Team };
