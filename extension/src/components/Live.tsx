@@ -62,13 +62,10 @@ function Live() {
 
 	useEffect(() => {
 		try {
-			chrome.tabs.query(
-				{ active: true, lastFocusedWindow: true },
-				(tabs) => {
-					setUrl(tabs[0]?.url || "");
-					detect_game(url);
-				}
-			);
+			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+				setUrl(tabs[0]?.url || "");
+				detect_game(url);
+			});
 		} catch (e) {
 			console.log("unable to detect url due to error " + e);
 		}
@@ -609,7 +606,6 @@ function Live() {
 				) * 8;
 
 			const boxHeight = textArray.length * 15;
-			console.log(boxHeight);
 			const drawX =
 				pitchHover.pitchXPixels + boxWidth > stageWidth
 					? pitchHover.pitchXPixels - boxWidth > 0

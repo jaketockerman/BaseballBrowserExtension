@@ -67,7 +67,6 @@ function Standings() {
 						error: "",
 					});
 				} else {
-					console.log(season);
 					setSeason(season - 1);
 				}
 			})
