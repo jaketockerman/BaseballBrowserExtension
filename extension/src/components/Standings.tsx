@@ -1,36 +1,74 @@
-import React, { useState } from "react";
-import PropTypes, { InferProps } from "prop-types";
+import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-import { ServersType } from "../types/App_Types";
 import { Spinner, Table } from "react-bootstrap";
 import {
 	Division,
+	mlbDivisionType,
+	mlbTeamType,
 	Standings_Response,
 	Standings_Type,
 	Team,
 } from "../types/Standings_Types";
 
-Standings.propTypes = {
-	servers: PropTypes.object.isRequired as never as ServersType,
-};
+function convertStandings(r: Array<mlbDivisionType>): Array<Division> {
+	return r.map((mlbDivision: mlbDivisionType) => {
+		const divTeams: Array<Team> = mlbDivision.teamRecords.map(
+			(mlbTeam: mlbTeamType) => {
+				const team: Team = {
+					name: mlbTeam.team.name,
+					div_rank: mlbTeam.divisionRank,
+					elim_num: mlbTeam.eliminationNumber,
+					gb: mlbTeam.gamesBack,
+					l: mlbTeam.losses,
+					league_rank: mlbTeam.leagueRank,
+					sport_rank: mlbTeam.sportRank,
+					team_id: mlbTeam.team.id,
+					w: mlbTeam.wins,
+					wc_elim_num: mlbTeam.wildCardEliminationNumber
+						? mlbTeam.wildCardEliminationNumber
+						: "-",
+					wc_gb: mlbTeam.wildCardGamesBack
+						? mlbTeam.wildCardGamesBack
+						: "-",
+					wc_rank: mlbTeam.wildCardRank ? mlbTeam.wildCardRank : "-",
+				};
+				return team;
+			}
+		);
+		return {
+			teams: divTeams,
+			id: mlbDivision.division.id,
+			div_name: mlbDivision.teamRecords[0].team.division.name,
+		};
+	});
+}
 
-function Standings(props: InferProps<typeof Standings.propTypes>) {
+function Standings() {
 	const [standings, setStandings] = useState<Standings_Type>();
-	if (standings === undefined) {
+	const [season, setSeason] = useState<number>(new Date().getFullYear());
+	useEffect(() => {
+		const standings_params = {
+			leagueId: "103,104",
+			season: season,
+			standingsTypes: "regularSeason",
+			hydrate: "team(division)",
+			fields: "records,standingsType,teamRecords,team,name,division,id,nameShort,abbreviation,divisionRank,gamesBack,wildCardRank,wildCardGamesBack,wildCardEliminationNumber,divisionGamesBack,clinched,eliminationNumber,winningPercentage,type,wins,losses,leagueRank,sportRank",
+		};
 		axios
-			.get<Standings_Response>(props.servers.mlbstats + "standings/")
+			.get<Standings_Response>(
+				"https://statsapi.mlb.com/api/v1/standings",
+				{ params: standings_params }
+			)
 			.then((response) => {
-				setStandings({
-					divisions: [
-						response.data.result["201"],
-						response.data.result["202"],
-						response.data.result["200"],
-						response.data.result["204"],
-						response.data.result["205"],
-						response.data.result["203"],
-					],
-					valid: true,
-				});
+				if (response.data.records.length) {
+					setStandings({
+						divisions: convertStandings(response.data.records),
+						valid: true,
+						error: "",
+					});
+				} else {
+					setSeason(season - 1);
+				}
 			})
 			.catch((error: AxiosError<{ additionalInfo: string }>) => {
 				if (error.response?.status != 200) {
@@ -41,7 +79,7 @@ function Standings(props: InferProps<typeof Standings.propTypes>) {
 					});
 				}
 			});
-	}
+	}, [season]);
 
 	function display_division(division: Division) {
 		return (

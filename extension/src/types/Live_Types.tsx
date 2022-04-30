@@ -1,6 +1,7 @@
 //ALL GAME DATA FROM HERE UNTIL LINE 155
-interface gameData_Response {
-	result: gameData_Type;
+interface live_Response {
+	gameData: gameData_Type;
+	liveData: liveData_Type;
 }
 
 type playerID = `ID${number}`;
@@ -165,10 +166,6 @@ interface batSide_Type {
 //-----------------------------------------------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------------------------------------------------//
-
-interface liveData_Response {
-	result: liveData_Type;
-}
 
 interface liveData_Type {
 	boxscore: boxscore_Type;
@@ -462,7 +459,7 @@ interface pitchHover_Type {
 }
 
 export type {
-	gameData_Response,
+	live_Response,
 	gameData_Type,
 	weather_Type,
 	activeVenue_Type,
@@ -482,7 +479,6 @@ export type {
 	reviewLeft_Type,
 	springLeague_Type,
 	venue_Type,
-	liveData_Response,
 	plays_Type,
 	currentPlay_Type,
 	result_Type,

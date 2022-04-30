@@ -1,15 +1,12 @@
 /*global chrome*/
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-import { ServersType } from "../types/App_Types";
-import PropTypes, { InferProps } from "prop-types";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 import { useNavigate } from "react-router";
 
 import {
-	gameData_Response,
+	live_Response,
 	gameData_Type,
-	liveData_Response,
 	liveData_Type,
 	playerID,
 	team_Type,
@@ -19,11 +16,7 @@ import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
-Live.propTypes = {
-	servers: PropTypes.object.isRequired as never as ServersType,
-};
-
-function Live(props: InferProps<typeof Live.propTypes>) {
+function Live() {
 	const [url, setUrl] = useState("");
 	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
@@ -35,33 +28,16 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (gameID) {
-			axios
-				.get<gameData_Response>(
-					props.servers.mlbstats + "gameData/" + gameID
-				)
-				.then((response) => {
-					setGameData(response.data.result);
-				})
-				.catch((error: AxiosError<{ additionalInfo: string }>) => {
-					if (error.response?.status != 200) {
-						setError(error.message);
-						console.log(error.message);
-					}
-				});
-		}
-	}, [gameID]);
-
 	useInterval(
 		() => {
 			if (gameID !== "") {
 				axios
-					.get<liveData_Response>(
-						props.servers.mlbstats + "liveData/" + gameID
+					.get<live_Response>(
+						`https://statsapi.mlb.com/api/v1.1/game/${gameID}/feed/live`
 					)
 					.then((response) => {
-						setLiveData(response.data.result);
+						setGameData(response.data.gameData);
+						setLiveData(response.data.liveData);
 						setLiveDelay(10000);
 					})
 					.catch((error: AxiosError<{ additionalInfo: string }>) => {
@@ -86,13 +62,10 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 
 	useEffect(() => {
 		try {
-			chrome.tabs.query(
-				{ active: true, lastFocusedWindow: true },
-				(tabs) => {
-					setUrl(tabs[0]?.url || "");
-					detect_game(url);
-				}
-			);
+			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+				setUrl(tabs[0]?.url || "");
+				detect_game(url);
+			});
 		} catch (e) {
 			console.log("unable to detect url due to error " + e);
 		}
@@ -633,7 +606,6 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				) * 8;
 
 			const boxHeight = textArray.length * 15;
-			console.log(boxHeight);
 			const drawX =
 				pitchHover.pitchXPixels + boxWidth > stageWidth
 					? pitchHover.pitchXPixels - boxWidth > 0

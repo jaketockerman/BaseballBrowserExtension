@@ -51,25 +51,6 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							</Col>
 						</div>
 					</Form.Group>
-					<Form.Group as={Row} controlId="mlbstats">
-						<div className="tw-grid tw-justify-items-stretch">
-							<Form.Label column lg={true}>
-								mlbstats server:
-							</Form.Label>
-						</div>
-						<div className="tw-grid tw-justify-items-center">
-							<Col lg={true}>
-								<Form.Control
-									type="text"
-									defaultValue={props.servers.mlbstats}
-									{...register("servers.mlbstats", {
-										required: true,
-										pattern: /\/$/i,
-									})}
-								/>
-							</Col>
-						</div>
-					</Form.Group>
 					<div className="tw-flex-none tw-py-3">
 						<Button variant="primary" type="submit">
 							Submit
