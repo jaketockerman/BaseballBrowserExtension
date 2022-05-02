@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from flask import Flask, json
 from pybaseball import playerid_reverse_lookup, batting_stats, pitching_stats, fielding_stats, cache
@@ -35,4 +36,4 @@ def is_healthy():
     return ''
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
