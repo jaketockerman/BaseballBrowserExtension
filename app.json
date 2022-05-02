@@ -1,0 +1,8 @@
+{
+	"name": "Baseball Browser Extension Backend",
+	"description": "A flask API for the Baseball Browser Extension",
+	"repository": "https://github.com/jaketockerman/ECE-49595O",
+	"keywords": ["Flaks", "Gunicorn", "API", "Docker"],
+	"stack": "container"
+  }
+  
