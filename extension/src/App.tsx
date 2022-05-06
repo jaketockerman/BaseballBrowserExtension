@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Live from "./components/Live";
 import Standings from "./components/Standings";
@@ -18,11 +18,13 @@ function App() {
 		servers_default
 	);
 
+	const [detect, setDetect] = useState("auto");
+
 	return (
 		<div className="tw-items-center tw-bg-app-dark tw-w-full tw-h-full tw-flex tw-flex-col tw-text-white tw-text-center tw-text-app-text">
 			<div className="tw-w-full tw-h-9/10 tw-flex-1 tw-overflow-y-auto">
 				<Routes>
-					<Route path="/" element={<Live />} />
+					<Route path="/" element={<Live detect={detect} />} />
 					<Route
 						path="/player"
 						element={<Player servers={servers} />}
@@ -34,6 +36,8 @@ function App() {
 							<Settings
 								servers={servers}
 								setServers={setServers}
+								detect={detect}
+								setDetect={setDetect}
 							/>
 						}
 					/>

@@ -12,11 +12,16 @@ import {
 	team_Type,
 	pitchHover_Type,
 } from "../types/Live_Types";
+import PropTypes, { InferProps } from "prop-types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
-function Live() {
+Live.propTypes = {
+	detect: PropTypes.string.isRequired,
+};
+
+function Live(props: InferProps<typeof Live.propTypes>) {
 	const [url, setUrl] = useState("");
 	const [gameID, setGameID] = useState(""); //634198 Example Game
 	const [pitchHover, setPitchHover] = useState<pitchHover_Type | null>();
@@ -24,6 +29,15 @@ function Live() {
 	const [liveData, setLiveData] = useState<liveData_Type>();
 	const [liveDelay, setLiveDelay] = useState(100);
 	const [error, setError] = useState<string>();
+	const [detectStatus, setDetectStatus] = useState<
+		| "Unable to Automatically Detect Game"
+		| "Detecting Game"
+		| `Using Game: ${string}`
+	>(
+		props.detect === "auto"
+			? "Detecting Game"
+			: (("Using Game: " + props.detect) as `Using Game: ${string}`)
+	);
 	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
 	const navigate = useNavigate();
@@ -61,13 +75,22 @@ function Live() {
 	}
 
 	useEffect(() => {
-		try {
-			chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-				setUrl(tabs[0]?.url || "");
-				detect_game(url);
-			});
-		} catch (e) {
-			console.log("unable to detect url due to error " + e);
+		if (props.detect === "auto") {
+			try {
+				chrome.tabs.query(
+					{ active: true, currentWindow: true },
+					(tabs) => {
+						setUrl(tabs[0]?.url || "");
+						setDetectStatus("Detecting Game");
+						detect_game(url);
+					}
+				);
+			} catch (e) {
+				console.log("unable to detect url due to error " + e);
+				setDetectStatus("Unable to Automatically Detect Game");
+			}
+		} else {
+			setGameID(props.detect);
 		}
 	});
 	const style = {
@@ -913,11 +936,18 @@ function Live() {
 			</div>
 		);
 	} else if (gameData === undefined && liveData === undefined) {
-		return (
-			<div className="tw-flex tw-flex-row tw-w-full tw-h-full tw-items-center tw-justify-center">
+		const spinner =
+			detectStatus !== "Unable to Automatically Detect Game" ? (
 				<Spinner animation="border" role="status">
 					<span className="visually-hidden">Loading...</span>
 				</Spinner>
+			) : (
+				""
+			);
+		return (
+			<div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-items-center tw-justify-center">
+				{spinner}
+				<div>{detectStatus}</div>
 			</div>
 		);
 	} else {
