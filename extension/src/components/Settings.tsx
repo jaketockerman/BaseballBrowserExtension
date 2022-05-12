@@ -50,13 +50,18 @@ interface GameStatus {
 	abstractGameState: string;
 }
 
+const today = new Date();
+const yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
+
 function Settings(props: InferProps<typeof Settings.propTypes>) {
-	const { register, handleSubmit } = useForm<SettingsType>();
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	} = useForm<SettingsType>({ mode: "all" });
 
 	const [games, setGames] = useState<Array<Game>>([]);
-	const today = new Date();
-	const yesterday = new Date(today);
-	yesterday.setDate(yesterday.getDate() - 1);
 
 	useEffect(() => {
 		axios
@@ -112,7 +117,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 					<Form.Group as={Row} controlId="pybaseball">
 						<div className="tw-grid tw-justify-items-stretch tw-px-0">
 							<Form.Label column lg={true}>
-								pybaseball server:
+								backend server:
 							</Form.Label>
 						</div>
 						<div className="tw-grid tw-justify-items-center">
@@ -121,11 +126,21 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 									type="text"
 									defaultValue={props.servers.pybaseball}
 									{...register("servers.pybaseball", {
-										required: true,
-										pattern: /\/$/i,
+										required: {
+											value: true,
+											message: "Server is Required",
+										},
+										pattern: {
+											value: /\/$/i,
+											/* prettier-ignore */
+											message: "URL must end in \"/\"",
+										},
 									})}
 								/>
 							</Col>
+							<div className="tw-text-[15px] tw-py-0 tw-text-[#bf1650]">
+								{errors?.servers?.pybaseball?.message}
+							</div>
 						</div>
 					</Form.Group>
 					<Form.Group as={Row} controlId="setGame">
@@ -160,7 +175,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							</Col>
 						</div>
 					</Form.Group>
-					<div className="tw-flex-none tw-py-3">
+					<div className="tw-flex-none tw-py-2">
 						<Button variant="primary" type="submit">
 							Submit
 						</Button>

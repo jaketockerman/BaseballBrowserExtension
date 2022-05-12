@@ -10,7 +10,7 @@ import { useLocalStorage } from "usehooks-ts";
 
 function App() {
 	const servers_default: ServersType = {
-		pybaseball: "http://127.0.0.1:5001/",
+		pybaseball: "https://baseballbrowserextension.herokuapp.com/",
 	};
 
 	const [servers, setServers] = useLocalStorage<ServersType>(
