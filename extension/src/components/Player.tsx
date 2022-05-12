@@ -60,7 +60,11 @@ function Player(props: InferProps<typeof Player.propTypes>) {
 					console.log(error.message);
 				}
 			});
-	}, [mlbamID]);
+	}, [
+		mlbamID,
+		playerInfo.primaryPosition?.abbreviation,
+		props.servers.pybaseball,
+	]);
 
 	function display_headshot(playerIDNum: number) {
 		const link = `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/${playerIDNum}/headshot/67/current`;
