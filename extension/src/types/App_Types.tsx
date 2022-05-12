@@ -3,4 +3,9 @@ interface ServersType {
 	pybaseball: string;
 }
 
-export type { ServersType };
+interface DetectType {
+	id: string;
+	gameString: string;
+}
+
+export type { ServersType, DetectType };

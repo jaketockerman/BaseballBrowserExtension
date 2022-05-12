@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import PropTypes, { InferProps } from "prop-types";
-import { ServersType } from "../types/App_Types";
+import { DetectType, ServersType } from "../types/App_Types";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 Settings.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
 	setServers: PropTypes.func.isRequired,
-	detect: PropTypes.string.isRequired,
+	detect: PropTypes.object.isRequired as never as DetectType,
 	setDetect: PropTypes.func.isRequired,
 };
 
@@ -48,6 +48,7 @@ interface TeamInfo {
 
 interface GameStatus {
 	abstractGameState: string;
+	detailedState: string;
 }
 
 const today = new Date();
@@ -59,7 +60,13 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm<SettingsType>({ mode: "all" });
+	} = useForm<SettingsType>({
+		mode: "all",
+		defaultValues: {
+			servers: { pybaseball: props.servers.pybaseball },
+			detect: JSON.stringify(props.detect),
+		},
+	});
 
 	const [games, setGames] = useState<Array<Game>>([]);
 
@@ -73,13 +80,12 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 				},
 			})
 			.then((response) => {
-				// console.log(response.data);
 				setGames(
 					response.data.dates.flatMap((daySchedule: daySchedule) => {
 						return daySchedule.games.filter(
 							(game) =>
-								game.status.abstractGameState === "Live" ||
-								game.status.abstractGameState === "Final"
+								game.status.abstractGameState === "Live" &&
+								game.status.detailedState !== "Suspended"
 						);
 					})
 				);
@@ -103,8 +109,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 
 	function submit(data: SettingsType) {
 		props.setServers(data.servers);
-		console.log(data.detect);
-		props.setDetect(data.detect);
+		props.setDetect(JSON.parse(data.detect));
 	}
 
 	return (
@@ -124,7 +129,6 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							<Col lg={true}>
 								<Form.Control
 									type="text"
-									defaultValue={props.servers.pybaseball}
 									{...register("servers.pybaseball", {
 										required: {
 											value: true,
@@ -152,23 +156,44 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 						<div className="tw-grid tw-justify-items-center">
 							<Col lg={true}>
 								<Form.Select
-									defaultValue={props.detect}
 									{...register("detect", {
 										required: true,
 									})}
 								>
-									<option key="auto" value="auto">
-										Automatically Detect
+									<option
+										key="last_selected"
+										value={JSON.stringify(props.detect)}
+									>
+										{props.detect.gameString}
 									</option>
+									{props.detect.id !== "auto" && (
+										<option
+											key="auto"
+											value={JSON.stringify({
+												id: "auto",
+												gameString:
+													"Automatically Detect",
+											} as DetectType)}
+										>
+											Automatically Detect
+										</option>
+									)}
 									{games.map((game: Game) => {
+										const gameStringTeams = `${game.teams.home.team.name} vs. ${game.teams.away.team.name}`;
 										return (
-											<option
-												value={game.gamePk}
-												key={game.gamePk}
-											>
-												{game.teams.home.team.name} vs.{" "}
-												{game.teams.away.team.name}
-											</option>
+											props.detect.id !==
+												game.gamePk.toString() && (
+												<option
+													value={JSON.stringify({
+														id: game.gamePk.toString(),
+														gameString:
+															gameStringTeams,
+													} as DetectType)}
+													key={game.gamePk}
+												>
+													{gameStringTeams}
+												</option>
+											)
 										);
 									})}
 								</Form.Select>

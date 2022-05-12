@@ -16,9 +16,10 @@ import PropTypes, { InferProps } from "prop-types";
 import { useInterval } from "usehooks-ts";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import { DetectType } from "../types/App_Types";
 
 Live.propTypes = {
-	detect: PropTypes.string.isRequired,
+	detect: PropTypes.object.isRequired as never as DetectType,
 };
 
 function Live(props: InferProps<typeof Live.propTypes>) {
@@ -34,9 +35,9 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 		| "Detecting Game"
 		| `Using Game: ${string}`
 	>(
-		props.detect === "auto"
+		props.detect.id === "auto"
 			? "Detecting Game"
-			: (("Using Game: " + props.detect) as `Using Game: ${string}`)
+			: (("Using Game: " + props.detect.id) as `Using Game: ${string}`)
 	);
 	const currPitcherID = liveData?.plays.currentPlay.matchup.pitcher.id;
 	const currBatterID = liveData?.plays.currentPlay.matchup.batter.id;
@@ -75,7 +76,7 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	}
 
 	useEffect(() => {
-		if (props.detect === "auto") {
+		if (props.detect.id === "auto") {
 			try {
 				chrome.tabs.query(
 					{ active: true, currentWindow: true },
@@ -90,9 +91,10 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 				setDetectStatus("Unable to Automatically Detect Game");
 			}
 		} else {
-			setGameID(props.detect);
+			setGameID(props.detect.id);
 		}
-	});
+	}, [props.detect.id, url]);
+
 	const style = {
 		borderRight: "1px solid",
 		borderColor: "#525252",
