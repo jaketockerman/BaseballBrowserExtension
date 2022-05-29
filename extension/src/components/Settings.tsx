@@ -27,6 +27,7 @@ interface daySchedule {
 }
 
 interface Game {
+	resumeDate: string;
 	gamePk: number;
 	status: GameStatus;
 	teams: GameTeams;
@@ -85,7 +86,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 						return daySchedule.games.filter(
 							(game) =>
 								game.status.abstractGameState === "Live" &&
-								game.status.detailedState !== "Suspended"
+								!game.resumeDate
 						);
 					})
 				);
@@ -179,7 +180,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 										</option>
 									)}
 									{games.map((game: Game) => {
-										const gameStringTeams = `${game.teams.home.team.name} vs. ${game.teams.away.team.name}`;
+										const gameStringTeams = `${game.teams.away.team.name} vs. ${game.teams.home.team.name}`;
 										return (
 											props.detect.id !==
 												game.gamePk.toString() && (

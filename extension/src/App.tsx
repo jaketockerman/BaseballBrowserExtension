@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Live from "./components/Live";
 import Standings from "./components/Standings";
@@ -7,6 +7,7 @@ import Settings from "./components/Settings";
 import { DetectType, ServersType } from "./types/App_Types";
 import Player from "./components/Player";
 import { useLocalStorage } from "usehooks-ts";
+import useLocalStorageExpire from "./hooks/useLocalStorageExpire";
 
 function App() {
 	const servers_default: ServersType = {
@@ -18,11 +19,12 @@ function App() {
 		servers_default
 	);
 
-	const [detect, setDetect] = useState<DetectType>({
-		id: "auto",
-		gameString: "Automatically Detect",
-	});
-
+	// const [detect, setDetect] = useLocalStorageExpire<DetectType>("detect", {id:"auto", gameString:"Automatically Detect"}, 4 * 60 * 60 * 1000);
+	const [detect, setDetect] = useLocalStorageExpire<DetectType>(
+		"detect",
+		{ id: "auto", gameString: "Automatically Detect" },
+		10000
+	);
 	return (
 		<div className="tw-items-center tw-bg-app-dark tw-w-full tw-h-full tw-flex tw-flex-col tw-text-white tw-text-center tw-text-app-text">
 			<div className="tw-w-full tw-h-9/10 tw-flex-1 tw-overflow-y-auto">
