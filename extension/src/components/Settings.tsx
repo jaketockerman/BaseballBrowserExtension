@@ -1,35 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
 import PropTypes, { InferProps } from "prop-types";
-import { ServersType } from "../types/App_Types";
+import {
+	GameType,
+	ScheduleType,
+	DayScheduleType,
+	SettingsType,
+} from "../types/Settings_Types";
+import { DetectType, ServersType } from "../types/App_Types";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 Settings.propTypes = {
 	servers: PropTypes.object.isRequired as never as ServersType,
 	setServers: PropTypes.func.isRequired,
+	detect: PropTypes.object.isRequired as never as DetectType,
+	setDetect: PropTypes.func.isRequired,
 };
 
-interface SettingsType {
-	servers: ServersType;
-}
+const today = new Date();
+const yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
 
 function Settings(props: InferProps<typeof Settings.propTypes>) {
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm<SettingsType>({ mode: "all" });
+	} = useForm<SettingsType>({
+		mode: "all",
+		defaultValues: {
+			servers: { pybaseball: props.servers.pybaseball },
+			detect: JSON.stringify(props.detect),
+		},
+	});
+
+	const [games, setGames] = useState<Array<GameType>>([]);
+
+	useEffect(() => {
+		axios
+			.get<ScheduleType>("https://statsapi.mlb.com/api/v1/schedule", {
+				params: {
+					sportId: "1",
+					startDate: dateFormat(yesterday),
+					endDate: dateFormat(today),
+				},
+			})
+			.then((response) => {
+				setGames(
+					response.data.dates.flatMap(
+						(daySchedule: DayScheduleType) => {
+							return daySchedule.games.filter(
+								(game) =>
+									game.status.abstractGameState === "Live" &&
+									!game.resumeDate
+							);
+						}
+					)
+				);
+			})
+			.catch((error: AxiosError<{ additionalInfo: string }>) => {
+				if (error.response?.status != 200) {
+					console.log(error.message);
+				}
+			});
+	}, []);
+
+	function dateFormat(date: Date) {
+		return (
+			date.getFullYear() +
+			"-" +
+			(date.getMonth() + 1) +
+			"-" +
+			date.getDate()
+		);
+	}
 
 	function submit(data: SettingsType) {
 		props.setServers(data.servers);
+		props.setDetect(JSON.parse(data.detect));
 	}
 
 	return (
-		<div className="tw-flex tw-h-full tw-flex-col tw-py-3">
+		<div className="tw-flex tw-h-full tw-flex-col">
 			<Form className="tw-h-full" onSubmit={handleSubmit(submit)}>
 				<Container
 					fluid
-					className="tw-h-full tw-flex tw-flex-col tw-justify-start"
+					className="tw-h-full tw-flex tw-flex-col tw-justify-center"
 				>
 					<Form.Group as={Row} controlId="pybaseball">
 						<div className="tw-grid tw-justify-items-stretch tw-px-0">
@@ -41,7 +98,6 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							<Col lg={true}>
 								<Form.Control
 									type="text"
-									defaultValue={props.servers.pybaseball}
 									{...register("servers.pybaseball", {
 										required: {
 											value: true,
@@ -58,6 +114,59 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 							<div className="tw-text-[15px] tw-py-0 tw-text-[#bf1650]">
 								{errors?.servers?.pybaseball?.message}
 							</div>
+						</div>
+					</Form.Group>
+					<Form.Group as={Row} controlId="setGame">
+						<div className="tw-grid tw-justify-items-stretch tw-px-0">
+							<Form.Label column lg={true}>
+								manual game selection:
+							</Form.Label>
+						</div>
+						<div className="tw-grid tw-justify-items-center">
+							<Col lg={true}>
+								<Form.Select
+									{...register("detect", {
+										required: true,
+									})}
+								>
+									<option
+										key="last_selected"
+										value={JSON.stringify(props.detect)}
+									>
+										{props.detect.gameString}
+									</option>
+									{props.detect.id !== "auto" && (
+										<option
+											key="auto"
+											value={JSON.stringify({
+												id: "auto",
+												gameString:
+													"Automatically Detect",
+											} as DetectType)}
+										>
+											Automatically Detect
+										</option>
+									)}
+									{games.map((game: GameType) => {
+										const gameStringTeams = `${game.teams.away.team.name} vs. ${game.teams.home.team.name}`;
+										return (
+											props.detect.id !==
+												game.gamePk.toString() && (
+												<option
+													value={JSON.stringify({
+														id: game.gamePk.toString(),
+														gameString:
+															gameStringTeams,
+													} as DetectType)}
+													key={game.gamePk}
+												>
+													{gameStringTeams}
+												</option>
+											)
+										);
+									})}
+								</Form.Select>
+							</Col>
 						</div>
 					</Form.Group>
 					<div className="tw-flex-none tw-py-2">

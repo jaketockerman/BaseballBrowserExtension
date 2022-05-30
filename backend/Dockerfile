@@ -9,9 +9,9 @@ WORKDIR $APP_HOME
 
 ADD requirements.txt ./
 
-ADD backend.py ./
-
 RUN pip install -r requirements.txt
+
+ADD backend.py ./
 
 HEALTHCHECK --interval=30s --timeout=5s \
   CMD curl --fail http://localhost:5001/ || exit 1

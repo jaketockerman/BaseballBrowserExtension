@@ -9,6 +9,7 @@ app = Flask(__name__)
 print("cache enabled at " + cache.config.cache_directory)
 cache.enable()
 playerid_reverse_lookup([])
+cache.disable()
 
 @app.route('/player/<mlbamID>', methods=['GET'])
 def get_player(mlbamID: str):
