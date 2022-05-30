@@ -68,10 +68,15 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	);
 
 	function detect_game(link: string) {
-		const fail = "";
-		if (link.includes("mlb.com")) {
-			const result = link.match(/\/g([0-9]+)\//);
-			setGameID(result ? result[1] : fail);
+		if (link !== "") {
+			const fail = "";
+			const url = new URL(link);
+			const host = url.host;
+			const allowed_hosts_mlb_tv = ["mlb.com", "www.mlb.com"];
+			if (allowed_hosts_mlb_tv.includes(host)) {
+				const result = link.match(/\/g([0-9]+)\//);
+				setGameID(result ? result[1] : fail);
+			}
 		}
 	}
 
