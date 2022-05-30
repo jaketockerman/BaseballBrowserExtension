@@ -18,13 +18,13 @@ function App() {
 		"servers",
 		servers_default
 	);
-
-	// const [detect, setDetect] = useLocalStorageExpire<DetectType>("detect", {id:"auto", gameString:"Automatically Detect"}, 4 * 60 * 60 * 1000);
+	// 4 hours * 60min/hour * 60 seconds/min * 1000 ms/second = 4 hr expiration time in ms
 	const [detect, setDetect] = useLocalStorageExpire<DetectType>(
 		"detect",
 		{ id: "auto", gameString: "Automatically Detect" },
-		10000
+		4 * 60 * 60 * 1000
 	);
+
 	return (
 		<div className="tw-items-center tw-bg-app-dark tw-w-full tw-h-full tw-flex tw-flex-col tw-text-white tw-text-center tw-text-app-text">
 			<div className="tw-w-full tw-h-9/10 tw-flex-1 tw-overflow-y-auto">

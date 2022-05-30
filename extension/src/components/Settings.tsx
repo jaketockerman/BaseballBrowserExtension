@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import PropTypes, { InferProps } from "prop-types";
+import {
+	GameType,
+	ScheduleType,
+	DayScheduleType,
+	SettingsType,
+} from "../types/Settings_Types";
 import { DetectType, ServersType } from "../types/App_Types";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -11,46 +17,6 @@ Settings.propTypes = {
 	detect: PropTypes.object.isRequired as never as DetectType,
 	setDetect: PropTypes.func.isRequired,
 };
-
-interface SettingsType {
-	servers: ServersType;
-	detect: string;
-}
-
-interface Schedule {
-	totalGamesInProgress: number;
-	dates: Array<daySchedule>;
-}
-
-interface daySchedule {
-	games: Array<Game>;
-}
-
-interface Game {
-	resumeDate: string;
-	gamePk: number;
-	status: GameStatus;
-	teams: GameTeams;
-}
-
-interface GameTeams {
-	away: Team;
-	home: Team;
-}
-
-interface Team {
-	team: TeamInfo;
-}
-
-interface TeamInfo {
-	id: number;
-	name: string;
-}
-
-interface GameStatus {
-	abstractGameState: string;
-	detailedState: string;
-}
 
 const today = new Date();
 const yesterday = new Date(today);
@@ -69,11 +35,11 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 		},
 	});
 
-	const [games, setGames] = useState<Array<Game>>([]);
+	const [games, setGames] = useState<Array<GameType>>([]);
 
 	useEffect(() => {
 		axios
-			.get<Schedule>("https://statsapi.mlb.com/api/v1/schedule", {
+			.get<ScheduleType>("https://statsapi.mlb.com/api/v1/schedule", {
 				params: {
 					sportId: "1",
 					startDate: dateFormat(yesterday),
@@ -82,13 +48,15 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 			})
 			.then((response) => {
 				setGames(
-					response.data.dates.flatMap((daySchedule: daySchedule) => {
-						return daySchedule.games.filter(
-							(game) =>
-								game.status.abstractGameState === "Live" &&
-								!game.resumeDate
-						);
-					})
+					response.data.dates.flatMap(
+						(daySchedule: DayScheduleType) => {
+							return daySchedule.games.filter(
+								(game) =>
+									game.status.abstractGameState === "Live" &&
+									!game.resumeDate
+							);
+						}
+					)
 				);
 			})
 			.catch((error: AxiosError<{ additionalInfo: string }>) => {
@@ -179,7 +147,7 @@ function Settings(props: InferProps<typeof Settings.propTypes>) {
 											Automatically Detect
 										</option>
 									)}
-									{games.map((game: Game) => {
+									{games.map((game: GameType) => {
 										const gameStringTeams = `${game.teams.away.team.name} vs. ${game.teams.home.team.name}`;
 										return (
 											props.detect.id !==
