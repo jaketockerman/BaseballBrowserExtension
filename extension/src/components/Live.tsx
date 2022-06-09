@@ -1,8 +1,8 @@
-/*global chrome*/
 import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { Stage, Layer, Rect, Circle, Text, Group, Line } from "react-konva";
 import { useNavigate } from "react-router";
+import browser from "webextension-polyfill";
 
 import {
 	live_Response,
@@ -83,14 +83,13 @@ function Live(props: InferProps<typeof Live.propTypes>) {
 	useEffect(() => {
 		if (props.detect.id === "auto") {
 			try {
-				chrome.tabs.query(
-					{ active: true, currentWindow: true },
-					(tabs) => {
+				browser.tabs
+					.query({ active: true, currentWindow: true })
+					.then((tabs: browser.Tabs.Tab[]) => {
 						setUrl(tabs[0]?.url || "");
 						setDetectStatus("Detecting Game");
 						detect_game(url);
-					}
-				);
+					});
 			} catch (e) {
 				console.log("unable to detect url due to error " + e);
 				setDetectStatus("Unable to Automatically Detect Game");
