@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2.1.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
         # Build and Push if not a PR
       - name: Build and push Docker images to Dockerhub
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v4.0.0
         with:
           # Build's context is the set of files located in the specified PATH or URL
           context: ./backend
@@ -51,10 +51,11 @@ jobs:
           push: true
           # List of tags
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/baseballbrowserextension:latest
+          platforms: linux/amd64, linux/arm64
         # Only Build if PR
       - name: Build Docker images on PR
         if: github.event_name == 'pull_request'
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v4.0.0
         with:
           # Build's context is the set of files located in the specified PATH or URL
           context: ./backend
@@ -64,3 +65,4 @@ jobs:
           push: false
           # List of tags
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/baseballbrowserextension:latest
+          platforms: linux/amd64, linux/arm64
