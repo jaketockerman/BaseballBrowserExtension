@@ -71,7 +71,7 @@ jobs:
         if-no-files-found: error
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v18.7
+      uses: tj-actions/changed-files@v41
     - name: Pack extension
       if: github.event_name != 'pull_request' && contains(steps.changed-files.outputs.modified_files, 'manifest.json')
       uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
